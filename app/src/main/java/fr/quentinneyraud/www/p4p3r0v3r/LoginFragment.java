@@ -3,6 +3,7 @@ package fr.quentinneyraud.www.p4p3r0v3r;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,14 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class LoginFragment extends Fragment {
 
     static final String TAG = "LoginFragment";
+
+    private OnLoginListener listener;
 
     @BindView(R.id.loginButton)
     Button loginButton;
@@ -46,6 +50,11 @@ public class LoginFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            listener = (OnLoginListener) context;
+        } catch (ClassCastException exception) {
+            Log.d(TAG, "Cannot cast context to OnLoginListener");
+        }
     }
 
     @Override
@@ -53,5 +62,25 @@ public class LoginFragment extends Fragment {
         super.onDetach();
     }
 
+    @OnClick(R.id.loginButton)
+    void onSignInClick() {
+
+        if (listener != null) {
+            listener.onSignInClick(loginEmail.getText().toString(), loginPassword.getText().toString());
+        }
+    }
+
+    @OnClick(R.id.loginNoAccount)
+    void onNoAccountClick() {
+        if(listener != null) {
+            listener.onNoAccountClick();
+        }
+    }
+
+    public interface OnLoginListener {
+        void onSignInClick(String email, String password);
+
+        void onNoAccountClick();
+    }
 
 }

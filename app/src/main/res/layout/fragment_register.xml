@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/email">
 
-            <EditText
+            <android.support.design.widget.TextInputEditText
                 android:id="@+id/registerEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/password">
 
-            <EditText
+            <android.support.design.widget.TextInputEditText
                 android:id="@+id/registerPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/repeat_password">
 
-            <EditText
+            <android.support.design.widget.TextInputEditText
                 android:id="@+id/registerRepeatPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

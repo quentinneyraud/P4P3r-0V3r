@@ -1,8 +1,10 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -19,6 +22,8 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment {
 
     static final String TAG = "RegisterFragment";
+
+    private OnRegisterListener listener;
 
     @BindView(R.id.registerButton)
     Button registerButton;
@@ -41,6 +46,27 @@ public class RegisterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            listener = (OnRegisterListener) context;
+        } catch (ClassCastException exception) {
+            Log.d(TAG, "Cannot cast context to OnRegisterListener");
+        }
+    }
+
+    @OnClick(R.id.registerButton)
+    void onRegisterClick() {
+        if (listener != null) {
+            listener.onRegisterClick();
+        }
+    }
+
+    public interface OnRegisterListener {
+        void onRegisterClick();
     }
 
 }
