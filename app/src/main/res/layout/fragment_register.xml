@@ -16,10 +16,10 @@
             android:hint="@string/email">
 
             <EditText
-                android:id="@+id/loginEmail"
+                android:id="@+id/registerEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -30,10 +30,10 @@
             android:hint="@string/password">
 
             <EditText
+                android:id="@+id/registerPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:id="@+id/loginPassword"/>
+                android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -43,19 +43,19 @@
             android:hint="@string/repeat_password">
 
             <EditText
+                android:id="@+id/registerRepeatPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:id="@+id/loginRepeatPassword"/>
+                android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/button_sign_up"
+            android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@string/button_sign_up"/>
+            android:text="@string/button_sign_up" />
 
     </LinearLayout>
 

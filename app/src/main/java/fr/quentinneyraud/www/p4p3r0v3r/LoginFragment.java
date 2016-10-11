@@ -6,9 +6,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class LoginFragment extends Fragment {
+
+    static final String TAG = "LoginFragment";
+
+    @BindView(R.id.loginButton)
+    Button loginButton;
+    @BindView(R.id.loginNoAccount)
+    TextView noAccount;
+    @BindView(R.id.loginEmail)
+    EditText loginEmail;
+    @BindView(R.id.loginPassword)
+    EditText loginPassword;
 
 
     public LoginFragment() {
@@ -20,7 +37,9 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
 
