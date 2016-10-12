@@ -1,64 +1,52 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.util.Log;
 
-import java.util.HashMap;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
-import fr.quentinneyraud.www.p4p3r0v3r.utils.SharedPreferencesManager;
+import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.Events.VersionEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.Firebase;
 
 public class SplashScreenActivity extends AppCompatActivity {
+
+    static final String TAG = "=== SplashScreen ===";
+
+    Firebase firebase;
+    Bus bus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        static final String TAG = "SPLASH_SCREEN_ACTIVITY";
-        SharedPreferencesManager sharedPreferencesManager;
+        bus = BusProvider.getInstance();
+        bus.register(this);
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_splash_screen);
+        firebase = Firebase.getInstance();
+        // Try to get version to test user connection
+        firebase.getVersion();
+    }
 
-            sharedPreferencesManager = new SharedPreferencesManager(this);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        bus.unregister(this);
+    }
 
-            if(sharedPreferencesManager.isUserLogged()){
-
-                HashMap<String,String> user = sharedPreferencesManager.getUser();
-
-                // Auth with shared preferences datas
-                SessionManager.auth(this, user.get("EMAIL"), user.get("PASSWORD"), new Firebase.AuthResultHandler() {
-
-                    @Override
-                    public void onAuthenticated(AuthData authData) {
-
-                        // Save user
-                        SessionManager.setUser(getBaseContext(), authData.getUid());
-
-                        // Start notes activity
-                        Intent i = new Intent(SplashScreenActivity.this, NotesActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
-
-                    @Override
-                    public void onAuthenticationError(FirebaseError firebaseError) {
-                        Toast.makeText(SplashScreenActivity.this, "Connexion requise", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }else{
-                // start account activity
-                Intent i = new Intent(SplashScreenActivity.this, AccountActivity.class);
-                startActivity(i);
-                finish();
-            }
-
-
-
+    @Subscribe
+    public void onUserEvent(VersionEvent event) {
+        switch (event.getState()) {
+            case "SUCCESS":
+                break;
+            case "ERROR":
+                break;
+            default:
+                break;
         }
     }
+
 }
