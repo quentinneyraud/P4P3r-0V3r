@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">P4P3r 0V3r</string>
+    <string name="password">Your password</string>
+    <string name="repeat_password">Repeat your password</string>
+    <string name="email">Your email</string>
+    <string name="button_sign_in">Sign in</string>
+    <string name="button_sign_up">Sign up</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_account">I have no account</string>
 </resources>
