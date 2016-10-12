@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class SharedPreferencesManager {
 
     private SharedPreferences.Editor editor;
+    private SharedPreferences preferences;
 
     // Shared preferences config
     private int PRIVATE_MODE = 0;
@@ -17,14 +18,12 @@ public class SharedPreferencesManager {
     private String UID_KEY = "UID_KEY";
 
     public SharedPreferencesManager(Context context){
-        SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = preferences.edit();
     }
 
-    public HashMap<String, String> getUser(){
-        HashMap<String, String> user = new HashMap<String, String>();
-
-        return user;
+    public String getUser(){
+        return preferences.getString(UID_KEY, null);
     }
 
     public void LogInUser(String email, String password){
@@ -38,6 +37,6 @@ public class SharedPreferencesManager {
     }
 
     public boolean isUserLogged(){
-        return false;
+        return this.getUser() != null;
     }
 }
