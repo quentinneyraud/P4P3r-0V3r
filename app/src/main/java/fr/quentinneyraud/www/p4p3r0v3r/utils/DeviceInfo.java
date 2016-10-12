@@ -11,7 +11,21 @@ import java.util.Set;
 
 public class DeviceInfo {
 
-    public static ArrayList<String> getAccounts(Context context) {
+    private static DeviceInfo instance;
+
+    private DeviceInfo() {
+
+    }
+
+    public static DeviceInfo getInstance() {
+        if (instance == null) {
+            instance = new DeviceInfo();
+        }
+
+        return instance;
+    }
+
+    public ArrayList<String> getAccounts(Context context) {
         final Account[] accounts = AccountManager.get(context).getAccounts();
         final Set<String> emailSet = new HashSet<String>();
         for (Account account : accounts) {
