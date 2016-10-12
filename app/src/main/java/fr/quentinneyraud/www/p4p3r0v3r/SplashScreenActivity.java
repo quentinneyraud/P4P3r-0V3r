@@ -1,9 +1,10 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -11,7 +12,6 @@ import com.squareup.otto.Subscribe;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.Events.OnAuthStatusChanged;
-import fr.quentinneyraud.www.p4p3r0v3r.User.SignInActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -36,7 +36,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                Intent i = new Intent(SplashScreenActivity.this, SignInActivity.class);
+                Log.d(TAG, "go to account activity");
+                Intent i = new Intent(SplashScreenActivity.this, AccountActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -47,17 +48,25 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        bus.unregister(this);
+//        bus.unregister(this);
     }
 
     @Subscribe
     public void OnAuthStatusChanged(OnAuthStatusChanged event) {
+        Log.d(TAG, event.getConnected().toString());
         if (event.getConnected()) {
             handler.removeCallbacks(runnable);
-            Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
-            startActivity(i);
-            finish();
+            onUserConnect();
         }
+    }
+
+    public void onUserConnect () {
+        Log.d(TAG, "user connected");
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(intent);
+        // String userLoggedUid = firebase.getLoggedUser().getUid();
+        // User user = new User(userLoggedUid);
+        // user.getProfileFromFirebase();
     }
 
 }

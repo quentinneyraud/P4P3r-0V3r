@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sign_in_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:padding="@dimen/activity_padding"
+    android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/sign_in_email_layout"
@@ -13,10 +13,10 @@
 
         <AutoCompleteTextView
             android:id="@+id/sign_in_email_input"
-            android:inputType="textEmailAddress"
-            android:hint="@string/email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -24,26 +24,27 @@
         android:id="@+id/sign_in_password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/sign_in_password_value"
             android:layout_width="match_parent"
-            android:hint="@string/password"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:id="@+id/sign_in_password_value"/>
+            android:hint="@string/password"
+            android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
-        android:text="@string/button_sign_in"/>
+        android:layout_marginTop="10dp"
+        android:text="@string/button_sign_in" />
 
     <TextView
+        android:id="@+id/sign_in_no_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_account"
-        android:id="@+id/sign_in_no_account"/>
+        android:text="@string/no_account" />
 
 </LinearLayout>
