@@ -3,8 +3,6 @@ package fr.quentinneyraud.www.p4p3r0v3r.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.HashMap;
-
 public class SharedPreferencesManager {
 
     private SharedPreferences.Editor editor;

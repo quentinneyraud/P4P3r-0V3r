@@ -1,14 +1,16 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationListActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.Events.OnAuthStatusChanged;
 import fr.quentinneyraud.www.p4p3r0v3r.User.SignInActivity;
@@ -37,7 +39,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                Intent i = new Intent(SplashScreenActivity.this, SignInActivity.class);
+                Log.d(TAG, "go to account activity");
+                Intent i = new Intent(SplashScreenActivity.this, AccountActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -48,18 +51,22 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        bus.unregister(this);
+//        bus.unregister(this);
     }
 
     @Subscribe
     public void OnAuthStatusChanged(OnAuthStatusChanged event) {
+        Log.d(TAG, event.getConnected().toString());
         if (event.getConnected()) {
             handler.removeCallbacks(runnable);
+            onUserConnect();
         }
     }
 
     public void onUserConnect () {
         Log.d(TAG, "user connected");
+        Intent intent = new Intent(getBaseContext(), ConversationListActivity.class);
+        startActivity(intent);
         // String userLoggedUid = firebase.getLoggedUser().getUid();
         // User user = new User(userLoggedUid);
         // user.getProfileFromFirebase();

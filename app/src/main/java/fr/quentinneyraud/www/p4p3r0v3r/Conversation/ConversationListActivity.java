@@ -7,6 +7,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.R;
 
 public class ConversationListActivity extends AppCompatActivity {
 
+    static final String TAG = "== ConversationListActivity ==";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

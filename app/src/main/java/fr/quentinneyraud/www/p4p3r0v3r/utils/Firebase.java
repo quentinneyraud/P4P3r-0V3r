@@ -4,11 +4,9 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.otto.Bus;
@@ -45,6 +43,7 @@ public class Firebase implements FirebaseAuth.AuthStateListener {
     }
 
     public void createAccount(String email, String password, OnCompleteListener<AuthResult> onCompleteListener) {
+
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(onCompleteListener);
     }
@@ -59,8 +58,8 @@ public class Firebase implements FirebaseAuth.AuthStateListener {
     }
 
     public void getUser(String uid, ValueEventListener vel) {
-        DatabaseReference dbRef = firebaseDatabase.getReference("users/" + uid)
-                .addListenerForSingleValueEvent(vel);
+        //  DatabaseReference dbRef = firebaseDatabase.getReference("users/" + uid)
+        //        .addListenerForSingleValueEvent(vel);
     }
 
     @Override
