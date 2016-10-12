@@ -12,6 +12,11 @@ public class OnAuthStatusChanged {
     public OnAuthStatusChanged() {
     }
 
+    public OnAuthStatusChanged(Boolean connected, String uid) {
+        this.connected = connected;
+        this.uid = uid;
+    }
+
     public Boolean getConnected() {
         return connected;
     }
