@@ -9,6 +9,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="fr.quentinneyraud.www.p4p3r0v3r.ConversationListActivity">
+    tools:context="fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationListActivity">
 
 </RelativeLayout>
