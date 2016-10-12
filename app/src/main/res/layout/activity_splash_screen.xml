@@ -11,4 +11,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="fr.quentinneyraud.www.p4p3r0v3r.SplashScreenActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading"/>
+
 </RelativeLayout>
