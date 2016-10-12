@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fr.quentinneyraud.www.p4p3r0v3r">
+          package="fr.quentinneyraud.www.p4p3r0v3r">
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
@@ -17,16 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SignInActivity">
+        <activity android:name=".User.SignInActivity">
         </activity>
-        <activity android:name=".ConversationListActivity">
+        <activity android:name=".Conversation.ConversationListActivity">
         </activity>
-        <activity android:name=".AccountActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".User.SignUpActivity">
+        </activity>
+        <activity android:name=".User.UpdateProfileActivity">
         </activity>
     </application>
 
