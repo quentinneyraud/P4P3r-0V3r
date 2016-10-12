@@ -1,23 +1,49 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Events;
 
+import android.content.res.Resources;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by quentin on 12/10/2016.
  */
 
 public abstract class AbstractEvent
 {
-    private String type;
+    public List<String> states = new ArrayList<>();
+    public String state;
 
-    protected AbstractEvent(String type)
+    protected AbstractEvent()
     {
-        this.setType(type);
+        this.defineStates();
+        this.setState("UNDEFINED");
     }
 
-    public String getType() {
-        return type;
+    protected void defineStates () {
+        this.states.add("UNDEFINED");
+        this.states.add("PENDING");
+        this.states.add("SUCCESS");
+        this.states.add("ERROR");
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public List<String> getStates() {
+        return states;
+    }
+
+    public void setStates(List<String> states) {
+        this.states = states;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        if (!this.getStates().contains(state)) {
+            throw new Resources.NotFoundException("state " + state + " is not in states list");
+        } else {
+            this.state = state;
+        }
     }
 }
