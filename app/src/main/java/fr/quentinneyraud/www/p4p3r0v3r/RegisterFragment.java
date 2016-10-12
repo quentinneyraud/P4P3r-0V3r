@@ -21,7 +21,7 @@ import butterknife.OnClick;
  */
 public class RegisterFragment extends Fragment {
 
-    static final String TAG = "RegisterFragment";
+    /*static final String TAG = "RegisterFragment";
 
     private OnRegisterListener listener;
 
@@ -67,6 +67,6 @@ public class RegisterFragment extends Fragment {
 
     public interface OnRegisterListener {
         void onRegisterClick();
-    }
+    }*/
 
 }
