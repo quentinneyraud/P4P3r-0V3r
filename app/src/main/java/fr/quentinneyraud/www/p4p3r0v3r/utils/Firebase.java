@@ -1,7 +1,5 @@
 package fr.quentinneyraud.www.p4p3r0v3r.utils;
 
-import android.util.Log;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -11,11 +9,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.otto.Bus;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Events.AbstractEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
-import fr.quentinneyraud.www.p4p3r0v3r.Events.UserEvent;
-import fr.quentinneyraud.www.p4p3r0v3r.Events.VersionEvent;
-import fr.quentinneyraud.www.p4p3r0v3r.User.User;
+import fr.quentinneyraud.www.p4p3r0v3r.Events.OnSingleValueEvent;
 
 /**
  * Created by quentin on 11/10/2016.
@@ -29,7 +24,7 @@ public class Firebase {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private Bus bus;
-    private VersionEvent versionEvent;
+    private OnSingleValueEvent onSingleValueEvent;
 
     private Firebase() {
         bus = BusProvider.getInstance();
@@ -49,21 +44,23 @@ public class Firebase {
         return firebaseAuth.getCurrentUser();
     }
 
-    public void getVersion () {
-        versionEvent = new VersionEvent();
-        DatabaseReference ref = firebaseDatabase.getReference("version");
+    public void getSingleValueByReference (String reference, String action) {
+        onSingleValueEvent = new OnSingleValueEvent();
+        onSingleValueEvent.setAction(action);
+        DatabaseReference ref = firebaseDatabase.getReference(reference);
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                versionEvent.setState("SUCCESS");
-                bus.post(versionEvent);
+                onSingleValueEvent.setState("SUCCESS");
+                onSingleValueEvent.setDataSnapshot(dataSnapshot);
+                bus.post(onSingleValueEvent);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                versionEvent.setState("ERROR");
-                bus.post(versionEvent);
+                onSingleValueEvent.setState("ERROR");
+                bus.post(onSingleValueEvent);
             }
         });
     }

@@ -13,6 +13,7 @@ public abstract class AbstractEvent
 {
     public List<String> states = new ArrayList<>();
     public String state;
+    public String action;
 
     protected AbstractEvent()
     {
@@ -45,5 +46,13 @@ public abstract class AbstractEvent
         } else {
             this.state = state;
         }
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 }
