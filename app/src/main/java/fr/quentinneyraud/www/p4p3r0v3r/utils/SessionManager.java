@@ -7,6 +7,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.otto.Subscribe;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.Events.OnAuthStatusChanged;
 import fr.quentinneyraud.www.p4p3r0v3r.User.User;
@@ -17,10 +20,9 @@ import fr.quentinneyraud.www.p4p3r0v3r.User.User;
 
 public class SessionManager {
 
-    public String test;
+    static final String TAG = "=== SessionManager ===";
     private User user;
     private static SessionManager instance;
-    static final String TAG = "=== SessionManager ===";
 
     private SessionManager() {
         BusProvider.getInstance().register(this);
@@ -34,9 +36,6 @@ public class SessionManager {
         return instance;
     }
 
-    public void setAuthListener() {
-    }
-
     @Subscribe
     public void OnAuthStatusChanged(OnAuthStatusChanged event) {
         if (event.getConnected()) {
@@ -46,28 +45,17 @@ public class SessionManager {
         }
     }
 
+    // get all datas of user set it in property
     public void onUserConnect(String uid) {
         Log.d(TAG, "user connected = " + uid);
-        SessionManager sessionManager = SessionManager.getInstance();
 
-        Firebase.getInstance().getUser(uid, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        instance.user = new User(uid);
+        instance.user.
     }
 
     public void onUserDisconnect() {
         Log.d(TAG, "user disconnected");
-    }
 
-    public void setUser(User user) {
-        this.user = user;
+        instance.user = null;
     }
 }

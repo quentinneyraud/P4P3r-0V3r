@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -25,8 +26,12 @@ public class Firebase implements FirebaseAuth.AuthStateListener {
     static final String TAG = "=== Firebase ===";
 
     private static Firebase instance;
+
+    // Firebase
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
+
+    // Events
     private Bus bus;
     private OnAuthStatusChanged onAuthStatusChanged;
 
@@ -59,8 +64,13 @@ public class Firebase implements FirebaseAuth.AuthStateListener {
     }
 
     public void getUser(String uid, ValueEventListener vel) {
-        DatabaseReference dbRef = firebaseDatabase.getReference("users/" + uid)
+        firebaseDatabase.getReference("users/" + uid)
                 .addListenerForSingleValueEvent(vel);
+    }
+
+    public void addChildListener(String ref, ChildEventListener childEventListener) {
+        firebaseDatabase.getReference(ref)
+                .addChildEventListener(childEventListener);
     }
 
     @Override

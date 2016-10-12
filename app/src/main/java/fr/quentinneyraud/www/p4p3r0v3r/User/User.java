@@ -2,9 +2,14 @@ package fr.quentinneyraud.www.p4p3r0v3r.User;
 
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.Conversation;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.Firebase;
 
 /**
  * Created by quentin on 11/10/2016.
@@ -40,6 +45,20 @@ public class User {
         this.setPassword(password);
 
         Log.d(TAG, "Create new User" + this.toString());
+    }
+
+    public void getFullFromFirebase() {
+        Firebase.getInstance().getUser(this.getUid(), new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, dataSnapshot.toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, databaseError.toString());
+            }
+        });
     }
 
     public String getUid() {
