@@ -1,22 +1,26 @@
 package fr.quentinneyraud.www.p4p3r0v3r.utils;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.otto.Bus;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
-import fr.quentinneyraud.www.p4p3r0v3r.Events.OnSingleValueEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Events.OnAuthStatusChanged;
 
 /**
  * Created by quentin on 11/10/2016.
  */
 
-public class Firebase {
+public class Firebase implements FirebaseAuth.AuthStateListener {
 
     static final String TAG = "=== Firebase ===";
 
@@ -24,7 +28,7 @@ public class Firebase {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private Bus bus;
-    private OnSingleValueEvent onSingleValueEvent;
+    private OnAuthStatusChanged onAuthStatusChanged;
 
     private Firebase() {
         bus = BusProvider.getInstance();
@@ -36,32 +40,42 @@ public class Firebase {
         if (instance == null) {
             instance = new Firebase();
         }
-
+        Log.d(TAG, "get firebase instance !!!!");
         return instance;
     }
 
-    public FirebaseUser getLoggedUser () {
-        return firebaseAuth.getCurrentUser();
+    public void createAccount(String email, String password, OnCompleteListener<AuthResult> onCompleteListener) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(onCompleteListener);
     }
 
-    public void getSingleValueByReference (String reference, String action) {
-        onSingleValueEvent = new OnSingleValueEvent();
-        onSingleValueEvent.setAction(action);
-        DatabaseReference ref = firebaseDatabase.getReference(reference);
+    public void logUser(String email, String password, OnCompleteListener<AuthResult> onCompleteListener) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(onCompleteListener);
+    }
 
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                onSingleValueEvent.setState("SUCCESS");
-                onSingleValueEvent.setDataSnapshot(dataSnapshot);
-                bus.post(onSingleValueEvent);
-            }
+    public void addAuthStateListener() {
+        firebaseAuth.addAuthStateListener(this);
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                onSingleValueEvent.setState("ERROR");
-                bus.post(onSingleValueEvent);
-            }
-        });
+    public void getUser(String uid, ValueEventListener vel) {
+        DatabaseReference dbRef = firebaseDatabase.getReference("users/" + uid)
+                .addListenerForSingleValueEvent(vel);
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        Log.d(TAG, "Auth state changed, dispatching event");
+
+        onAuthStatusChanged = new OnAuthStatusChanged();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        if (user != null) {
+            onAuthStatusChanged.setConnected(true);
+            onAuthStatusChanged.setUid(user.getUid());
+        } else {
+            onAuthStatusChanged.setConnected(false);
+        }
+        bus.post(onAuthStatusChanged);
     }
 }
