@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r;
+package fr.quentinneyraud.www.p4p3r0v3r.Account.fragments;
 
 
 import android.content.Context;
@@ -16,37 +16,35 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.quentinneyraud.www.p4p3r0v3r.R;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.DeviceInfo;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterFragment extends Fragment {
+public class SignUpFragment extends Fragment {
 
-    static final String TAG = "RegisterFragment";
+    static final String TAG = "=== SignUpFragment ===";
 
-    private OnRegisterListener listener;
+    private SignUpFragmentListener signUpFragmentListener;
 
-    @BindView(R.id.registerButton)
-    Button registerButton;
-    @BindView(R.id.registerEmail)
-    AutoCompleteTextView registerEmail;
-    @BindView(R.id.registerPassword)
-    EditText registerPassword;
-    @BindView(R.id.registerRepeatPassword)
-    EditText registerRepeatPassword;
+    @BindView(R.id.fragment_signup_button)
+    Button signUpButton;
+    @BindView(R.id.fragment_signup_email)
+    AutoCompleteTextView emailAutocompleteTextView;
+    @BindView(R.id.fragment_signup_password)
+    EditText passwordEditText;
 
-    public RegisterFragment() {
+    public SignUpFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_register, container, false);
+        View view = inflater.inflate(R.layout.fragment_signup, container, false);
         ButterKnife.bind(this, view);
 
         DeviceInfo deviceInfo = DeviceInfo.getInstance();
@@ -54,7 +52,7 @@ public class RegisterFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext(),
                 android.R.layout.simple_dropdown_item_1line, deviceInfo.getAccounts( this.getContext()));
 
-        registerEmail.setAdapter(adapter);
+        emailAutocompleteTextView.setAdapter(adapter);
 
         return view;
     }
@@ -63,7 +61,7 @@ public class RegisterFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listener = (OnRegisterListener) context;
+            signUpFragmentListener = (SignUpFragmentListener) context;
         } catch (ClassCastException exception) {
             Log.d(TAG, "Cannot cast context to OnRegisterListener");
         }
@@ -71,13 +69,13 @@ public class RegisterFragment extends Fragment {
 
     @OnClick(R.id.registerButton)
     void onRegisterClick() {
-        if (listener != null) {
-            listener.onRegisterClick(registerEmail.getText().toString(), registerPassword.getText().toString(), registerRepeatPassword.getText().toString());
+        if (signUpFragmentListener != null) {
+            signUpFragmentListener.onSignUpButtonClick(emailAutocompleteTextView.getText().toString(), passwordEditText.getText().toString());
         }
     }
 
-    public interface OnRegisterListener {
-        void onRegisterClick(String email, String password, String repeatPassword);
+    public interface SignUpFragmentListener {
+        void onSignUpButtonClick(String email, String password);
     }
 
 }
