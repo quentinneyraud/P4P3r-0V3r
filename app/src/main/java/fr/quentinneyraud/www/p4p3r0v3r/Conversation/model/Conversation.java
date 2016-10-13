@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r.Conversation;
+package fr.quentinneyraud.www.p4p3r0v3r.Conversation.model;
 
 import android.util.Log;
 

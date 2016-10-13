@@ -4,12 +4,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
 
 import butterknife.BindView;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
 
 /**
@@ -39,12 +39,12 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     @Override
     public void onBindViewHolder(ConversationViewHolder holder, int position) {
-        Conversation conversation = conversations.get(position);
+        /*Conversation conversation = conversations.get(position);
 
         holder.setId(conversation.getId());
         holder.getTitleElement().setText(note.getTitle());
         holder.getTextElement().setText(note.getFormattedText(150));
-        holder.getDateElement().setText(note.getFormattedDate());
+        holder.getDateElement().setText(note.getFormattedDate());*/
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         @BindView(R.id.fragment_conversation_user_name)
         TextView user;
 
-        public TextView getTitleElement() {
+        /*public TextView getTitleElement() {
             return (TextView) itemView.findViewById(R.id.note_title);
         }
 
@@ -85,7 +85,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
         public TextView getDateElement() {
             return (TextView) itemView.findViewById(R.id.note_date);
-        }
+        }*/
 
         public ConversationViewHolder(View itemView) {
             super(itemView);

@@ -4,16 +4,20 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationListFragment;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationListFragment;
 
 public class MainActivity extends AppCompatActivity implements ConversationListFragment.ConversationListListener {
+
+    ConversationListFragment conversationListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        changeFragment(new ConversationListFragment(), false);
+        conversationListFragment = new ConversationListFragment();
+
+        changeFragment(conversationListFragment, false);
     }
 
     private void changeFragment(Fragment fragment, boolean addToBackStack) {

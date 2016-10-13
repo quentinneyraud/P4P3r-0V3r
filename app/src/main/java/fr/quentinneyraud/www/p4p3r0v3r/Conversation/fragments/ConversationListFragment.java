@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r.Conversation;
+package fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments;
 
 
 import android.content.Context;
@@ -10,9 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 
+import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationAdapter;
+import fr.quentinneyraud.www.p4p3r0v3r.Events.ConversationAddedEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
+import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
+import fr.quentinneyraud.www.p4p3r0v3r.User.service.events.OnUserConversationEvent;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +52,9 @@ public class ConversationListFragment extends Fragment implements ConversationAd
 
         rcView.setAdapter(conversationAdapter);
 
+        UserService.getInstance()
+                .listenUserConversation(AccountService.getInstance().getUser().getUid());
+
         return view;
     }
 
@@ -55,6 +66,14 @@ public class ConversationListFragment extends Fragment implements ConversationAd
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement ConversationListListener");
+        }
+    }
+
+    @Subscribe
+    public void onUserConversationEvent(OnUserConversationEvent onUserConversationEvent) {
+        if (onUserConversationEvent.getEventType().equals("ADD")) {
+            conversationAdapter.addConversation(onUserConversationEvent.getConversation());
+            conversationAdapter.notifyItemInserted(conversationAdapter.getItemCount() - 1);
         }
     }
 

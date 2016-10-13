@@ -1,19 +1,9 @@
-package fr.quentinneyraud.www.p4p3r0v3r.Conversation;
-
-import android.support.annotation.NonNull;
-
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+package fr.quentinneyraud.www.p4p3r0v3r.Conversation.service;
 
 import java.util.ArrayList;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Account.AccountService;
-import fr.quentinneyraud.www.p4p3r0v3r.Events.AddUserEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
-import fr.quentinneyraud.www.p4p3r0v3r.User.User;
 
 /**
  * Created by quentin on 12/10/2016.
@@ -38,18 +28,22 @@ public class ConversationService {
         return instance;
     }
 
-    public void getConversations() {
-        String uid = AccountService.getInstance().getUser().getUid();
+    public void getConversationByUid(String conversationUid) {
+
+    }
+
+    /*public void getConversations() {
+        // Create reference to /users/<uid>/conversations
+        AccountService.getInstance().getUser().getConversations();
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
 
         dbRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String conversation uid = dataSnapshot.getKey();
                 Conversation conversation = dataSnapshot.getValue(Conversation.class);
 
                 conversations.add(conversation);
-                AddUserEvent addUserEvent = new AddUserEvent(user);
-                BusProvider.getInstance().post(addUserEvent);
             }
 
             @Override
@@ -72,5 +66,5 @@ public class ConversationService {
 
             }
         })
-    }
+    }*/
 }
