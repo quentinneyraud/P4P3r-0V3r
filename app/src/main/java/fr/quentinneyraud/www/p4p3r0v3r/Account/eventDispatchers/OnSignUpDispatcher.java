@@ -8,7 +8,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnSignUpEvent;
-import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 /**
  * Created by quentin on 13/10/2016.

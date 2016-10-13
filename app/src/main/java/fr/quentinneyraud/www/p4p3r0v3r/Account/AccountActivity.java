@@ -21,6 +21,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.Account.fragments.SignUpFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.MainActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class AccountActivity extends AppCompatActivity implements SignInFragment.SignInFragmentListener, SignUpFragment.SignUpFragmentListener {
 
@@ -32,6 +33,8 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+
+        BusProvider.getInstance().register(this);
 
         signInFragment = new SignInFragment();
         signUpFragment = new SignUpFragment();
@@ -61,7 +64,7 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
     @Subscribe
     public void onSignInEvent(OnSignInEvent onSignInEvent) {
         if(!onSignInEvent.getSuccessful()) {
-            Toast.makeText(getBaseContext(), onSignInEvent.getUiMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), onSignInEvent.getErrorMessage(), Toast.LENGTH_LONG).show();
         }
     }
 

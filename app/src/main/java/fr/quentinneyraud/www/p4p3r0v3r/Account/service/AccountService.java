@@ -10,7 +10,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.OnSignInDispatch
 import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.OnSignUpDispatcher;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnAuthStateChanged;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnSignUpEvent;
-import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.events.OnCurrentUserDataChange;

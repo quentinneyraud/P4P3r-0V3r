@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationAdapter;
-import fr.quentinneyraud.www.p4p3r0v3r.Events.ConversationAddedEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.events.OnUserConversationEvent;

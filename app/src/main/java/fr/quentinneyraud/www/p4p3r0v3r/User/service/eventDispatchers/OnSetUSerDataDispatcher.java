@@ -3,7 +3,7 @@ package fr.quentinneyraud.www.p4p3r0v3r.User.service.eventDispatchers;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.events.OnSetUserData;
 
 /**

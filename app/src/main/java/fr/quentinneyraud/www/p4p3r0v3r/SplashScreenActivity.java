@@ -12,7 +12,7 @@ import com.squareup.otto.Subscribe;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnAuthStateChanged;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.AccountActivity;
-import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

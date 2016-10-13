@@ -2,7 +2,7 @@ package fr.quentinneyraud.www.p4p3r0v3r.User.service;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Events.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.eventDispatchers.OnCurrentUserDataChangedDispatcher;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.eventDispatchers.OnSetUSerDataDispatcher;
