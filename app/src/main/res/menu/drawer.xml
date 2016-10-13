@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navigation_item_1"
-            android:checked="true"
-            android:title="@string/my_conversations" />
-        <item
-            android:id="@+id/navigation_item_2"
-            android:title="@string/new_conversation" />
-        <item
-            android:id="@+id/navigation_item_3"
-            android:title="@string/my_profile" />
-        <item
-            android:id="@+id/navigation_item_4"
-            android:title="@string/logout" />
+            android:id="@+id/search_bar"
+            app:actionViewClass="android.support.v7.widget.SearchView"
+            app:showAsAction="always"
+            android:title="New conversation" />
+    </group>
+
+    <group android:checkableBehavior="single" android:id="@+id/intent_group">
     </group>
 
 </menu>

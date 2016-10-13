@@ -1,14 +1,15 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import butterknife.BindView;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
 
     static final String TAG = "MainActivity";
     ConversationListFragment conversationListFragment;
+
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
         changeFragment(conversationListFragment, false);
 
         ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar;
@@ -45,6 +48,13 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        final Menu menu = navigationView.getMenu();
+        for (int i = 1; i <= 3; i++) {
+            menu.add(R.id.intent_group, i, 1, "Conversation with person #" + i);
+        }
+
+        menu.setGroupCheckable(R.id.intent_group, true, true);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -53,29 +63,20 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
 
                 int id = menuItem.getItemId();
 
-                switch (id) {
-                    case R.id.navigation_item_1:
-                        //List of conversations
-                        changeFragment(conversationListFragment, false);
-                        return true;
-                    case R.id.navigation_item_2:
-                        //New conversation
-                        clickItem2();
-                        return true;
-                    case R.id.navigation_item_3:
-                        //My profile
-                        //changeFragment(profileFragment, false);
-                        return true;
-                    case R.id.navigation_item_4:
-                        //Log out
-
-                        return true;
+                if(id == R.id.search_bar) {
+                    //open search fragment
+                    Log.d(TAG, "open search fragment");
+                } else {
+                    //open conversation (based on id)
+                    Log.d(TAG, "id : " + id);
                 }
+
                 return true;
             }
         });
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -93,9 +94,11 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
         return super.onOptionsItemSelected(item);
     }
 
+
     private void clickItem1() {
         Log.d(TAG, "Item 1 clicked");
     }
+
 
     private void clickItem2() {
         Log.d(TAG, "Item 2 clicked");
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
                 .beginTransaction()
                 .replace(R.id.conversation_list_container, fragment);
 
-        if(addToBackStack){
+        if (addToBackStack) {
             ft.addToBackStack(fragment.getClass().getName());
         }
         ft.commit();

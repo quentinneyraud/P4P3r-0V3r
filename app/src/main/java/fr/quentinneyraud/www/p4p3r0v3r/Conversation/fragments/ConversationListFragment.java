@@ -51,8 +51,8 @@ public class ConversationListFragment extends Fragment implements ConversationAd
 
         rcView.setAdapter(conversationAdapter);
 
-        UserService.getInstance()
-                .listenUserConversation(AccountService.getInstance().getUser().getUid());
+        //UserService.getInstance()
+          //      .listenUserConversation(AccountService.getInstance().getUser().getUid());
 
         return view;
     }
