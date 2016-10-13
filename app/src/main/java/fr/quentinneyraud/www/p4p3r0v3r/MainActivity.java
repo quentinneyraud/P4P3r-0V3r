@@ -1,5 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -8,12 +10,20 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,16 +31,19 @@ import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragme
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     static final String TAG = "MainActivity";
     ConversationFragment conversationListFragment;
-    private Menu menu;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.navigation_view)
-    NavigationView navigationView;
+    @BindView(R.id.menu_list)
+    ListView listView;
+
+    ArrayList<String> listItems = new ArrayList<>();
+    ArrayAdapter<String> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ButterKnife.bind(this);
 
-        menu = navigationView.getMenu();
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar;
@@ -55,22 +66,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        listView.setAdapter(adapter);
 
-        navigationView.setNavigationItemSelectedListener(this);
+        for (int i = 0; i < 20 ; i++) {
+            listItems.add("TEst");
+        }
+        adapter.notifyDataSetChanged();
 
+        listView.setOnItemClickListener(this);
     }
 
     @Subscribe
     public void onUserConversationEvent(OnUserConversationsEvent onUserConversationsEvent) {
         if (onUserConversationsEvent.getEventType().equals("ADD") && onUserConversationsEvent.getSuccessful()) {
             Conversation conversation = onUserConversationsEvent.getConversation();
-            addNewItemMenu(conversation.getUid(), "Name");
+            // addNewItemMenu(conversation.getUid(), "Name");
         }
     }
 
-    public void addNewItemMenu(String Uid, String title) {
-        menu.add(R.id.intent_group, Integer.parseInt(Uid), 1, title);
-        menu.setGroupCheckable(R.id.intent_group, true, true);
+    public void addNewItemMenu(String uid, String title) {
+        //menu.add(R.id.intent_group, Integer.parseInt(uid), 1, title);
+        //menu.setGroupCheckable(R.id.intent_group, true, true);
     }
 
     @Override
@@ -84,19 +101,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    private void clickItem1() {
-        Log.d(TAG, "Item 1 clicked");
-    }
-
-
-    private void clickItem2() {
-        Log.d(TAG, "Item 2 clicked");
     }
 
 
@@ -112,20 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        item.setChecked(true);
-        drawerLayout.closeDrawers();
-
-        int id = item.getItemId();
-
-        if(id == R.id.search_bar) {
-            //open search fragment
-            Log.d(TAG, "open search fragment");
-        } else {
-            //open conversation (based on id)
-            Log.d(TAG, "id : " + id);
-        }
-
-        return true;
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("CLICK", "Click on id " + id + " and position " + position);
     }
 }
