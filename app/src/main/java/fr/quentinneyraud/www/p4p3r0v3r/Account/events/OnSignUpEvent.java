@@ -8,18 +8,36 @@ public class OnSignUpEvent {
 
     private Boolean isSuccessful;
     private String errorMessage;
+    private String uid;
 
-    public OnSignUpEvent(Boolean isSuccessful, String errorMessage)
+    public OnSignUpEvent()
     {
-        this.isSuccessful = isSuccessful;
-        this.errorMessage = errorMessage;
+        this.setSuccessful(true);
+        this.setErrorMessage("");
+        this.setUid(null);
     }
 
     public Boolean getSuccessful() {
         return isSuccessful;
     }
 
+    public void setSuccessful(Boolean successful) {
+        isSuccessful = successful;
+    }
+
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

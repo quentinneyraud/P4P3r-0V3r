@@ -1,6 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,8 +21,15 @@ public class OnSignUpDispatcher implements OnCompleteListener<AuthResult> {
 
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {
-        OnSignUpEvent signInEvent = new OnSignUpEvent(task.isSuccessful(), task.getException().getMessage());
+        OnSignUpEvent onSignUpEvent = new OnSignUpEvent();
 
-        BusProvider.getInstance().post(signInEvent);
+        if (!task.isSuccessful()) {
+            onSignUpEvent.setSuccessful(false);
+            onSignUpEvent.setErrorMessage(task.getException().getMessage());
+        } else {
+            onSignUpEvent.setUid(task.getResult().getUser().getUid());
+        }
+
+        BusProvider.getInstance().post(onSignUpEvent);
     }
 }

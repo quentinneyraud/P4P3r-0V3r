@@ -9,17 +9,25 @@ public class OnSignInEvent {
     private Boolean isSuccessful;
     private String errorMessage;
 
-    public OnSignInEvent(Boolean isSuccessful, String errorMessage)
+    public OnSignInEvent()
     {
-        this.isSuccessful = isSuccessful;
-        this.errorMessage = errorMessage;
+        this.setSuccessful(true);
+        this.setErrorMessage("");
     }
 
     public Boolean getSuccessful() {
         return isSuccessful;
     }
 
+    public void setSuccessful(Boolean successful) {
+        isSuccessful = successful;
+    }
+
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }
