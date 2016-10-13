@@ -50,7 +50,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void onAuthStateChanged(OnAuthStateChanged event) {
         if (event.getConnected()) {
             handler.removeCallbacks(runnable);
-            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
             startActivity(intent);
         }
     }
