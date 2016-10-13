@@ -1,11 +1,5 @@
 package fr.quentinneyraud.www.p4p3r0v3r.User.model;
 
-import android.util.Log;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.List;
 
 /**
@@ -13,8 +7,6 @@ import java.util.List;
  */
 
 public class User {
-
-    private static final String TAG = "=== User ===";
 
     private String uid;
     private String pseudo;
@@ -27,15 +19,11 @@ public class User {
 
     public User(String uid) {
         this.uid = uid;
-
-        Log.d(TAG, "Create new User" + this.toString());
     }
 
     public User(String uid, String pseudo) {
         this.setUid(uid);
         this.setPseudo(pseudo);
-
-        Log.d(TAG, "Create new User" + this.toString());
     }
 
     public String getUid() {

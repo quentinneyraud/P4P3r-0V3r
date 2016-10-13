@@ -4,7 +4,6 @@ package fr.quentinneyraud.www.p4p3r0v3r.Account.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,6 @@ public class SignUpFragment extends Fragment {
         try {
             signUpFragmentListener = (SignUpFragmentListener) context;
         } catch (ClassCastException exception) {
-            Log.d(TAG, "Cannot cast context to OnRegisterListener");
         }
     }
 

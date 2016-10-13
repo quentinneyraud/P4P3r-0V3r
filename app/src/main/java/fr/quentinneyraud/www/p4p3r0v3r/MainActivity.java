@@ -2,6 +2,7 @@ package fr.quentinneyraud.www.p4p3r0v3r;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;

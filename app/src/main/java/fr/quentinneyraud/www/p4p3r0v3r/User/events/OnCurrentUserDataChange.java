@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r.User.service.events;
+package fr.quentinneyraud.www.p4p3r0v3r.User.events;
 
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 

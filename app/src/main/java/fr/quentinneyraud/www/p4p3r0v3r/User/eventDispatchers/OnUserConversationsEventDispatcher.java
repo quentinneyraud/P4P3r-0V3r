@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r.User.service.eventDispatchers;
+package fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -7,24 +7,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
+import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
-import fr.quentinneyraud.www.p4p3r0v3r.User.service.events.OnUserConversationEvent;
 
 /**
  * Created by quentin on 13/10/2016.
  */
 
-public class OnUserConversationEventDispatcher implements ChildEventListener {
+public class OnUserConversationsEventDispatcher implements ChildEventListener {
 
-    private OnUserConversationEvent onUserConversationEvent;
+    private OnUserConversationsEvent onUserConversationEvent;
+
+    public OnUserConversationsEventDispatcher() {
+    }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        onUserConversationEvent = new OnUserConversationEvent();
+
+        onUserConversationEvent = new OnUserConversationsEvent();
         onUserConversationEvent.setEventType("ADD");
 
         FirebaseDatabase.getInstance()
-                .getReference("conversation")
+                .getReference("conversations")
                 .child(dataSnapshot.getValue().toString())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -37,6 +41,9 @@ public class OnUserConversationEventDispatcher implements ChildEventListener {
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
+                        onUserConversationEvent.setSuccessful(false);
+                        BusProvider.getInstance()
+                                .post(onUserConversationEvent);
                     }
                 });
 

@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r.User.service.events;
+package fr.quentinneyraud.www.p4p3r0v3r.User.events;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 
@@ -6,14 +6,14 @@ import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
  * Created by quentin on 13/10/2016.
  */
 
-public class OnUserConversationEvent {
+public class OnUserConversationsEvent {
 
     private Boolean isSuccessful;
     private String errorMessage;
     private String eventType;
     private Conversation conversation;
 
-    public OnUserConversationEvent() {
+    public OnUserConversationsEvent() {
         this.setSuccessful(true);
         this.setErrorMessage("");
         this.setEventType("");
