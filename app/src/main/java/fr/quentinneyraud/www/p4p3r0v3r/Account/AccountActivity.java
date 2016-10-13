@@ -52,26 +52,30 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
 
     @Override
     public void onSignInButtonClick(String email, String password) {
-        AccountService.getInstance()
-                .signIn(email, password);
+        if (!email.isEmpty() && !password.isEmpty()) {
+            AccountService.getInstance()
+                    .signIn(email, password);
+        }
     }
 
     @Subscribe
     public void onSignInEvent(OnSignInEvent onSignInEvent) {
         if(!onSignInEvent.getSuccessful()) {
-            Toast.makeText(getBaseContext(), onSignInEvent.getErrorMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), onSignInEvent.getUiMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onNoAccountTextViewClick() {
-        changeFragment(signInFragment);
+        changeFragment(signUpFragment);
     }
 
     @Override
     public void onSignUpButtonClick(String email, String password) {
-        AccountService.getInstance()
-                .signUp(email, password);
+        if (!email.isEmpty() && !password.isEmpty()) {
+            AccountService.getInstance()
+                    .signUp(email, password);
+        }
     }
 
     @Subscribe
