@@ -1,6 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.squareup.otto.Subscribe;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationListFragment;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
+import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
 
 public class MainActivity extends AppCompatActivity implements ConversationListFragment.ConversationListListener {
 
@@ -27,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
+
+    final Menu menu = navigationView.getMenu();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +56,6 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        final Menu menu = navigationView.getMenu();
-        for (int i = 1; i <= 3; i++) {
-            menu.add(R.id.intent_group, i, 1, "Conversation with person #" + i);
-        }
-
-        menu.setGroupCheckable(R.id.intent_group, true, true);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -78,6 +79,18 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
 
     }
 
+    @Subscribe
+    public void onUserConversationEvent(OnUserConversationsEvent onUserConversationsEvent) {
+        if (onUserConversationsEvent.getEventType().equals("ADD") && onUserConversationsEvent.getSuccessful()) {
+            Conversation conversation = onUserConversationsEvent.getConversation();
+            addNewItemMenu(conversation.getUid(), "Name");
+        }
+    }
+
+    public void addNewItemMenu(String Uid, String title) {
+        menu.add(R.id.intent_group, Integer.parseInt(Uid), 1, title);
+        menu.setGroupCheckable(R.id.intent_group, true, true);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

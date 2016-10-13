@@ -73,13 +73,7 @@ public class ConversationListFragment extends Fragment implements ConversationAd
                 .listenUserConversation(onCurrentUserDataChange.getUser().getUid());
     }
 
-    @Subscribe
-    public void onUserConversationEvent(OnUserConversationsEvent onUserConversationsEvent) {
-        if (onUserConversationsEvent.getEventType().equals("ADD") && onUserConversationsEvent.getSuccessful()) {
-            conversationAdapter.addConversation(onUserConversationsEvent.getConversation());
-            conversationAdapter.notifyItemInserted(conversationAdapter.getItemCount() - 1);
-        }
-    }
+
 
     @Override
     public void onClick(View v, String i) {
