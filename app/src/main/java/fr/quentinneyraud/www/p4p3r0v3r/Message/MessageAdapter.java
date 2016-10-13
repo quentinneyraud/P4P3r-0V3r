@@ -25,7 +25,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_message)
-        TextView message;
+        TextView textMessage;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -45,7 +45,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        Message message = messages.get(position);
 
     }
 
