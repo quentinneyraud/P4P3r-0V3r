@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r.User.service.events;
+package fr.quentinneyraud.www.p4p3r0v3r.User.events;
 
 /**
  * Created by quentin on 13/10/2016.

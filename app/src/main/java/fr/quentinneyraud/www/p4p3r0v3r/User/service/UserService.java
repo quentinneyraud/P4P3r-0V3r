@@ -4,9 +4,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
-import fr.quentinneyraud.www.p4p3r0v3r.User.service.eventDispatchers.OnCurrentUserDataChangedDispatcher;
-import fr.quentinneyraud.www.p4p3r0v3r.User.service.eventDispatchers.OnSetUSerDataDispatcher;
-import fr.quentinneyraud.www.p4p3r0v3r.User.service.eventDispatchers.OnUserConversationEventDispatcher;
+import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnCurrentUserDataChangedDispatcher;
+import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnSetUSerDataDispatcher;
+import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnUserConversationsEventDispatcher;
 
 /**
  * Created by quentin on 12/10/2016.
@@ -50,6 +50,6 @@ public class UserService {
                 .getReference(REFERENCE)
                 .child(uid)
                 .child("conversations")
-                .addChildEventListener(new OnUserConversationEventDispatcher());
+                .addChildEventListener(new OnUserConversationsEventDispatcher());
     }
 }
