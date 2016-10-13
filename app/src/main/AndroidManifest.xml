@@ -17,15 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".User.SignInActivity">
-        </activity>
-        <activity android:name=".User.SignUpActivity">
-        </activity>
-        <activity android:name=".User.UpdateProfileActivity">
-        </activity>
         <activity android:name=".MainActivity">
         </activity>
-        <activity android:name=".AccountActivity">
+        <activity android:name=".Account.AccountActivity">
         </activity>
     </application>
 
