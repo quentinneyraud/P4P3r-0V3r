@@ -3,7 +3,6 @@ package fr.quentinneyraud.www.p4p3r0v3r.Account.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.squareup.otto.Subscribe;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnSignInEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.DeviceInfo;
 
 public class SignInFragment extends Fragment {
-
-    static final String TAG = "=== SignInFragment ===";
 
     private SignInFragmentListener signInFragmentListener;
 
@@ -65,7 +59,6 @@ public class SignInFragment extends Fragment {
         try {
             signInFragmentListener = (SignInFragmentListener) context;
         } catch (ClassCastException exception) {
-            Log.d(TAG, "Cannot cast context to SignInFragmentListener");
         }
     }
 
@@ -83,7 +76,6 @@ public class SignInFragment extends Fragment {
 
     @OnClick(R.id.fragment_signin_noaccount)
     public void onNoAccountClick() {
-        Log.d(TAG, "no acount click");
         if (signInFragmentListener != null) {
             signInFragmentListener.onNoAccountTextViewClick();
         }

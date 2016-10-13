@@ -1,19 +1,19 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Account.service;
 
-import android.util.Log;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.OnAuthStateChangedDispatcher;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.OnSignInDispatcher;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.OnSignUpDispatcher;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnAuthStateChanged;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnSignUpEvent;
-import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnCurrentUserDataChange;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
-import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnCurrentUserDataChange;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 /**
  * Created by quentin on 12/10/2016.
@@ -21,7 +21,6 @@ import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnCurrentUserDataChange;
 
 public class AccountService {
 
-    static final String TAG = "=== AccountService ===";
     private static AccountService instance;
     private User user;
 
@@ -51,21 +50,18 @@ public class AccountService {
     }
 
     public void signIn(String email, String password) {
-        Log.d(TAG, "sign in");
         FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnSignInDispatcher());
     }
 
     public void signUp(String email, String password) {
-        Log.d(TAG, "sign up");
         FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnSignUpDispatcher());
     }
 
     public void listenAuthentication() {
-        Log.d(TAG, "listen auth");
         FirebaseAuth.getInstance()
                 .addAuthStateListener(new OnAuthStateChangedDispatcher());
     }
@@ -81,11 +77,8 @@ public class AccountService {
     @Subscribe
     public void onCurrentUserDataChange(OnCurrentUserDataChange onCurrentUserDataChange) {
         if (onCurrentUserDataChange.getSuccessful()) {
-            //Log.d(TAG, "current user updated " + onCurrentUserDataChange.getUser().toString());
             AccountService.getInstance()
                 .setUser(onCurrentUserDataChange.getUser());
-        } else {
-            Log.d(TAG, "onUserDataChange : " + onCurrentUserDataChange.getErrorMessage());
         }
     }
 
@@ -94,6 +87,7 @@ public class AccountService {
         if(onSignUpEvent.getSuccessful()) {
             User user = new User(onSignUpEvent.getUid());
             user.setPseudo("quentin");
+            user.setConversationsUid(new ArrayList<String>());
             AccountService.getInstance()
                     .setUser(user);
             AccountService.getInstance()

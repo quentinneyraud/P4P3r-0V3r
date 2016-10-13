@@ -2,15 +2,10 @@ package fr.quentinneyraud.www.p4p3r0v3r.Account;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.squareup.otto.Subscribe;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnAuthStateChanged;
@@ -25,7 +20,6 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class AccountActivity extends AppCompatActivity implements SignInFragment.SignInFragmentListener, SignUpFragment.SignUpFragmentListener {
 
-    static final String TAG = "=== AccountActivity ===";
     private SignInFragment signInFragment;
     private SignUpFragment signUpFragment;
 
@@ -41,8 +35,6 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
 
         if (savedInstanceState == null) {
             changeFragment(signInFragment);
-        } else {
-            Log.d(TAG, "saved instance is not null");
         }
     }
 

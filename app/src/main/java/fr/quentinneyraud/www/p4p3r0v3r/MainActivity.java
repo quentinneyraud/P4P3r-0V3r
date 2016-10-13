@@ -1,8 +1,8 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationListFragment;
 

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,12 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationAdapter;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnCurrentUserDataChange;
-import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 /**
@@ -76,8 +75,7 @@ public class ConversationListFragment extends Fragment implements ConversationAd
 
     @Subscribe
     public void onUserConversationEvent(OnUserConversationsEvent onUserConversationsEvent) {
-        if (onUserConversationsEvent.getEventType().equals("ADD")) {
-            Log.d("TAGG", "new conversation " + onUserConversationsEvent.getConversation().toString());
+        if (onUserConversationsEvent.getEventType().equals("ADD") && onUserConversationsEvent.getSuccessful()) {
             conversationAdapter.addConversation(onUserConversationsEvent.getConversation());
             conversationAdapter.notifyItemInserted(conversationAdapter.getItemCount() - 1);
         }

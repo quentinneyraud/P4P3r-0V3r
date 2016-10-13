@@ -1,7 +1,5 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation.model;
 
-import android.util.Log;
-
 import java.util.List;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Message.Message;
@@ -12,26 +10,44 @@ import fr.quentinneyraud.www.p4p3r0v3r.Message.Message;
 
 public class Conversation {
 
-    static final String TAG = "=== Conversation ===";
-
     private String uid;
     private List<Message> messages;
+    private String test;
 
     public Conversation() {
-        Log.d(TAG, "Create new Conversation" + this.toString());
     }
 
     public Conversation(String uid) {
         this.uid = uid;
-
-        Log.d(TAG, "Create new Conversation" + this.toString());
     }
 
     public Conversation(String uid, List<Message> messages) {
         this.uid = uid;
         this.messages = messages;
+    }
 
-        Log.d(TAG, "Create new Conversation" + this.toString());
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
     }
 
     @Override

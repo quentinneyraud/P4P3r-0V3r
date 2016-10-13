@@ -14,6 +14,8 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class OnAuthStateChangedDispatcher implements FirebaseAuth.AuthStateListener {
 
+    private Boolean FLAG = true;
+
     public OnAuthStateChangedDispatcher() {
     }
 
@@ -24,9 +26,15 @@ public class OnAuthStateChangedDispatcher implements FirebaseAuth.AuthStateListe
 
         if (user != null) {
             onAuthStateChanged = new OnAuthStateChanged(true, user.getUid());
+            if (FLAG) {
+                BusProvider.getInstance().post(onAuthStateChanged);
+                FLAG = false;
+            }
         } else {
             onAuthStateChanged = new OnAuthStateChanged(false, null);
+            BusProvider.getInstance().post(onAuthStateChanged);
+            FLAG = true;
         }
-        BusProvider.getInstance().post(onAuthStateChanged);
+
     }
 }

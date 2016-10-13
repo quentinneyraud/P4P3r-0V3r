@@ -2,11 +2,11 @@ package fr.quentinneyraud.www.p4p3r0v3r.User.service;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
-import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnCurrentUserDataChangedDispatcher;
 import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnSetUSerDataDispatcher;
 import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnUserConversationsEventDispatcher;
+import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 /**
  * Created by quentin on 12/10/2016.
@@ -14,7 +14,6 @@ import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnUserConversations
 
 public class UserService {
 
-    private static final String TAG = "=== UserService ===";
     private static final String REFERENCE = "users";
 
     private static UserService instance;
@@ -49,7 +48,7 @@ public class UserService {
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(uid)
-                .child("conversations")
+                .child("conversationsUid")
                 .addChildEventListener(new OnUserConversationsEventDispatcher());
     }
 }

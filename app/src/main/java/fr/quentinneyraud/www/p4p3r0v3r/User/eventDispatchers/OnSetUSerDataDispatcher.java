@@ -3,8 +3,8 @@ package fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
-import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnSetUserData;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 /**
  * Created by quentin on 13/10/2016.
