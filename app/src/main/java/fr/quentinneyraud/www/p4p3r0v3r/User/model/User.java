@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r.User;
+package fr.quentinneyraud.www.p4p3r0v3r.User.model;
 
 import android.util.Log;
 
@@ -8,7 +8,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.Conversation;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.Firebase;
 
 /**
@@ -17,19 +17,15 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.Firebase;
 
 public class User {
 
-    static final String TAG = "=== User ===";
+    private static final String TAG = "=== User ===";
 
     private String uid;
     private String pseudo;
-    private String email;
-    private String password;
     private String publicKey;
     private String avatarB64;
-    private List<Conversation> conversations;
+    private List<String> conversationsUid;
 
     public User() {
-
-        Log.d(TAG, "Create new User" + this.toString());
     }
 
     public User(String uid) {
@@ -38,11 +34,9 @@ public class User {
         Log.d(TAG, "Create new User" + this.toString());
     }
 
-    public User(String uid, String pseudo, String email, String password) {
+    public User(String uid, String pseudo) {
         this.setUid(uid);
         this.setPseudo(pseudo);
-        this.setEmail(email);
-        this.setPassword(password);
 
         Log.d(TAG, "Create new User" + this.toString());
     }
@@ -77,22 +71,6 @@ public class User {
         this.pseudo = pseudo;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getPublicKey() {
         return publicKey;
     }
@@ -109,12 +87,12 @@ public class User {
         this.avatarB64 = avatarB64;
     }
 
-    public List<Conversation> getConversations() {
-        return conversations;
+    public List<String> getConversationsUid() {
+        return conversationsUid;
     }
 
-    public void setConversations(List<Conversation> conversations) {
-        this.conversations = conversations;
+    public void setConversationsUid(List<String> conversationsUid) {
+        this.conversationsUid = conversationsUid;
     }
 
     @Override
@@ -122,8 +100,6 @@ public class User {
         return "User{" +
                 "uid='" + uid + '\'' +
                 ", pseudo='" + pseudo + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 }
