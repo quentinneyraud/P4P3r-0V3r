@@ -12,9 +12,6 @@ import butterknife.BindView;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
 
-/**
- * Created by quentin on 12/10/2016.
- */
 
 public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapter.ConversationViewHolder> {
     private List<Conversation> conversations;
