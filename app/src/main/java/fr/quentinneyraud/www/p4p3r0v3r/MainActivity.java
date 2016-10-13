@@ -1,25 +1,18 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -41,18 +34,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @BindView(R.id.menu_list)
     ListView listView;
 
-    ArrayList<String> listItems = new ArrayList<>();
-    ArrayAdapter<String> adapter;
-
+    ArrayList<String> conversationListItems = new ArrayList<>();
+    ArrayAdapter<String> conversationListAdapter;
+    ArrayList<String> conversationUidArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        conversationListFragment = new ConversationFragment();
-
-        changeFragment(conversationListFragment, false);
 
         ButterKnife.bind(this);
 
@@ -61,18 +50,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ActionBar actionBar;
 
         actionBar = getSupportActionBar();
+
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
-        listView.setAdapter(adapter);
+        conversationListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, conversationListItems);
+        listView.setAdapter(conversationListAdapter);
 
+        // test
         for (int i = 0; i < 20 ; i++) {
-            listItems.add("TEst");
+            this.addNewItemMenu(String.valueOf(i), "Item" + i);
         }
-        adapter.notifyDataSetChanged();
 
         listView.setOnItemClickListener(this);
     }
@@ -86,8 +76,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void addNewItemMenu(String uid, String title) {
-        //menu.add(R.id.intent_group, Integer.parseInt(uid), 1, title);
-        //menu.setGroupCheckable(R.id.intent_group, true, true);
+        conversationListItems.add(title);
+        conversationUidArray.add(uid);
+        conversationListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -122,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("CLICK", "Click on id " + id + " and position " + position);
+        conversationUidArray.get(position);
+        Log.d("CLICK", "Click on id " + conversationUidArray.get(position));
     }
 }
