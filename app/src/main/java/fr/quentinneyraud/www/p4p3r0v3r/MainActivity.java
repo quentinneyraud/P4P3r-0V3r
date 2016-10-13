@@ -1,9 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +14,8 @@ import android.view.MenuItem;
 
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationListFragment;
@@ -26,14 +26,14 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
 
     static final String TAG = "MainActivity";
     ConversationListFragment conversationListFragment;
-
+    private Menu menu;
+    ArrayList conversationArray;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
-
-    final Menu menu = navigationView.getMenu();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +41,22 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
         setContentView(R.layout.activity_main);
 
         conversationListFragment = new ConversationListFragment();
-
         changeFragment(conversationListFragment, false);
 
         ButterKnife.bind(this);
+
+        menu = navigationView.getMenu();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar;
 
         actionBar = getSupportActionBar();
+
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.search_bar) {
+                if (id == R.id.search_bar) {
                     //open search fragment
                     Log.d(TAG, "open search fragment");
                 } else {
@@ -83,12 +84,14 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
     public void onUserConversationEvent(OnUserConversationsEvent onUserConversationsEvent) {
         if (onUserConversationsEvent.getEventType().equals("ADD") && onUserConversationsEvent.getSuccessful()) {
             Conversation conversation = onUserConversationsEvent.getConversation();
-            addNewItemMenu(conversation.getUid(), "Name");
+            conversationArray.add(conversation.getUid());
+            addNewItemMenu(conversationArray.indexOf(conversation.getUid()), "Name");
         }
     }
 
-    public void addNewItemMenu(String Uid, String title) {
-        menu.add(R.id.intent_group, Integer.parseInt(Uid), 1, title);
+
+    public void addNewItemMenu(int indexUid, String title) {
+        menu.add(R.id.intent_group, indexUid, 1, title);
         menu.setGroupCheckable(R.id.intent_group, true, true);
     }
 
