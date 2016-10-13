@@ -67,8 +67,8 @@ public class SignUpFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.registerButton)
-    void onRegisterClick() {
+    @OnClick(R.id.fragment_signup_button)
+    void onSignUpButtonClick() {
         if (signUpFragmentListener != null) {
             signUpFragmentListener.onSignUpButtonClick(emailAutocompleteTextView.getText().toString(), passwordEditText.getText().toString());
         }

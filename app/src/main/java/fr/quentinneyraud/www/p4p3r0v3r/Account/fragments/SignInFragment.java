@@ -83,6 +83,7 @@ public class SignInFragment extends Fragment {
 
     @OnClick(R.id.fragment_signin_noaccount)
     public void onNoAccountClick() {
+        Log.d(TAG, "no acount click");
         if (signInFragmentListener != null) {
             signInFragmentListener.onNoAccountTextViewClick();
         }
