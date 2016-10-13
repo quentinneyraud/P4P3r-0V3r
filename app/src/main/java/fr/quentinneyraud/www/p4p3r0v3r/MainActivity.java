@@ -1,9 +1,8 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
 import android.os.Bundle;
-import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,33 +17,33 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationListFragment;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
 
-public class MainActivity extends AppCompatActivity implements ConversationListFragment.ConversationListListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     static final String TAG = "MainActivity";
-    ConversationListFragment conversationListFragment;
-
+    ConversationFragment conversationListFragment;
+    private Menu menu;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
 
-    final Menu menu = navigationView.getMenu();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        conversationListFragment = new ConversationListFragment();
+        conversationListFragment = new ConversationFragment();
 
         changeFragment(conversationListFragment, false);
 
         ButterKnife.bind(this);
+
+        menu = navigationView.getMenu();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,25 +56,7 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
         }
 
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-
-                int id = menuItem.getItemId();
-
-                if(id == R.id.search_bar) {
-                    //open search fragment
-                    Log.d(TAG, "open search fragment");
-                } else {
-                    //open conversation (based on id)
-                    Log.d(TAG, "id : " + id);
-                }
-
-                return true;
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
@@ -122,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
     private void changeFragment(Fragment fragment, boolean addToBackStack) {
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.conversation_list_container, fragment);
+                .replace(R.id.conversation_container, fragment);
 
         if (addToBackStack) {
             ft.addToBackStack(fragment.getClass().getName());
@@ -131,7 +112,20 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
     }
 
     @Override
-    public void onConversationSelected(String id) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        item.setChecked(true);
+        drawerLayout.closeDrawers();
 
+        int id = item.getItemId();
+
+        if(id == R.id.search_bar) {
+            //open search fragment
+            Log.d(TAG, "open search fragment");
+        } else {
+            //open conversation (based on id)
+            Log.d(TAG, "id : " + id);
+        }
+
+        return true;
     }
 }
