@@ -19,7 +19,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     static final String TAG = "=== SplashScreen ===";
     private static final int SPLASH_SCREEN_DISPLAY_MS = 3000;
 
-    Bus bus;
     Handler handler;
     Runnable runnable;
 
@@ -49,7 +48,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        bus.unregister(this);
+        BusProvider.getInstance().unregister(this);
     }
 
     @Subscribe
