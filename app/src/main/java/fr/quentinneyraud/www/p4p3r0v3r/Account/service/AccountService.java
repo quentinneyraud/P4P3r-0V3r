@@ -23,7 +23,7 @@ public class AccountService {
 
     private static AccountService instance;
     private static final String TAG = "AccountService";
-    private User user;
+    private User currentUser;
 
     private AccountService() {
         BusProvider.getInstance().register(this);
@@ -37,24 +37,24 @@ public class AccountService {
         return instance;
     }
 
-    public User getUser() {
-        return user;
+    public User getCurrentUser() {
+        return currentUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
     public void saveCurrentUser() {
         Log.d(TAG, "saveCurrentUser");
         UserService.getInstance()
-                .setUserData(this.getUser());
+                .setUserData(this.getCurrentUser());
     }
 
     public void listenCurrentUserConversations() {
         Log.d(TAG, "listenCurrentUserConversations");
         UserService.getInstance()
-                .listenUserConversation(this.getUser().getUid());
+                .listenUserConversation(this.getCurrentUser().getUid());
     }
 
     public void signIn(String email, String password) {
@@ -64,11 +64,11 @@ public class AccountService {
                 .addOnCompleteListener(new SignInCompleteListener());
     }
 
-    public void signUp(String email, String password) {
+    public void signUp(String email, String password, String pseudo) {
         Log.d(TAG, "signUp with credentials : " + email + " " + password);
         FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new SignUpCompleteListener());
+                .addOnCompleteListener(new SignUpCompleteListener(pseudo));
     }
 
     public void listenAuthState() {
@@ -89,7 +89,7 @@ public class AccountService {
         Log.d(TAG, "receive onCurrentUserDataChange : " + onCurrentUserDataChange.toString());
         if (onCurrentUserDataChange.getSuccessful()) {
             AccountService.getInstance()
-                .setUser(onCurrentUserDataChange.getUser());
+                .setCurrentUser(onCurrentUserDataChange.getUser());
             AccountService.getInstance()
                     .listenCurrentUserConversations();
         }
@@ -100,10 +100,10 @@ public class AccountService {
         Log.d(TAG, "receive SignUpSuccessEvent : " + signUpSuccessEvent);
 
         User user = new User(signUpSuccessEvent.getUid());
-        user.setPseudo("quentin");
+        user.setPseudo(signUpSuccessEvent.getPseudo());
 
         AccountService.getInstance()
-                .setUser(user);
+                .setCurrentUser(user);
 
         AccountService.getInstance()
                 .saveCurrentUser();

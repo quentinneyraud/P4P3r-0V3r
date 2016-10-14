@@ -64,10 +64,10 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
     }
 
     @Override
-    public void onSignUpButtonClick(String email, String password) {
-        if (!email.isEmpty() && !password.isEmpty()) {
+    public void onSignUpButtonClick(String email, String password, String pseudo) {
+        if (!email.isEmpty() && !password.isEmpty() && !pseudo.isEmpty()) {
             AccountService.getInstance()
-                    .signUp(email, password);
+                    .signUp(email, password, pseudo);
         }
     }
 

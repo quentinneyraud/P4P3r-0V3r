@@ -16,7 +16,21 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class SignUpCompleteListener implements OnCompleteListener<AuthResult> {
 
+    private String pseudo;
+
     public SignUpCompleteListener() {
+    }
+
+    public SignUpCompleteListener(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
     }
 
     @Override
@@ -27,7 +41,7 @@ public class SignUpCompleteListener implements OnCompleteListener<AuthResult> {
                     .post(new SignUpErrorEvent(task.getException().getMessage()));
         } else {
             BusProvider.getInstance()
-                    .post(new SignUpSuccessEvent(task.getResult().getUser().getUid()));
+                    .post(new SignUpSuccessEvent(task.getResult().getUser().getUid(), this.getPseudo()));
         }
     }
 }

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,8 @@ public class SignUpFragment extends Fragment {
     Button signUpButton;
     @BindView(R.id.fragment_signup_email)
     AutoCompleteTextView emailAutocompleteTextView;
+    @BindView(R.id.fragment_signup_pseudo)
+    EditText pseudoEditText;
     @BindView(R.id.fragment_signup_password)
     EditText passwordEditText;
 
@@ -68,12 +71,12 @@ public class SignUpFragment extends Fragment {
     @OnClick(R.id.fragment_signup_button)
     void onSignUpButtonClick() {
         if (signUpFragmentListener != null) {
-            signUpFragmentListener.onSignUpButtonClick(emailAutocompleteTextView.getText().toString(), passwordEditText.getText().toString());
+            signUpFragmentListener.onSignUpButtonClick(emailAutocompleteTextView.getText().toString(), passwordEditText.getText().toString(), pseudoEditText.getText().toString());
         }
     }
 
     public interface SignUpFragmentListener {
-        void onSignUpButtonClick(String email, String password);
+        void onSignUpButtonClick(String email, String password, String pseudo);
     }
 
 }
