@@ -13,7 +13,7 @@ public class Conversation {
 
     private String uid;
     private List<Message> messages;
-    private List<String> usersUid;
+    private List<User> users;
 
     public Conversation() {
     }
@@ -43,12 +43,12 @@ public class Conversation {
         this.messages = messages;
     }
 
-    public List<String> getUsersUid() {
-        return usersUid;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUsersUid(List<String> usersUid) {
-        this.usersUid = usersUid;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Conversation {
         return "Conversation{" +
                 "uid='" + uid + '\'' +
                 ", messages=" + messages +
-                ", usersUid=" + usersUid +
+                ", users=" + users +
                 '}';
     }
 }

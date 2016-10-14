@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
+import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 
 import java.util.List;
 
@@ -39,8 +41,20 @@ public class ConversatonItemAdapter extends RecyclerView.Adapter<ConversatonItem
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Conversation conversation = conversationList.get(position);
 
+
+        // comma separated list of conversation users
+        String contactPseudo = "";
+        String currentUserId = AccountService.getInstance()
+                .getCurrentUser().getUid();
+
+        for (User user : conversation.getUsers()) {
+            if (!user.getUid().equals(currentUserId)) {
+                contactPseudo += " " + user.getPseudo();
+            }
+        }
+
         holder.setUid(conversation.getUid());
-        holder.getContactTextView().setText(conversation.getUid());
+        holder.getContactTextView().setText(contactPseudo);
     }
 
     public void addConversation(Conversation conversation) {
