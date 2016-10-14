@@ -8,9 +8,9 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnAuthStateChanged;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnSignInEvent;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnSignUpEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.events.SignInErrorEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.events.SignUpErrorEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.events.UserAuthenticatedEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.fragments.SignInFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.fragments.SignUpFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
@@ -54,10 +54,8 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
     }
 
     @Subscribe
-    public void onSignInEvent(OnSignInEvent onSignInEvent) {
-        if(!onSignInEvent.getSuccessful()) {
-            Toast.makeText(getBaseContext(), onSignInEvent.getErrorMessage(), Toast.LENGTH_LONG).show();
-        }
+    public void signInErrorEvent(SignInErrorEvent signInErrorEvent) {
+        Toast.makeText(getBaseContext(), signInErrorEvent.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -66,25 +64,21 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
     }
 
     @Override
-    public void onSignUpButtonClick(String email, String password) {
-        if (!email.isEmpty() && !password.isEmpty()) {
+    public void onSignUpButtonClick(String email, String password, String pseudo) {
+        if (!email.isEmpty() && !password.isEmpty() && !pseudo.isEmpty()) {
             AccountService.getInstance()
-                    .signUp(email, password);
+                    .signUp(email, password, pseudo);
         }
     }
 
     @Subscribe
-    public void onSignUpEvent(OnSignUpEvent onSignUpEvent) {
-        if(!onSignUpEvent.getSuccessful()) {
-            Toast.makeText(getBaseContext(), onSignUpEvent.getErrorMessage(), Toast.LENGTH_LONG).show();
-        }
+    public void signUpErrorEvent(SignUpErrorEvent signUpErrorEvent) {
+        Toast.makeText(getBaseContext(), signUpErrorEvent.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Subscribe
-    public void onAuthStateChanged(OnAuthStateChanged event) {
-        if (event.getConnected()) {
-            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-            startActivity(intent);
-        }
+    public void userAuthenticatedEvent(UserAuthenticatedEvent userAuthenticatedEvent) {
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

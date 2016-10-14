@@ -7,25 +7,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
-import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 /**
  * Created by quentin on 13/10/2016.
  */
 
-public class OnUserConversationsEventDispatcher implements ChildEventListener {
+public class ListenUserConversationsChildListener implements ChildEventListener {
 
-    private OnUserConversationsEvent onUserConversationEvent;
-
-    public OnUserConversationsEventDispatcher() {
+    public ListenUserConversationsChildListener() {
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-        onUserConversationEvent = new OnUserConversationsEvent();
-        onUserConversationEvent.setEventType("ADD");
 
         FirebaseDatabase.getInstance()
                 .getReference("conversations")
@@ -33,17 +28,13 @@ public class OnUserConversationsEventDispatcher implements ChildEventListener {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        onUserConversationEvent.setConversation(dataSnapshot.getValue(Conversation.class));
                         BusProvider.getInstance()
-                                .post(onUserConversationEvent);
+                                .post(new UserConversationAdded(dataSnapshot.getValue(Conversation.class)));
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
-                        onUserConversationEvent.setSuccessful(false);
-                        BusProvider.getInstance()
-                                .post(onUserConversationEvent);
                     }
                 });
 

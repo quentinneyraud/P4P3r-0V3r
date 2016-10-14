@@ -6,29 +6,28 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnSignUpEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.events.SignInErrorEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.events.SignInSuccessEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 /**
  * Created by quentin on 13/10/2016.
  */
 
-public class OnSignUpDispatcher implements OnCompleteListener<AuthResult> {
+public class SignInListener implements OnCompleteListener<AuthResult> {
 
-    public OnSignUpDispatcher() {
+    public SignInListener() {
     }
 
     @Override
     public void onComplete(@NonNull Task<AuthResult> task) {
-        OnSignUpEvent onSignUpEvent = new OnSignUpEvent();
 
         if (!task.isSuccessful()) {
-            onSignUpEvent.setSuccessful(false);
-            onSignUpEvent.setErrorMessage(task.getException().getMessage());
+            BusProvider.getInstance()
+                    .post(new SignInErrorEvent(task.getException().getLocalizedMessage()));
         } else {
-            onSignUpEvent.setUid(task.getResult().getUser().getUid());
+            BusProvider.getInstance()
+                    .post(new SignInSuccessEvent());
         }
-
-        BusProvider.getInstance().post(onSignUpEvent);
     }
 }

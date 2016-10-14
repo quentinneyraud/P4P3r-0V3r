@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments;
+package fr.quentinneyraud.www.p4p3r0v3r.User.fragments;
 
 
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import fr.quentinneyraud.www.p4p3r0v3r.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchConversationFragment extends Fragment {
+public class UserSearchFragment extends Fragment {
 
 
-    public SearchConversationFragment() {
+    public UserSearchFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class SearchConversationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_conversation, container, false);
+        return inflater.inflate(R.layout.fragment_user_search, container, false);
     }
 
 }

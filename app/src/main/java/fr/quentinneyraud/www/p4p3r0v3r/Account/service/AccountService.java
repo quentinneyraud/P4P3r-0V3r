@@ -1,16 +1,16 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Account.service;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.otto.Subscribe;
 
-import java.util.ArrayList;
-
-import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.OnAuthStateChangedDispatcher;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.OnSignInDispatcher;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.OnSignUpDispatcher;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnAuthStateChanged;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnSignUpEvent;
-import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnCurrentUserDataChange;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.AuthStateListener;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.SignInListener;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.SignUpListener;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.events.SignUpSuccessEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.events.UserAuthenticatedEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.User.events.GetUserSuccessEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
@@ -22,7 +22,8 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 public class AccountService {
 
     private static AccountService instance;
-    private User user;
+    private static final String TAG = "AccountService";
+    private User currentUser;
 
     private AccountService() {
         BusProvider.getInstance().register(this);
@@ -36,62 +37,78 @@ public class AccountService {
         return instance;
     }
 
-    public User getUser() {
-        return user;
+    public User getCurrentUser() {
+        return currentUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
     public void saveCurrentUser() {
+        Log.d(TAG, "saveCurrentUser");
         UserService.getInstance()
-                .setUserData(this.getUser());
+                .saveUser(this.getCurrentUser());
+    }
+
+    public void getCurrentUserData() {
+        UserService.getInstance()
+                .getUser(this.getCurrentUser().getUid());
+    }
+
+    public void listenCurrentUserConversations() {
+        Log.d(TAG, "listenCurrentUserConversations");
+        UserService.getInstance()
+                .listenUserConversations(this.getCurrentUser().getUid());
     }
 
     public void signIn(String email, String password) {
+        Log.d(TAG, "signIn with credentials : " + email + " " + password);
         FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnSignInDispatcher());
+                .addOnCompleteListener(new SignInListener());
     }
 
-    public void signUp(String email, String password) {
+    public void signUp(String email, String password, String pseudo) {
+        Log.d(TAG, "signUp with credentials : " + email + " " + password);
         FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnSignUpDispatcher());
+                .addOnCompleteListener(new SignUpListener(pseudo));
     }
 
-    public void listenAuthentication() {
+    public void listenAuthState() {
+        Log.d(TAG, "listenAuthState");
         FirebaseAuth.getInstance()
-                .addAuthStateListener(new OnAuthStateChangedDispatcher());
+                .addAuthStateListener(new AuthStateListener());
     }
 
     @Subscribe
-    public void onAuthStateChanged(OnAuthStateChanged event) {
-        if (event.getConnected()) {
-            UserService.getInstance()
-                .listenCurrentUserDataChange(event.getUid());
-        }
+    public void userAuthenticatedEvent(UserAuthenticatedEvent userAuthenticatedEvent) {
+        Log.d(TAG, "receive UserAuthenticatedEvent : " + userAuthenticatedEvent.toString());
+        AccountService.getInstance()
+            .getCurrentUserData();
     }
 
     @Subscribe
-    public void onCurrentUserDataChange(OnCurrentUserDataChange onCurrentUserDataChange) {
-        if (onCurrentUserDataChange.getSuccessful()) {
-            AccountService.getInstance()
-                .setUser(onCurrentUserDataChange.getUser());
-        }
+    public void getUserSuccessEvent(GetUserSuccessEvent getUserSuccessEvent) {
+        Log.d(TAG, "receive GetUserSuccessEvent : " + getUserSuccessEvent.toString());
+        AccountService.getInstance()
+            .setCurrentUser(getUserSuccessEvent.getUser());
+        AccountService.getInstance()
+                .listenCurrentUserConversations();
     }
 
     @Subscribe
-    public void onSignUpEvent(OnSignUpEvent onSignUpEvent) {
-        if(onSignUpEvent.getSuccessful()) {
-            User user = new User(onSignUpEvent.getUid());
-            user.setPseudo("quentin");
-            user.setConversationsUid(new ArrayList<String>());
-            AccountService.getInstance()
-                    .setUser(user);
-            AccountService.getInstance()
-                    .saveCurrentUser();
-        }
+    public void signUpSuccessEvent(SignUpSuccessEvent signUpSuccessEvent) {
+        Log.d(TAG, "receive SignUpSuccessEvent : " + signUpSuccessEvent);
+
+        User user = new User(signUpSuccessEvent.getUid());
+        user.setPseudo(signUpSuccessEvent.getPseudo());
+
+        AccountService.getInstance()
+                .setCurrentUser(user);
+
+        AccountService.getInstance()
+                .saveCurrentUser();
     }
 }

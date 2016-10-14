@@ -1,16 +1,18 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.squareup.otto.Subscribe;
 
@@ -18,38 +20,46 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationListFragment;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
-import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
-public class MainActivity extends AppCompatActivity implements ConversationListFragment.ConversationListListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    static final String TAG = "MainActivity";
-    ConversationListFragment conversationListFragment;
-    private Menu menu;
-    ArrayList conversationArray;
+    private static final String TAG = "MainActivity";
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    @BindView(R.id.fragment_conversation_item_list_recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
-    @BindView(R.id.navigation_view)
-    NavigationView navigationView;
+    private ArrayList<Conversation> conversationArrayList = new ArrayList<>();
+    private ConversatonItemAdapter conversatonItemAdapter;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        conversationListFragment = new ConversationListFragment();
-        changeFragment(conversationListFragment, false);
-
+        BusProvider.getInstance()
+                .register(this);
         ButterKnife.bind(this);
+        this.initializeLayout();
 
-        menu = navigationView.getMenu();
+        conversatonItemAdapter = new ConversatonItemAdapter(conversationArrayList);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(conversatonItemAdapter);
+        // remove bounce effect
+        recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+    }
+
+    private void initializeLayout() {
         setSupportActionBar(toolbar);
-        ActionBar actionBar;
 
         actionBar = getSupportActionBar();
 
@@ -58,41 +68,15 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-
-                int id = menuItem.getItemId();
-
-                if (id == R.id.search_bar) {
-                    //open search fragment
-                    Log.d(TAG, "open search fragment");
-                } else {
-                    //open conversation (based on id)
-                    Log.d(TAG, "id : " + id);
-                }
-
-                return true;
-            }
-        });
-
+        drawerLayout.openDrawer(GravityCompat.START);
     }
 
     @Subscribe
-    public void onUserConversationEvent(OnUserConversationsEvent onUserConversationsEvent) {
-        if (onUserConversationsEvent.getEventType().equals("ADD") && onUserConversationsEvent.getSuccessful()) {
-            Conversation conversation = onUserConversationsEvent.getConversation();
-            conversationArray.add(conversation.getUid());
-            addNewItemMenu(conversationArray.indexOf(conversation.getUid()), "Name");
-        }
-    }
-
-
-    public void addNewItemMenu(int indexUid, String title) {
-        menu.add(R.id.intent_group, indexUid, 1, title);
-        menu.setGroupCheckable(R.id.intent_group, true, true);
+    public void userConversationAdded(UserConversationAdded userConversationAdded) {
+        Log.d(TAG, "receive UserConversationAdded event " + userConversationAdded.toString());
+        Conversation conversation = userConversationAdded.getConversation();
+        conversatonItemAdapter.addConversation(conversation);
+        conversatonItemAdapter.notifyItemInserted(conversatonItemAdapter.getItemCount() - 1);
     }
 
     @Override
@@ -106,26 +90,18 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
 
-    private void clickItem1() {
-        Log.d(TAG, "Item 1 clicked");
-    }
-
-
-    private void clickItem2() {
-        Log.d(TAG, "Item 2 clicked");
-    }
-
-
     private void changeFragment(Fragment fragment, boolean addToBackStack) {
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.conversation_list_container, fragment);
+                .replace(R.id.conversation_container, fragment);
 
         if (addToBackStack) {
             ft.addToBackStack(fragment.getClass().getName());
@@ -134,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements ConversationListF
     }
 
     @Override
-    public void onConversationSelected(String id) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //conversationUidArray.get(position);
+        //Log.d("CLICK", "Click on id " + conversationUidArray.get(position));
     }
 }

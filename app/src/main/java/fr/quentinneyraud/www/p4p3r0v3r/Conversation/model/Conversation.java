@@ -3,6 +3,7 @@ package fr.quentinneyraud.www.p4p3r0v3r.Conversation.model;
 import java.util.List;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
+import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 
 /**
  * Created by quentin on 11/10/2016.
@@ -12,7 +13,7 @@ public class Conversation {
 
     private String uid;
     private List<Message> messages;
-    private String test;
+    private List<String> usersUid;
 
     public Conversation() {
     }
@@ -42,12 +43,12 @@ public class Conversation {
         this.messages = messages;
     }
 
-    public String getTest() {
-        return test;
+    public List<String> getUsersUid() {
+        return usersUid;
     }
 
-    public void setTest(String test) {
-        this.test = test;
+    public void setUsersUid(List<String> usersUid) {
+        this.usersUid = usersUid;
     }
 
     @Override
@@ -55,6 +56,7 @@ public class Conversation {
         return "Conversation{" +
                 "uid='" + uid + '\'' +
                 ", messages=" + messages +
+                ", usersUid=" + usersUid +
                 '}';
     }
 }
