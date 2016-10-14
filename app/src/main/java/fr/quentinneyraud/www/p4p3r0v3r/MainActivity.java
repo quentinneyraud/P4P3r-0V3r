@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
         actionBar = getSupportActionBar();
 
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_conversation);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
