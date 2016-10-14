@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonItemAdapter;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     private ArrayList<Conversation> conversationArrayList = new ArrayList<>();
     private ConversatonItemAdapter conversatonItemAdapter;
     private ActionBar actionBar;
+    private String currentConversationId = null;
+    private ConversationFragment conversationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,10 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
         ButterKnife.bind(this);
         this.initializeLayout();
 
+        conversationFragment = new ConversationFragment();
+
         conversatonItemAdapter = new ConversatonItemAdapter(conversationArrayList);
+        conversatonItemAdapter.setConversationItemListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(conversatonItemAdapter);
@@ -75,6 +82,11 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     public void userConversationAdded(UserConversationAdded userConversationAdded) {
         Log.d(TAG, "receive UserConversationAdded event " + userConversationAdded.toString());
         Conversation conversation = userConversationAdded.getConversation();
+
+        if (currentConversationId == null) {
+            showConversation(conversation.getUid());
+        }
+
         conversatonItemAdapter.addConversation(conversation);
         conversatonItemAdapter.notifyItemInserted(conversatonItemAdapter.getItemCount() - 1);
     }
@@ -95,19 +107,27 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     }
 
 
-    private void changeFragment(Fragment fragment, boolean addToBackStack) {
+    private void changeFragment(Fragment fragment) {
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.conversation_container, fragment);
-
-        if (addToBackStack) {
-            ft.addToBackStack(fragment.getClass().getName());
-        }
         ft.commit();
     }
 
     @Override
     public void onClick(View v, String uid) {
-        Log.d(TAG, "click on conversation " + uid);
+        showConversation(uid);
+    }
+
+    public void showConversation(String conversationUid) {
+        Log.d(TAG, "show conversation : " + conversationUid);
+        currentConversationId = conversationUid;
+        drawerLayout.closeDrawer(GravityCompat.START);
+        conversationFragment.setConversationUid(conversationUid);
+    }
+
+    @Subscribe
+    public void messageAdded(MessageAdded messageAdded) {
+        Log.d(TAG, "new message : " + messageAdded.getMessage().toString());
     }
 }

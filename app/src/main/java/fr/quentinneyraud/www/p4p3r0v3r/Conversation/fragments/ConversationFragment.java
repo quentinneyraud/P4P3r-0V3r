@@ -4,6 +4,7 @@ package fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ public class ConversationFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public void setConversationUid(String conversationUid) {
+        Log.d("IN conversation frag", "getting new conversation uid " + conversationUid);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
