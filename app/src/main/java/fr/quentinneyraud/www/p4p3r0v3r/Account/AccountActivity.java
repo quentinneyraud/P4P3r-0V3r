@@ -80,5 +80,6 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
     public void userAuthenticatedEvent(UserAuthenticatedEvent userAuthenticatedEvent) {
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }

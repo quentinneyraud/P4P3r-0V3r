@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     @Subscribe
     public void userConversationAdded(UserConversationAdded userConversationAdded) {
         Log.d(TAG, "receive UserConversationAdded event " + userConversationAdded.toString());
+        loader.hide();
         Conversation conversation = userConversationAdded.getConversation();
 
         if (currentConversationId == null) {
