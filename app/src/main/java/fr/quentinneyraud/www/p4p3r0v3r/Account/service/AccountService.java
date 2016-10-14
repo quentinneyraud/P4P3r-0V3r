@@ -53,9 +53,9 @@ public class AccountService {
                 .saveUser(this.getCurrentUser());
     }
 
-    public void getCurrentUserData() {
+    public void getCurrentUserData(String uid) {
         UserService.getInstance()
-                .getUser(this.getCurrentUser().getUid());
+                .getUser(uid);
     }
 
     public void listenCurrentUserConversations() {
@@ -88,7 +88,7 @@ public class AccountService {
     public void userAuthenticatedEvent(UserAuthenticatedEvent userAuthenticatedEvent) {
         Log.d(TAG, "receive UserAuthenticatedEvent : " + userAuthenticatedEvent.toString());
         AccountService.getInstance()
-            .getCurrentUserData();
+            .getCurrentUserData(userAuthenticatedEvent.getUid());
     }
 
     @Subscribe
