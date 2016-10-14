@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.squareup.otto.Subscribe;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     RecyclerView recyclerView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.loader)
+    AVLoadingIndicatorView loader;
 
     private ArrayList<Conversation> conversationArrayList = new ArrayList<>();
     private ConversatonItemAdapter conversatonItemAdapter;
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
         recyclerView.setAdapter(conversatonItemAdapter);
         // remove bounce effect
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+
+        loader.show();
     }
 
     private void initializeLayout() {

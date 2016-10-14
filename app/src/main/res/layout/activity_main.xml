@@ -62,5 +62,7 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
 
-
+    <include layout="@layout/loader_overlay"/>
 </android.support.v4.widget.DrawerLayout>
+
+
