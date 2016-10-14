@@ -6,37 +6,39 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    static final String TAG = "MainActivity";
-    ConversationFragment conversationListFragment;
+    private static final String TAG = "MainActivity";
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.menu_list)
-    ListView listView;
+    @BindView(R.id.fragment_conversation_item_list_recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
-    ArrayList<String> conversationListItems = new ArrayList<>();
-    ArrayAdapter<String> conversationListAdapter;
-    ArrayList<String> conversationUidArray = new ArrayList<>();
+    private ArrayList<Conversation> conversationArrayList;
+    private ConversatonItemAdapter conversatonItemAdapter;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,36 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+        this.initializeLayout();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        conversationArrayList = new ArrayList<>();
+
+        conversationArrayList.add(new Conversation("RSBJHSUHH"));
+        conversationArrayList.add(new Conversation("BYUGVGVCHJ"));
+        conversationArrayList.add(new Conversation("HVGHCTRD"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+        conversationArrayList.add(new Conversation("JHVYTFTY"));
+
+        conversatonItemAdapter = new ConversatonItemAdapter(conversationArrayList);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(conversatonItemAdapter);
+        // remove bounce effect
+        recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+    }
+
+    private void initializeLayout() {
         setSupportActionBar(toolbar);
-        ActionBar actionBar;
 
         actionBar = getSupportActionBar();
 
@@ -56,29 +84,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        conversationListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, conversationListItems);
-        listView.setAdapter(conversationListAdapter);
-
-        // test
-        for (int i = 0; i < 20 ; i++) {
-            this.addNewItemMenu(String.valueOf(i), "Item" + i);
-        }
-
-        listView.setOnItemClickListener(this);
+        drawerLayout.openDrawer(GravityCompat.START);
     }
 
     @Subscribe
     public void onUserConversationEvent(OnUserConversationsEvent onUserConversationsEvent) {
         if (onUserConversationsEvent.getEventType().equals("ADD") && onUserConversationsEvent.getSuccessful()) {
             Conversation conversation = onUserConversationsEvent.getConversation();
-            // addNewItemMenu(conversation.getUid(), "Name");
+            conversatonItemAdapter.addConversation(conversation);
         }
-    }
-
-    public void addNewItemMenu(String uid, String title) {
-        conversationListItems.add(title);
-        conversationUidArray.add(uid);
-        conversationListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -113,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        conversationUidArray.get(position);
-        Log.d("CLICK", "Click on id " + conversationUidArray.get(position));
+        //conversationUidArray.get(position);
+        //Log.d("CLICK", "Click on id " + conversationUidArray.get(position));
     }
 }
