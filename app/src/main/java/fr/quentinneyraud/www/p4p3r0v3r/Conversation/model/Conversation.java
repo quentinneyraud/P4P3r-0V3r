@@ -1,7 +1,10 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation.model;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.List;
 
+import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 
@@ -49,6 +52,21 @@ public class Conversation {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    @Exclude
+    public String getContactPseudo() {
+        String contactPseudo = "";
+        String currentUserId = AccountService.getInstance()
+                .getCurrentUser().getUid();
+
+        for (User user : this.getUsers()) {
+            if (!user.getUid().equals(currentUserId)) {
+                contactPseudo += " " + user.getPseudo();
+            }
+        }
+
+        return contactPseudo;
     }
 
     @Override

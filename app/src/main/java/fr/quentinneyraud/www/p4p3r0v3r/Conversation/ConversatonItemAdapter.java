@@ -41,20 +41,8 @@ public class ConversatonItemAdapter extends RecyclerView.Adapter<ConversatonItem
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Conversation conversation = conversationList.get(position);
 
-
-        // comma separated list of conversation users
-        String contactPseudo = "";
-        String currentUserId = AccountService.getInstance()
-                .getCurrentUser().getUid();
-
-        for (User user : conversation.getUsers()) {
-            if (!user.getUid().equals(currentUserId)) {
-                contactPseudo += " " + user.getPseudo();
-            }
-        }
-
         holder.setUid(conversation.getUid());
-        holder.getContactTextView().setText(contactPseudo);
+        holder.getContactTextView().setText(conversation.getContactPseudo());
     }
 
     public void addConversation(Conversation conversation) {
