@@ -1,5 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Account.service;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.otto.Subscribe;
 
@@ -22,6 +24,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 public class AccountService {
 
     private static AccountService instance;
+    private static final String TAG = "AccountService";
     private User user;
 
     private AccountService() {
@@ -45,29 +48,34 @@ public class AccountService {
     }
 
     public void saveCurrentUser() {
+        Log.d(TAG, "saveCurrentUser");
         UserService.getInstance()
                 .setUserData(this.getUser());
     }
 
     public void signIn(String email, String password) {
+        Log.d(TAG, "signIn with credentials : " + email + " " + password);
         FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnSignInDispatcher());
     }
 
     public void signUp(String email, String password) {
+        Log.d(TAG, "signUp with credentials : " + email + " " + password);
         FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnSignUpDispatcher());
     }
 
     public void listenAuthentication() {
+        Log.d(TAG, "listenAuthentication");
         FirebaseAuth.getInstance()
                 .addAuthStateListener(new OnAuthStateChangedDispatcher());
     }
 
     @Subscribe
     public void onAuthStateChanged(OnAuthStateChanged event) {
+        Log.d(TAG, " receive onAuthStateChangedEvent : " + event.toString());
         if (event.getConnected()) {
             UserService.getInstance()
                 .listenCurrentUserDataChange(event.getUid());
@@ -76,6 +84,7 @@ public class AccountService {
 
     @Subscribe
     public void onCurrentUserDataChange(OnCurrentUserDataChange onCurrentUserDataChange) {
+        Log.d(TAG, "receive onCurrentUserDataChange : " + onCurrentUserDataChange.toString());
         if (onCurrentUserDataChange.getSuccessful()) {
             AccountService.getInstance()
                 .setUser(onCurrentUserDataChange.getUser());
@@ -84,6 +93,7 @@ public class AccountService {
 
     @Subscribe
     public void onSignUpEvent(OnSignUpEvent onSignUpEvent) {
+        Log.d(TAG, "receive onSignUpEvent : " + onSignUpEvent);
         if(onSignUpEvent.getSuccessful()) {
             User user = new User(onSignUpEvent.getUid());
             user.setPseudo("quentin");

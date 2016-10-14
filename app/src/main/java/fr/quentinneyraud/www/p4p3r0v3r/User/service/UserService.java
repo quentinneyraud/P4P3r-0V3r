@@ -1,5 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r.User.service;
 
+import android.util.Log;
+
 import com.google.firebase.database.FirebaseDatabase;
 
 import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnCurrentUserDataChangedDispatcher;
@@ -15,6 +17,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 public class UserService {
 
     private static final String REFERENCE = "users";
+    private static final String TAG = "UserService";
 
     private static UserService instance;
 
@@ -31,6 +34,7 @@ public class UserService {
     }
 
     public void listenCurrentUserDataChange(String uid) {
+        Log.d(TAG, "listenCurrentUserDataChange on id : " + uid);
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(uid)
@@ -38,6 +42,7 @@ public class UserService {
     }
 
     public void setUserData(User user) {
+        Log.d(TAG, "setUserData with user " + user.toString());
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(user.getUid())
@@ -45,6 +50,7 @@ public class UserService {
     }
 
     public void listenUserConversation(String uid) {
+        Log.d(TAG, "listenUserConversation for user : " + uid);
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(uid)

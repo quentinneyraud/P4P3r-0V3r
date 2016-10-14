@@ -11,7 +11,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class ConversationService {
 
-    static final String TAG = "=== ConversationService ===";
+    private static final String TAG = "ConversationService";
 
     private static ConversationService instance;
     private ArrayList<Conversation> conversations;
@@ -31,40 +31,4 @@ public class ConversationService {
     public void getConversationByUid(String conversationUid) {
 
     }
-
-    /*public void getConversations() {
-        // Create reference to /users/<uid>/conversations
-        AccountService.getInstance().getUser().getConversations();
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("users").child(uid);
-
-        dbRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String conversation uid = dataSnapshot.getKey();
-                Conversation conversation = dataSnapshot.getValue(Conversation.class);
-
-                conversations.add(conversation);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        })
-    }*/
 }
