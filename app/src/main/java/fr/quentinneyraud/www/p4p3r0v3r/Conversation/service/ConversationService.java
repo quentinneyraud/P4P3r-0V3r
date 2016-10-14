@@ -1,7 +1,10 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation.service;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.eventDispatchers.ListenConversationsMessages;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
@@ -12,6 +15,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 public class ConversationService {
 
     private static final String TAG = "ConversationService";
+    private static final String REFERENCE = "conversations";
 
     private static ConversationService instance;
     private ArrayList<Conversation> conversations;
@@ -28,7 +32,10 @@ public class ConversationService {
         return instance;
     }
 
-    public void getConversationByUid(String conversationUid) {
-
+    public void listenConversationMessages(String conversationUid) {
+        FirebaseDatabase.getInstance()
+                .getReference(REFERENCE)
+                .child("messages")
+                .addChildEventListener(new ListenConversationsMessages(conversationUid));
     }
 }

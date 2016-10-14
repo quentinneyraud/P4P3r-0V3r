@@ -10,7 +10,9 @@ import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.SignInListener;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.SignUpListener;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.SignUpSuccessEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.UserAuthenticatedEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.GetUserSuccessEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
@@ -110,5 +112,13 @@ public class AccountService {
 
         AccountService.getInstance()
                 .saveCurrentUser();
+    }
+
+    @Subscribe
+    public void userConversationAdded(UserConversationAdded userConversationAdded) {
+        Log.d(TAG, "receive UserConversationAdded event : " + userConversationAdded.toString());
+
+        ConversationService.getInstance()
+                .listenConversationMessages(userConversationAdded.getConversation().getUid());
     }
 }
