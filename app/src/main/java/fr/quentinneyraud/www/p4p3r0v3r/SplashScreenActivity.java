@@ -14,7 +14,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static final int SPLASH_SCREEN_DISPLAY_MS = 10000;
+    private static final int SPLASH_SCREEN_DISPLAY_MS = 3000;
 
     Handler handler;
     Runnable runnable;
