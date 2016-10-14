@@ -10,4 +10,9 @@ public class UserUnauthenticatedEvent extends AbstractSuccessEvent {
 
     public UserUnauthenticatedEvent() {
     }
+
+    @Override
+    public String toString() {
+        return "UserUnauthenticatedEvent{}";
+    }
 }

@@ -15,4 +15,9 @@ public class SignUpErrorEvent extends AbstractErrorEvent {
     public SignUpErrorEvent(String errorMessage) {
         super(errorMessage);
     }
+
+    @Override
+    public String toString() {
+        return "SignUpErrorEvent{}";
+    }
 }

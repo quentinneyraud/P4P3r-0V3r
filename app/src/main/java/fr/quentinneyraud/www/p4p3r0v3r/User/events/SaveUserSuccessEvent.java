@@ -11,4 +11,9 @@ public class SaveUserSuccessEvent extends AbstractSuccessEvent {
     public SaveUserSuccessEvent() {
         super();
     }
+
+    @Override
+    public String toString() {
+        return "SaveUserSuccessEvent{}";
+    }
 }

@@ -15,4 +15,9 @@ public class GetUserCancelledEvent extends AbstractErrorEvent {
     public GetUserCancelledEvent(String errorMessage) {
         super(errorMessage);
     }
+
+    @Override
+    public String toString() {
+        return "GetUserCancelledEvent{}";
+    }
 }

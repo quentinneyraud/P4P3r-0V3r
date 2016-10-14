@@ -33,4 +33,12 @@ public class SignUpSuccessEvent {
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
+
+    @Override
+    public String toString() {
+        return "SignUpSuccessEvent{" +
+                "uid='" + uid + '\'' +
+                ", pseudo='" + pseudo + '\'' +
+                '}';
+    }
 }

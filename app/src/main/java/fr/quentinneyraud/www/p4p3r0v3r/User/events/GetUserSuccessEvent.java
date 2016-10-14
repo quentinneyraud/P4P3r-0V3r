@@ -26,4 +26,11 @@ public class GetUserSuccessEvent extends AbstractSuccessEvent {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "GetUserSuccessEvent{" +
+                "user=" + user +
+                '}';
+    }
 }

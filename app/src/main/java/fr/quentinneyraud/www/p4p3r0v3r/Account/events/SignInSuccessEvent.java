@@ -9,4 +9,9 @@ public class SignInSuccessEvent {
     public SignInSuccessEvent() {
         super();
     }
+
+    @Override
+    public String toString() {
+        return "SignInSuccessEvent{}";
+    }
 }

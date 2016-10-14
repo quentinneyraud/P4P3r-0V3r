@@ -15,4 +15,9 @@ public class SignInErrorEvent extends AbstractErrorEvent {
     public SignInErrorEvent(String errorMessage) {
         super(errorMessage);
     }
+
+    @Override
+    public String toString() {
+        return "SignInErrorEvent{}";
+    }
 }

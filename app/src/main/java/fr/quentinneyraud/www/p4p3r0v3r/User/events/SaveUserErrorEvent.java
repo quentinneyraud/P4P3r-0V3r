@@ -15,4 +15,9 @@ public class SaveUserErrorEvent extends AbstractErrorEvent {
     public SaveUserErrorEvent(String errorMessage) {
         super(errorMessage);
     }
+
+    @Override
+    public String toString() {
+        return "SaveUserErrorEvent{}";
+    }
 }
