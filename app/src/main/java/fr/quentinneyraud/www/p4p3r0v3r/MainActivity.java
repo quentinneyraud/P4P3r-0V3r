@@ -13,21 +13,16 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
-import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
-import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
-import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
+import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -77,13 +72,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Subscribe
-    public void onUserConversationEvent(OnUserConversationsEvent onUserConversationsEvent) {
-        Log.d(TAG, "receive conversation event " + onUserConversationsEvent.toString());
-        if (onUserConversationsEvent.getEventType().equals("ADD") && onUserConversationsEvent.getSuccessful()) {
-            Conversation conversation = onUserConversationsEvent.getConversation();
-            conversatonItemAdapter.addConversation(conversation);
-            conversatonItemAdapter.notifyItemInserted(conversatonItemAdapter.getItemCount() - 1);
-        }
+    public void userConversationAdded(UserConversationAdded userConversationAdded) {
+        Log.d(TAG, "receive UserConversationAdded event " + userConversationAdded.toString());
+        Conversation conversation = userConversationAdded.getConversation();
+        conversatonItemAdapter.addConversation(conversation);
+        conversatonItemAdapter.notifyItemInserted(conversatonItemAdapter.getItemCount() - 1);
     }
 
     @Override
