@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
 
     public void showConversation(String conversationUid) {
         Log.d(TAG, "show conversation : " + conversationUid);
+
         currentConversationId = conversationUid;
         drawerLayout.closeDrawer(GravityCompat.START);
         conversationFragment.setConversationUid(conversationUid);
@@ -129,5 +130,10 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     @Subscribe
     public void messageAdded(MessageAdded messageAdded) {
         Log.d(TAG, "new message : " + messageAdded.getMessage().toString());
+        if (messageAdded.getConversationUid().equals(currentConversationId)) {
+            // pass to fragment
+        } else {
+            // show notification on conversation list
+        }
     }
 }

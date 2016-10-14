@@ -22,6 +22,7 @@ public class ConversationFragment extends Fragment {
     }
 
     public void setConversationUid(String conversationUid) {
+        // vider l'adapteur
         Log.d("IN conversation frag", "getting new conversation uid " + conversationUid);
     }
 
