@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,9 +22,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.OnUserConversationsEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
+import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -36,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    private ArrayList<Conversation> conversationArrayList;
+    private ArrayList<Conversation> conversationArrayList = new ArrayList<>();
     private ConversatonItemAdapter conversatonItemAdapter;
     private ActionBar actionBar;
 
@@ -45,26 +50,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        BusProvider.getInstance()
+                .register(this);
         ButterKnife.bind(this);
         this.initializeLayout();
-
-        conversationArrayList = new ArrayList<>();
-
-        conversationArrayList.add(new Conversation("RSBJHSUHH"));
-        conversationArrayList.add(new Conversation("BYUGVGVCHJ"));
-        conversationArrayList.add(new Conversation("HVGHCTRD"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
-        conversationArrayList.add(new Conversation("JHVYTFTY"));
 
         conversatonItemAdapter = new ConversatonItemAdapter(conversationArrayList);
 
@@ -89,9 +78,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Subscribe
     public void onUserConversationEvent(OnUserConversationsEvent onUserConversationsEvent) {
+        Log.d(TAG, "receive conversation event " + onUserConversationsEvent.toString());
         if (onUserConversationsEvent.getEventType().equals("ADD") && onUserConversationsEvent.getSuccessful()) {
             Conversation conversation = onUserConversationsEvent.getConversation();
             conversatonItemAdapter.addConversation(conversation);
+            conversatonItemAdapter.notifyItemInserted(conversatonItemAdapter.getItemCount() - 1);
         }
     }
 

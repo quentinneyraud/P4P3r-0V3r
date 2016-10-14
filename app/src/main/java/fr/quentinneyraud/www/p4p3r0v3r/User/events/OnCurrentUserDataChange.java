@@ -52,4 +52,13 @@ public class OnCurrentUserDataChange {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
+
+    @Override
+    public String toString() {
+        return "OnCurrentUserDataChange{" +
+                "isSuccessful=" + isSuccessful +
+                ", user=" + user +
+                ", errorMessage='" + errorMessage + '\'' +
+                '}';
+    }
 }

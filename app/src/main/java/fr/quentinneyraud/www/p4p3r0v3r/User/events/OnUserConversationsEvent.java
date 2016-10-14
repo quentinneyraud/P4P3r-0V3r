@@ -51,4 +51,14 @@ public class OnUserConversationsEvent {
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
     }
+
+    @Override
+    public String toString() {
+        return "OnUserConversationsEvent{" +
+                "isSuccessful=" + isSuccessful +
+                ", errorMessage='" + errorMessage + '\'' +
+                ", eventType='" + eventType + '\'' +
+                ", conversation=" + conversation +
+                '}';
+    }
 }

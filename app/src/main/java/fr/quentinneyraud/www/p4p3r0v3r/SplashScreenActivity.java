@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.squareup.otto.Subscribe;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Account.AccountActivity;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.events.OnAuthStateChanged;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.events.UserAuthenticatedEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
@@ -25,7 +25,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         BusProvider.getInstance().register(this);
 
-        AccountService.getInstance().listenAuthentication();
+        AccountService.getInstance().listenAuthState();
 
         handler = new android.os.Handler();
         runnable = new Runnable() {
@@ -47,11 +47,9 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onAuthStateChanged(OnAuthStateChanged event) {
-        if (event.getConnected()) {
-            handler.removeCallbacks(runnable);
-            Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
+    public void userAuthenticatedEvent(UserAuthenticatedEvent userAuthenticatedEvent) {
+        handler.removeCallbacks(runnable);
+        Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
