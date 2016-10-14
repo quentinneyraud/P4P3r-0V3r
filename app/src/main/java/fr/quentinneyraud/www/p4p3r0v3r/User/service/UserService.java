@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnCurrentUserDataChangedDispatcher;
-import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnSetUSerDataDispatcher;
-import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.OnUserConversationsEventDispatcher;
+import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.getUserListener;
+import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.saveUserListener;
+import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.ListenUserConversationsChildListener;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
@@ -33,28 +33,28 @@ public class UserService {
         return instance;
     }
 
-    public void listenCurrentUserDataChange(String uid) {
-        Log.d(TAG, "listenCurrentUserDataChange on id : " + uid);
+    public void getUser(String uid) {
+        Log.d(TAG, "getUser on id : " + uid);
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(uid)
-                .addListenerForSingleValueEvent(new OnCurrentUserDataChangedDispatcher());
+                .addListenerForSingleValueEvent(new getUserListener());
     }
 
-    public void setUserData(User user) {
-        Log.d(TAG, "setUserData with user " + user.toString());
+    public void saveUser(User user) {
+        Log.d(TAG, "saveUser with user " + user.toString());
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(user.getUid())
-                .setValue(user, new OnSetUSerDataDispatcher());
+                .setValue(user, new saveUserListener());
     }
 
-    public void listenUserConversation(String uid) {
+    public void listenUserConversations(String uid) {
         Log.d(TAG, "listenUserConversation for user : " + uid);
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(uid)
                 .child("conversationsUid")
-                .addChildEventListener(new OnUserConversationsEventDispatcher());
+                .addChildEventListener(new ListenUserConversationsChildListener());
     }
 }

@@ -8,11 +8,11 @@ public abstract class AbstractErrorEvent {
 
     protected String errorMessage;
 
-    public AbstractErrorEvent() {
+    protected AbstractErrorEvent() {
         this.errorMessage = "";
     }
 
-    public AbstractErrorEvent(String errorMessage) {
+    protected AbstractErrorEvent(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 

@@ -14,9 +14,9 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
  * Created by quentin on 13/10/2016.
  */
 
-public class SignInCompleteListener implements OnCompleteListener<AuthResult> {
+public class SignInListener implements OnCompleteListener<AuthResult> {
 
-    public SignInCompleteListener() {
+    public SignInListener() {
     }
 
     @Override

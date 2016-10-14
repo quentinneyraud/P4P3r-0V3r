@@ -14,14 +14,14 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
  * Created by quentin on 13/10/2016.
  */
 
-public class SignUpCompleteListener implements OnCompleteListener<AuthResult> {
+public class SignUpListener implements OnCompleteListener<AuthResult> {
 
     private String pseudo;
 
-    public SignUpCompleteListener() {
+    public SignUpListener() {
     }
 
-    public SignUpCompleteListener(String pseudo) {
+    public SignUpListener(String pseudo) {
         this.pseudo = pseudo;
     }
 

@@ -16,11 +16,11 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
  * Created by quentin on 13/10/2016.
  */
 
-public class OnUserConversationsEventDispatcher implements ChildEventListener {
+public class ListenUserConversationsChildListener implements ChildEventListener {
 
     private OnUserConversationsEvent onUserConversationEvent;
 
-    public OnUserConversationsEventDispatcher() {
+    public ListenUserConversationsChildListener() {
     }
 
     @Override
