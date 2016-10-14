@@ -12,7 +12,6 @@ public class Conversation {
 
     private String uid;
     private List<Message> messages;
-    private String test;
 
     public Conversation() {
     }
@@ -41,15 +40,7 @@ public class Conversation {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
-
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
-
+    
     @Override
     public String toString() {
         return "Conversation{" +
