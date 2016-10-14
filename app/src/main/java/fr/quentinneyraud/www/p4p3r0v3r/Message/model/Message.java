@@ -1,4 +1,4 @@
-package fr.quentinneyraud.www.p4p3r0v3r.Message;
+package fr.quentinneyraud.www.p4p3r0v3r.Message.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

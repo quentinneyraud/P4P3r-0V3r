@@ -2,7 +2,7 @@ package fr.quentinneyraud.www.p4p3r0v3r.Conversation.model;
 
 import java.util.List;
 
-import fr.quentinneyraud.www.p4p3r0v3r.Message.Message;
+import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 
 /**
  * Created by quentin on 11/10/2016.

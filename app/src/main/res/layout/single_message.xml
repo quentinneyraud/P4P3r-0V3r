@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_message"
+        android:layout_weight="0.06"
+        android:fontFamily="sans-serif"
+        android:background="?attr/colorAccent"
+        android:textColor="@color/common_google_signin_btn_text_light_pressed"
+        android:layout_margin="15dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp" />
+</LinearLayout>
