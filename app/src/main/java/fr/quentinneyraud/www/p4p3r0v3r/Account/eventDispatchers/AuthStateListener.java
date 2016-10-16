@@ -27,7 +27,6 @@ public class AuthStateListener implements FirebaseAuth.AuthStateListener {
 
         if (user != null) {
             if (FLAG) {
-                Log.d("TAGGGG", user.getUid());
                 BusProvider.getInstance()
                         .post(new UserAuthenticatedEvent(user.getUid()));
                 FLAG = false;

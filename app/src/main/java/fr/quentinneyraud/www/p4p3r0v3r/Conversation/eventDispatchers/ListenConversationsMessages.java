@@ -1,5 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation.eventDispatchers;
 
+import android.util.Log;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

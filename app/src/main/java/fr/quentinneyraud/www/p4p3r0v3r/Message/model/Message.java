@@ -15,16 +15,16 @@ public class Message {
     private String uid;
     private String message;
     private String userUid;
-    private Date timestamp;
+    private String createdAt;
 
     public Message() {
     }
 
-    public Message(String uid, String message, String userUid, Date timestamp) {
+    public Message(String uid, String message, String userUid, String timestamp) {
         this.uid = uid;
         this.message = message;
         this.userUid = userUid;
-        this.timestamp = timestamp;
+        this.createdAt = timestamp;
     }
 
     public static String getTAG() {
@@ -55,19 +55,29 @@ public class Message {
         this.userUid = userUid;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(String timestamp) {
+        this.createdAt = timestamp;
     }
 
     public String getFormattedDate(String format){
-        return new SimpleDateFormat(format, Locale.FRANCE).format(this.getTimestamp());
+        return new SimpleDateFormat(format, Locale.FRANCE).format(this.getCreatedAt());
     }
 
     public String getFormattedDate(){
-        return new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(this.getTimestamp());
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(this.getCreatedAt());
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "uid='" + uid + '\'' +
+                ", message='" + message + '\'' +
+                ", userUid='" + userUid + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                '}';
     }
 }

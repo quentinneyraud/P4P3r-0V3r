@@ -1,5 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers;
 
+import android.util.Log;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,10 +23,11 @@ public class ListenUserConversationsChildListener implements ChildEventListener 
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        final String conversationUid = dataSnapshot.getValue().toString();
 
         FirebaseDatabase.getInstance()
                 .getReference("conversations")
-                .child(dataSnapshot.getValue().toString())
+                .child(conversationUid)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

@@ -17,6 +17,7 @@ public class MessageAdded extends AbstractSuccessEvent {
 
     public MessageAdded(String conversationUid, Message message) {
         this.conversationUid = conversationUid;
+        this.message = message;
     }
 
     public String getConversationUid() {
@@ -33,5 +34,13 @@ public class MessageAdded extends AbstractSuccessEvent {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageAdded{" +
+                "conversationUid='" + conversationUid + '\'' +
+                ", message=" + message +
+                '}';
     }
 }

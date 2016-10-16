@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 
 import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.fragment_conversation_item_list_recycler_view)
-    RecyclerView recyclerView;
+    RecyclerView conversationListRecyclerView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.loader)
@@ -62,10 +61,10 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
         conversatonItemAdapter = new ConversatonItemAdapter(conversationArrayList);
         conversatonItemAdapter.setConversationItemListener(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(conversatonItemAdapter);
+        conversationListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        conversationListRecyclerView.setAdapter(conversatonItemAdapter);
         // remove bounce effect
-        recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        conversationListRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         loader.show();
     }
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
 
     @Subscribe
     public void userConversationAdded(UserConversationAdded userConversationAdded) {
-        Log.d(TAG, "receive UserConversationAdded event " + userConversationAdded.toString());
         loader.hide();
         Conversation conversation = userConversationAdded.getConversation();
 
@@ -126,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     }
 
     public void showConversation(String conversationUid) {
-        Log.d(TAG, "show conversation : " + conversationUid);
 
         currentConversationId = conversationUid;
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -135,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
 
     @Subscribe
     public void messageAdded(MessageAdded messageAdded) {
-        Log.d(TAG, "new message : " + messageAdded.getMessage().toString());
         if (messageAdded.getConversationUid().equals(currentConversationId)) {
             // pass to fragment
         } else {

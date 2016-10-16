@@ -48,7 +48,6 @@ public class AccountService {
     }
 
     public void saveCurrentUser() {
-        Log.d(TAG, "saveCurrentUser");
         UserService.getInstance()
                 .saveUser(this.getCurrentUser());
     }
@@ -59,41 +58,35 @@ public class AccountService {
     }
 
     public void listenCurrentUserConversations() {
-        Log.d(TAG, "listenCurrentUserConversations");
         UserService.getInstance()
                 .listenUserConversations(this.getCurrentUser().getUid());
     }
 
     public void signIn(String email, String password) {
-        Log.d(TAG, "signIn with credentials : " + email + " " + password);
         FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new SignInListener());
     }
 
     public void signUp(String email, String password, String pseudo) {
-        Log.d(TAG, "signUp with credentials : " + email + " " + password);
         FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new SignUpListener(pseudo));
     }
 
     public void listenAuthState() {
-        Log.d(TAG, "listenAuthState");
         FirebaseAuth.getInstance()
                 .addAuthStateListener(new AuthStateListener());
     }
 
     @Subscribe
     public void userAuthenticatedEvent(UserAuthenticatedEvent userAuthenticatedEvent) {
-        Log.d(TAG, "receive UserAuthenticatedEvent : " + userAuthenticatedEvent.toString());
         AccountService.getInstance()
             .getCurrentUserData(userAuthenticatedEvent.getUid());
     }
 
     @Subscribe
     public void getUserSuccessEvent(GetUserSuccessEvent getUserSuccessEvent) {
-        Log.d(TAG, "receive GetUserSuccessEvent : " + getUserSuccessEvent.toString());
         AccountService.getInstance()
             .setCurrentUser(getUserSuccessEvent.getUser());
         AccountService.getInstance()
@@ -102,8 +95,6 @@ public class AccountService {
 
     @Subscribe
     public void signUpSuccessEvent(SignUpSuccessEvent signUpSuccessEvent) {
-        Log.d(TAG, "receive SignUpSuccessEvent : " + signUpSuccessEvent);
-
         User user = new User(signUpSuccessEvent.getUid());
         user.setPseudo(signUpSuccessEvent.getPseudo());
 
@@ -116,8 +107,6 @@ public class AccountService {
 
     @Subscribe
     public void userConversationAdded(UserConversationAdded userConversationAdded) {
-        Log.d(TAG, "receive UserConversationAdded event : " + userConversationAdded.toString());
-
         ConversationService.getInstance()
                 .listenConversationMessages(userConversationAdded.getConversation().getUid());
     }

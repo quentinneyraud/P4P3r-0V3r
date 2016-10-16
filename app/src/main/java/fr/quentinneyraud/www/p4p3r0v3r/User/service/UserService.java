@@ -34,7 +34,6 @@ public class UserService {
     }
 
     public void getUser(String uid) {
-        Log.d(TAG, "getUser on id : " + uid);
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(uid)
@@ -42,7 +41,6 @@ public class UserService {
     }
 
     public void saveUser(User user) {
-        Log.d(TAG, "saveUser with user " + user.toString());
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(user.getUid())
@@ -50,7 +48,6 @@ public class UserService {
     }
 
     public void listenUserConversations(String uid) {
-        Log.d(TAG, "listenUserConversation for user : " + uid);
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(uid)
