@@ -24,6 +24,8 @@ import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
+import fr.quentinneyraud.www.p4p3r0v3r.Message.MessageAdapter;
+import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
@@ -40,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     @BindView(R.id.loader)
     AVLoadingIndicatorView loader;
 
-    private ArrayList<Conversation> conversationArrayList = new ArrayList<>();
     private ConversatonItemAdapter conversatonItemAdapter;
     private ActionBar actionBar;
     private String currentConversationId = null;
@@ -56,9 +57,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
         ButterKnife.bind(this);
         this.initializeLayout();
 
-        conversationFragment = new ConversationFragment();
-
-        conversatonItemAdapter = new ConversatonItemAdapter(conversationArrayList);
+        conversatonItemAdapter = new ConversatonItemAdapter(new ArrayList<Conversation>());
         conversatonItemAdapter.setConversationItemListener(this);
 
         conversationListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -124,18 +123,19 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     }
 
     public void showConversation(String conversationUid) {
+        Log.d("TAGG", "show conversation");
 
+        // save current conversationUid
         currentConversationId = conversationUid;
-        drawerLayout.closeDrawer(GravityCompat.START);
-        conversationFragment.setConversationUid(conversationUid);
-    }
 
-    @Subscribe
-    public void messageAdded(MessageAdded messageAdded) {
-        if (messageAdded.getConversationUid().equals(currentConversationId)) {
-            // pass to fragment
-        } else {
-            // show notification on conversation list
-        }
+        // replace Fragment
+        conversationFragment = new ConversationFragment();
+        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.conversation_container, conversationFragment);
+        ft.commit();
+
+        // close nav
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 }
