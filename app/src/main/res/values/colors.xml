@@ -5,4 +5,6 @@
     <color name="colorAccent">#ff4081</color>
     <color name="primary_material_dark_1">#171a2e</color>
     <color name="grey">#282828</color>
+    <color name="dark_blue_opacity">#e3171a2e</color>
+    <color name="dark_grey">#90000000</color>
 </resources>

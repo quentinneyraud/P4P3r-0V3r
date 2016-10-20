@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-   /** @BindView(R.id.loader)
-    AVLoadingIndicatorView loader; **/
+    @BindView(R.id.loader)
+    AVLoadingIndicatorView loader;
     @BindView(R.id.search_bar_menu)
     TextView search_bar_menu;
 
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
         // remove bounce effect
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-      //  loader.show();
+        loader.show();
     }
 
     private void initializeLayout() {
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     @Subscribe
     public void userConversationAdded(UserConversationAdded userConversationAdded) {
         Log.d(TAG, "receive UserConversationAdded event " + userConversationAdded.toString());
-    //    loader.hide();
+        loader.hide();
         Conversation conversation = userConversationAdded.getConversation();
 
         if (currentConversationId == null) {
@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch (id) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
@@ -132,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
 
     @Override
     public void onClick(View v, String uid) {
+        Log.d(TAG, "on click");
         showConversation(uid);
     }
 
@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
 
     @OnClick(R.id.search_bar_menu)
     public void onSearchMenuClick() {
+        Log.d(TAG, "click on search bar");
         Intent i = new Intent(this, SearchActivity.class);
         startActivity(i);
     }
