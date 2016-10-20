@@ -1,5 +1,6 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -21,10 +24,13 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
+import fr.quentinneyraud.www.p4p3r0v3r.Search.SearchActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
@@ -38,8 +44,12 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     RecyclerView recyclerView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.loader)
-    AVLoadingIndicatorView loader;
+
+   /** @BindView(R.id.loader)
+    AVLoadingIndicatorView loader; **/
+    @BindView(R.id.search_bar_menu)
+    TextView search_bar_menu;
+
 
     private ArrayList<Conversation> conversationArrayList = new ArrayList<>();
     private ConversatonItemAdapter conversatonItemAdapter;
@@ -67,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
         // remove bounce effect
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        loader.show();
+      //  loader.show();
     }
 
     private void initializeLayout() {
@@ -86,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     @Subscribe
     public void userConversationAdded(UserConversationAdded userConversationAdded) {
         Log.d(TAG, "receive UserConversationAdded event " + userConversationAdded.toString());
-        loader.hide();
+    //    loader.hide();
         Conversation conversation = userConversationAdded.getConversation();
 
         if (currentConversationId == null) {
@@ -142,4 +152,11 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
             // show notification on conversation list
         }
     }
+
+    @OnClick(R.id.search_bar_menu)
+    public void onSearchMenuClick() {
+        Intent i = new Intent(this, SearchActivity.class);
+        startActivity(i);
+    }
+
 }

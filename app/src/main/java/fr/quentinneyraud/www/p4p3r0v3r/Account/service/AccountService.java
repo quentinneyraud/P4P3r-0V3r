@@ -88,14 +88,14 @@ public class AccountService {
     public void userAuthenticatedEvent(UserAuthenticatedEvent userAuthenticatedEvent) {
         Log.d(TAG, "receive UserAuthenticatedEvent : " + userAuthenticatedEvent.toString());
         AccountService.getInstance()
-            .getCurrentUserData(userAuthenticatedEvent.getUid());
+                .getCurrentUserData(userAuthenticatedEvent.getUid());
     }
 
     @Subscribe
     public void getUserSuccessEvent(GetUserSuccessEvent getUserSuccessEvent) {
         Log.d(TAG, "receive GetUserSuccessEvent : " + getUserSuccessEvent.toString());
         AccountService.getInstance()
-            .setCurrentUser(getUserSuccessEvent.getUser());
+                .setCurrentUser(getUserSuccessEvent.getUser());
         AccountService.getInstance()
                 .listenCurrentUserConversations();
     }

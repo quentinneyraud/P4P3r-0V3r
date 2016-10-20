@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
@@ -19,6 +20,8 @@ import fr.quentinneyraud.www.p4p3r0v3r.R;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class AccountActivity extends AppCompatActivity implements SignInFragment.SignInFragmentListener, SignUpFragment.SignUpFragmentListener {
+
+    static final String TAG = "AccountActivity";
 
     private SignInFragment signInFragment;
     private SignUpFragment signUpFragment;
@@ -78,6 +81,7 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
 
     @Subscribe
     public void userAuthenticatedEvent(UserAuthenticatedEvent userAuthenticatedEvent) {
+        Log.d(TAG, "userAuthenticated");
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(intent);
         finish();
