@@ -1,8 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="#EEEEEE">
+
+    <android.support.v7.widget.RecyclerView
     android:id="@+id/fragment_conversation_recycler_view"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_gravity="bottom"
+    android:layout_marginBottom="60dp"/>
 
-</android.support.v7.widget.RecyclerView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:textColor="#2D2D2D"
+            android:padding="10dp"
+            android:lines="5"
+            android:textColorHint="#888888"
+            android:background="@android:color/transparent"
+            android:hint="Votre message"/>
+
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_conversation"
+            android:layout_gravity="end"
+            android:contentDescription="test"/>
+    </FrameLayout>
+
+</FrameLayout>

@@ -34,13 +34,10 @@ public class ConversationFragment extends Fragment {
     @BindView(R.id.fragment_conversation_recycler_view)
     RecyclerView messageListRecyclerView;
     MessageAdapter messageAdapter;
+    String conversationUid;
 
     public ConversationFragment() {
         // Required empty public constructor
-    }
-
-    public ConversationFragment getInstance () {
-
     }
 
     @Override
@@ -50,8 +47,11 @@ public class ConversationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_conversation, container, false);
         ButterKnife.bind(this, view);
         BusProvider.getInstance().register(this);
+
         messageAdapter = new MessageAdapter(new ArrayList<Message>());
-        messageListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
+        linearLayoutManager.setStackFromEnd(true);
+        messageListRecyclerView.setLayoutManager(linearLayoutManager);
         messageListRecyclerView.setAdapter(messageAdapter);
 
         return view;
@@ -60,6 +60,10 @@ public class ConversationFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        Bundle args = getArguments();
+        if (args  != null && args.containsKey("conversation_uid"))
+            conversationUid = args.getString("conversation_uid");
 
         ConversationService.getInstance()
                 .listenConversationMessages(conversationUid);
@@ -72,6 +76,8 @@ public class ConversationFragment extends Fragment {
         //if (messageAdded.getConversationUid().equals(currentConversationId)) {
             // pass to fragment
             messageAdapter.addMessage(messageAdded.getMessage());
+        Log.d("conv frag", "notify inserted : " + String.valueOf(messageAdapter.getItemCount() - 1));
+        messageAdapter.notifyDataSetChanged();
         //} else {
             // show notification on conversation list
         //}

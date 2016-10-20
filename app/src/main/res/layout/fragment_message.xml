@@ -1,14 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="fr.quentinneyraud.www.p4p3r0v3r.Message.fragments.MessageFragment">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginStart="20dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/fragment_message_text"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:id="@+id/fragment_message_author"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#2D2D2D"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="quentin"/>
 
+        <TextView
+            android:id="@+id/fragment_message_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#AAAAAA"
+            android:textStyle="italic"
+            android:text="21:56"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/fragment_message_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#2D2D2D"/>
 </FrameLayout>

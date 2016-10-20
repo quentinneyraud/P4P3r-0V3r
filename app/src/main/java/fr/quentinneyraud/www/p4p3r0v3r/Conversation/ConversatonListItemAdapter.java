@@ -1,7 +1,6 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +8,14 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
-import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 
 import java.util.List;
 
-public class ConversatonItemAdapter extends RecyclerView.Adapter<ConversatonItemAdapter.ViewHolder> {
+public class ConversatonListItemAdapter extends RecyclerView.Adapter<ConversatonListItemAdapter.ViewHolder> {
 
-    private static final String TAG = "ConversatonItemAdapter";
+    private static final String TAG = "ConversatonListItemAdapter";
     private List<Conversation> conversationList;
     private ConversationItemListener conversationItemListener;
 
@@ -26,7 +23,7 @@ public class ConversatonItemAdapter extends RecyclerView.Adapter<ConversatonItem
         this.conversationItemListener = conversationItemListener;
     }
 
-    public ConversatonItemAdapter(List<Conversation> conversations) {
+    public ConversatonListItemAdapter(List<Conversation> conversations) {
         conversationList = conversations;
     }
 

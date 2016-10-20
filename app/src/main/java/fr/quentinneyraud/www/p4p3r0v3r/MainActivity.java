@@ -20,16 +20,13 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonItemAdapter;
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonListItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
-import fr.quentinneyraud.www.p4p3r0v3r.Message.MessageAdapter;
-import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
-public class MainActivity extends AppCompatActivity implements ConversatonItemAdapter.ConversationItemListener {
+public class MainActivity extends AppCompatActivity implements ConversatonListItemAdapter.ConversationItemListener {
 
     private static final String TAG = "MainActivity";
 
@@ -42,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     @BindView(R.id.loader)
     AVLoadingIndicatorView loader;
 
-    private ConversatonItemAdapter conversatonItemAdapter;
+    private ConversatonListItemAdapter conversatonListItemAdapter;
     private ActionBar actionBar;
     private String currentConversationId = null;
     private ConversationFragment conversationFragment;
@@ -57,11 +54,11 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
         ButterKnife.bind(this);
         this.initializeLayout();
 
-        conversatonItemAdapter = new ConversatonItemAdapter(new ArrayList<Conversation>());
-        conversatonItemAdapter.setConversationItemListener(this);
+        conversatonListItemAdapter = new ConversatonListItemAdapter(new ArrayList<Conversation>());
+        conversatonListItemAdapter.setConversationItemListener(this);
 
         conversationListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        conversationListRecyclerView.setAdapter(conversatonItemAdapter);
+        conversationListRecyclerView.setAdapter(conversatonListItemAdapter);
         // remove bounce effect
         conversationListRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
@@ -90,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
             showConversation(conversation.getUid());
         }
 
-        conversatonItemAdapter.addConversation(conversation);
-        conversatonItemAdapter.notifyItemInserted(conversatonItemAdapter.getItemCount() - 1);
+        conversatonListItemAdapter.addConversation(conversation);
+        conversatonListItemAdapter.notifyItemInserted(conversatonListItemAdapter.getItemCount() - 1);
     }
 
     @Override
@@ -109,14 +106,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void changeFragment(Fragment fragment) {
-        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.conversation_container, fragment);
-        ft.commit();
-    }
-
     @Override
     public void onClick(View v, String uid) {
         showConversation(uid);
@@ -130,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
 
         // replace Fragment
         conversationFragment = new ConversationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("conversation_uid", conversationUid);
+        conversationFragment.setArguments(bundle);
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.conversation_container, conversationFragment);

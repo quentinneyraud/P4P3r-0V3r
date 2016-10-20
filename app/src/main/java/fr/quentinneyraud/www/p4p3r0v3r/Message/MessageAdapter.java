@@ -41,14 +41,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        Log.d(TAG, "messageList : " + position);
         Message message = messageList.get(position);
-
+        Log.d(TAG, "set text : " + message.getMessage());
         holder.getTextTextView().setText(message.getMessage());
     }
 
     public void addMessage(Message message) {
         messageList.add(message);
-        Log.d("message list", messageList.toString());
     }
 
     @Override
@@ -67,6 +67,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public ViewHolder(View view) {
             super(view);
+            view.setForegroundGravity(View.FOCUS_RIGHT);
             ButterKnife.bind(this, view);
         }
     }
