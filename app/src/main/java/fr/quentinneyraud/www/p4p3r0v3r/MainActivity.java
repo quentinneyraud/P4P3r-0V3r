@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonItemAd
     RecyclerView recyclerView;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.loader)
     AVLoadingIndicatorView loader;
     @BindView(R.id.search_bar_menu)
