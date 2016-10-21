@@ -102,8 +102,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
     @Subscribe
     public void messageAdded(MessageAdded messageAdded) {
         Log.d(TAG, "message added : " + messageAdded.toString());
-
-
     }
 
     @Override

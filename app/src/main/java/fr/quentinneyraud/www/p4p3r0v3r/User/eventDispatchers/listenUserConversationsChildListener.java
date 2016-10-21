@@ -35,8 +35,6 @@ public class ListenUserConversationsChildListener implements ChildEventListener 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Conversation conversation = dataSnapshot.getValue(Conversation.class);
-                        // we listen to messages after
-                        conversation.setMessages(new HashMap<String, Message>());
 
                         ConversationList.getInstance()
                                 .addConversation(conversation);

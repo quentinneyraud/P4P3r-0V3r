@@ -1,5 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation.model;
 
+import android.util.Log;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
@@ -56,7 +58,10 @@ public class Conversation {
     }
 
     public void pushMessage(Message message) {
+        Log.d("COnversation", "push message, current messages length : " + this.messages.size());
+        Log.d("COnversation", "push message : " + message.toString());
         this.messages.put(message.getUid(), message);
+        Log.d("COnversation", "push message, after push messages length : " + this.messages.size());
     }
 
     @Exclude

@@ -14,6 +14,8 @@ import android.widget.EditText;
 
 import com.squareup.otto.Subscribe;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,6 +24,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.MessageAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
+import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 /**
@@ -52,8 +55,9 @@ public class ConversationFragment extends Fragment {
 
         // Get conversation & pass informations to adapter
         Conversation conversation = ConversationList.getInstance().getConversationByUid(conversationUid);
-        messageAdapter = new MessageAdapter(conversation.getMessages());
-        //messageAdapter.setUsers(conversation.getUsers());
+
+        // pass all conversation (passed by reference)
+        messageAdapter = new MessageAdapter(conversation);
 
         // Link adapter & Layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -83,7 +87,7 @@ public class ConversationFragment extends Fragment {
     public void messageAdded(MessageAdded messageAdded) {
         // Check message added conversation uid & show if it is in current conversation
         if (messageAdded.getConversationUid().equals(conversationUid)) {
-            messageAdapter.addMessage(messageAdded.getMessage());
+            messageAdapter.addMessage(messageAdded.getMessage()); // pas sûr
             messageAdapter.notifyItemInserted(messageAdapter.getItemCount() - 1);
         }
     }

@@ -9,11 +9,13 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
@@ -21,18 +23,13 @@ import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
     private static final String TAG = "MessageAdapter";
-    private List<Message> messageList;
-    private HashMap<String, String> userList = new HashMap<>();
+    private List<Message> messageList; // we need position
+    private HashMap<String, User> userList = new HashMap<>();
     private String lastUserUid = "";
 
-    public MessageAdapter(List<Message> messages) {
-        messageList = messages;
-    }
-
-    public void setUsers(List<User> users) {
-        for(User user : users) {
-            userList.put(user.getUid(), user.getPseudo());
-        }
+    public MessageAdapter(Conversation conversation) {
+        messageList = new ArrayList<>(conversation.getMessages().values());
+        userList = conversation.getUsers();
     }
 
     @Override
@@ -54,7 +51,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.getTextTextView().setLayoutParams(linearLayoutParams);
         } else {
             holder.getTimeTextView().setText(message.getFormattedDate("HH:mm"));
-            holder.getAuthorTextView().setText(userList.get(message.getUserUid()));
+            holder.getAuthorTextView().setText(userList.get(message.getUserUid()).getPseudo());
         }
 
         holder.getTextTextView().setText(message.getMessage());
