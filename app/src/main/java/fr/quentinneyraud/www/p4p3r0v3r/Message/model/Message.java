@@ -1,10 +1,6 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Message.model;
 
-import android.util.Log;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 

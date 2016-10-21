@@ -1,12 +1,10 @@
 package fr.quentinneyraud.www.p4p3r0v3r.User.service;
 
-import android.util.Log;
-
 import com.google.firebase.database.FirebaseDatabase;
 
+import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.ListenUserConversationsChildListener;
 import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.getUserListener;
 import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.saveUserListener;
-import fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers.ListenUserConversationsChildListener;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 

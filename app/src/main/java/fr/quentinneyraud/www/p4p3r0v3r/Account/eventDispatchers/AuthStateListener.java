@@ -1,7 +1,6 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

@@ -1,9 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;

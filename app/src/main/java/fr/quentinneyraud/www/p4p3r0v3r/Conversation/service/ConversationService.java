@@ -1,7 +1,5 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation.service;
 
-import android.util.Log;
-
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;

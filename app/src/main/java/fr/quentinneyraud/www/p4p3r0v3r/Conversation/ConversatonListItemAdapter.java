@@ -1,6 +1,5 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation;
 
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,14 +9,14 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
-
-import java.util.List;
 
 public class ConversatonListItemAdapter extends RecyclerView.Adapter<ConversatonListItemAdapter.ViewHolder> {
 

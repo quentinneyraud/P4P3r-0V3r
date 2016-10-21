@@ -1,7 +1,5 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Account.service;
 
-import android.util.Log;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.otto.Subscribe;
 
