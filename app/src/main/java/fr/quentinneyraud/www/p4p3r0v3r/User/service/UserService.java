@@ -42,7 +42,7 @@ public class UserService {
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(user.getUid())
-                .setValue(user, new saveUserListener());
+                .setValue(user, new saveUserListener(user));
     }
 
     public void listenUserConversations(String uid) {
