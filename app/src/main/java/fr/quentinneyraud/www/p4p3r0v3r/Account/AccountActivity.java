@@ -14,8 +14,11 @@ import fr.quentinneyraud.www.p4p3r0v3r.Account.events.UserAuthenticatedEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.fragments.SignInFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.fragments.SignUpFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
 import fr.quentinneyraud.www.p4p3r0v3r.MainActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
+import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class AccountActivity extends AppCompatActivity implements SignInFragment.SignInFragmentListener, SignUpFragment.SignUpFragmentListener {
@@ -36,6 +39,17 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
         if (savedInstanceState == null) {
             changeFragment(signInFragment);
         }
+
+        User test = new User();
+        test.setUid("W2hqtWs8XGgk84f9djJJVNKUwba2");
+        test.setPseudo("quentin2");
+
+        User testz = new User();
+        testz.setUid("W2hqtWs8XGgk84f9djJJVNKUwba3");
+        testz.setPseudo("quentin1");
+
+        ConversationService.getInstance()
+                .addConversation(test, testz);
     }
 
     public void changeFragment(Fragment fragment) {

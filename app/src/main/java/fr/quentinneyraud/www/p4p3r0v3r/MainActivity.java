@@ -24,10 +24,12 @@ import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonListItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
+import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
-public class MainActivity extends AppCompatActivity implements ConversatonListItemAdapter.ConversationItemListener {
+public class MainActivity extends AppCompatActivity implements ConversatonListItemAdapter.ConversationItemListener, ConversationFragment.ConversationFragmentListener {
 
     private static final String TAG = "MainActivity";
 
@@ -152,5 +154,11 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
         // close nav
         drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void onMessageSubmit(String message) {
+        ConversationService.getInstance()
+                .pushMessage(currentConversationId, message);
     }
 }

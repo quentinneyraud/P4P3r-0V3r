@@ -2,6 +2,7 @@ package fr.quentinneyraud.www.p4p3r0v3r.Conversation.model;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.HashMap;
 import java.util.List;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
@@ -16,7 +17,7 @@ public class Conversation {
 
     private String uid;
     private List<Message> messages;
-    private List<User> users;
+    private HashMap<String, User> users;
 
     public Conversation() {
     }
@@ -46,11 +47,11 @@ public class Conversation {
         this.messages = messages;
     }
 
-    public List<User> getUsers() {
+    public HashMap<String, User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(HashMap<String, User> users) {
         this.users = users;
     }
 
@@ -64,11 +65,11 @@ public class Conversation {
         String currentUserId = AccountService.getInstance()
                 .getCurrentUser().getUid();
 
-        for (User user : this.getUsers()) {
+        /*for (User user : this.getUsers()) {
             if (!user.getUid().equals(currentUserId)) {
                 contactPseudo += " " + user.getPseudo();
             }
-        }
+        }*/
 
         return contactPseudo;
     }

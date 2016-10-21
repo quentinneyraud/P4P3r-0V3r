@@ -19,6 +19,7 @@
         android:layout_gravity="bottom">
 
         <EditText
+            android:id="@+id/fragment_conversation_message_edit_text"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginRight="60dp"
@@ -31,6 +32,7 @@
             android:hint="Votre message"/>
 
         <ImageButton
+            android:id="@+id/fragment_conversation_message_submit"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_conversation"

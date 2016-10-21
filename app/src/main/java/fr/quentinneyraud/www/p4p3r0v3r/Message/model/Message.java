@@ -27,6 +27,12 @@ public class Message {
         this.createdAt = timestamp;
     }
 
+    public Message(String message, String userUid, String createdAt) {
+        this.message = message;
+        this.userUid = userUid;
+        this.createdAt = createdAt;
+    }
+
     public static String getTAG() {
         return TAG;
     }

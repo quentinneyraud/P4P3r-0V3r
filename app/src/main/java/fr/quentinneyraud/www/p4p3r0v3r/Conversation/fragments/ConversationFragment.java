@@ -9,11 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.squareup.otto.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
@@ -28,6 +31,9 @@ public class ConversationFragment extends Fragment {
 
     @BindView(R.id.fragment_conversation_recycler_view)
     RecyclerView messageListRecyclerView;
+    @BindView(R.id.fragment_conversation_message_edit_text)
+    EditText messageEditText;
+    ConversationFragmentListener conversationFragmentListener;
     MessageAdapter messageAdapter;
     String conversationUid;
 
@@ -47,7 +53,7 @@ public class ConversationFragment extends Fragment {
         // Get conversation & pass informations to adapter
         Conversation conversation = ConversationList.getInstance().getConversationByUid(conversationUid);
         messageAdapter = new MessageAdapter(conversation.getMessages());
-        messageAdapter.setUsers(conversation.getUsers());
+        //messageAdapter.setUsers(conversation.getUsers());
 
         // Link adapter & Layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -62,6 +68,11 @@ public class ConversationFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        try {
+            conversationFragmentListener = (ConversationFragmentListener) context;
+        } catch (ClassCastException exception) {
+        }
+
         // get conversation uid from MainActivity
         Bundle args = getArguments();
         if (args != null && args.containsKey("conversation_uid"))
@@ -75,5 +86,16 @@ public class ConversationFragment extends Fragment {
             messageAdapter.addMessage(messageAdded.getMessage());
             messageAdapter.notifyItemInserted(messageAdapter.getItemCount() - 1);
         }
+    }
+
+    @OnClick(R.id.fragment_conversation_message_submit)
+    public void onClick() {
+        if (conversationFragmentListener != null && !messageEditText.getText().toString().isEmpty()) {
+            conversationFragmentListener.onMessageSubmit(messageEditText.getText().toString());
+        }
+    }
+
+    public interface ConversationFragmentListener {
+        void onMessageSubmit(String message);
     }
 }

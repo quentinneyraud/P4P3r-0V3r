@@ -85,7 +85,6 @@ public class ConversatonListItemAdapter extends RecyclerView.Adapter<Conversaton
 
         @Subscribe
         public void messageAdded(MessageAdded messageAdded) {
-            Log.d("ADAPTER", "set bold");
             //this.getTitleTextView().setTypeface(null, Typeface.BOLD);
         }
 
