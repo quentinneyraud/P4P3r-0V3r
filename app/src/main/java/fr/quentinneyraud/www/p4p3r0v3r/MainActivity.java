@@ -50,14 +50,16 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BusProvider.getInstance()
-                .register(this);
+        // UI & bus binding
+        BusProvider.getInstance().register(this);
         ButterKnife.bind(this);
         this.initializeLayout();
 
+        // Set conversation list adapter
         conversatonListItemAdapter = new ConversatonListItemAdapter(new ArrayList<Conversation>());
         conversatonListItemAdapter.setConversationItemListener(this);
 
+        // set conversation list layout
         conversationListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         conversationListRecyclerView.setAdapter(conversatonListItemAdapter);
         // remove bounce effect
@@ -85,10 +87,12 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         loader.hide();
         Conversation conversation = userConversationAdded.getConversation();
 
+        // go to the first conversation founded
         if (currentConversationId == null) {
             showConversation(conversation.getUid());
         }
 
+        // add conversation to list menu
         conversatonListItemAdapter.addConversation(conversation);
         conversatonListItemAdapter.notifyItemInserted(conversatonListItemAdapter.getItemCount() - 1);
     }

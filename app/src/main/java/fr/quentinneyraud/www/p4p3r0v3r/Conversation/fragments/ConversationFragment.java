@@ -39,15 +39,17 @@ public class ConversationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // UI & Bus binding
         View view = inflater.inflate(R.layout.fragment_conversation, container, false);
         ButterKnife.bind(this, view);
         BusProvider.getInstance().register(this);
 
+        // Get conversation & pass informations to adapter
         Conversation conversation = ConversationList.getInstance().getConversationByUid(conversationUid);
-
         messageAdapter = new MessageAdapter(conversation.getMessages());
         messageAdapter.setUsers(conversation.getUsers());
 
+        // Link adapter & Layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         messageListRecyclerView.setLayoutManager(linearLayoutManager);
@@ -60,8 +62,9 @@ public class ConversationFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        // get conversation uid from MainActivity
         Bundle args = getArguments();
-        if (args  != null && args.containsKey("conversation_uid"))
+        if (args != null && args.containsKey("conversation_uid"))
             conversationUid = args.getString("conversation_uid");
     }
 
