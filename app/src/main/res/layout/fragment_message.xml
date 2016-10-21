@@ -1,32 +1,32 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent"
     android:layout_marginBottom="10dp"
     android:layout_marginLeft="20dp"
-    android:layout_marginStart="20dp">
+    android:layout_marginStart="20dp"
+    android:layout_marginRight="20dp">
 
     <LinearLayout
+        android:id="@+id/fragment_message_infos"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp">
         <TextView
             android:id="@+id/fragment_message_author"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:textColor="#2D2D2D"
             android:textStyle="bold"
             android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="quentin"/>
+            android:layout_marginEnd="10dp"/>
 
         <TextView
             android:id="@+id/fragment_message_time"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:textColor="#AAAAAA"
-            android:textStyle="italic"
-            android:text="21:56"/>
+            android:textStyle="italic"/>
     </LinearLayout>
 
     <TextView
