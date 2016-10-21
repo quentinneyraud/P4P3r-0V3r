@@ -6,6 +6,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
@@ -27,8 +28,13 @@ public class ListenConversationsMessages implements ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Message message = dataSnapshot.getValue(Message.class);
+
+        ConversationList.getInstance()
+                .addMessage(conversationUid, message);
+
         BusProvider.getInstance()
-                .post(new MessageAdded(conversationUid, dataSnapshot.getValue(Message.class)));
+                .post(new MessageAdded(conversationUid, message));
     }
 
     @Override

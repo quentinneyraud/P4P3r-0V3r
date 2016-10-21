@@ -1,6 +1,10 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Message.model;
 
+import android.util.Log;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -63,12 +67,10 @@ public class Message {
         this.createdAt = timestamp;
     }
 
-    public String getFormattedDate(String format){
-        return new SimpleDateFormat(format, Locale.FRANCE).format(this.getCreatedAt());
-    }
-
-    public String getFormattedDate(){
-        return new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(this.getCreatedAt());
+    public String getFormattedDate(String format) {
+        Date d = new Date();
+        d.setTime(Long.parseLong(this.createdAt));
+        return new SimpleDateFormat(format, Locale.FRANCE).format(d);
     }
 
     @Override

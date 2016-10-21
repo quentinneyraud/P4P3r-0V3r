@@ -41,9 +41,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Log.d(TAG, "messageList : " + position);
         Message message = messageList.get(position);
-        Log.d(TAG, "set text : " + message.getMessage());
+        holder.getTimeTextView().setText(message.getFormattedDate("HH:mm"));
+        holder.getAuthorTextView().setText(message.getUserUid());
         holder.getTextTextView().setText(message.getMessage());
     }
 
@@ -60,14 +60,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         @BindView(R.id.fragment_message_text)
         TextView textTextView;
+        @BindView(R.id.fragment_message_author)
+        TextView authorTextView;
+        @BindView(R.id.fragment_message_time)
+        TextView timeTextView;
 
         public TextView getTextTextView() {
             return textTextView;
         }
 
+        public TextView getAuthorTextView() {
+            return authorTextView;
+        }
+
+        public TextView getTimeTextView() {
+            return timeTextView;
+        }
+
         public ViewHolder(View view) {
             super(view);
-            view.setForegroundGravity(View.FOCUS_RIGHT);
             ButterKnife.bind(this, view);
         }
     }

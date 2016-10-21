@@ -104,4 +104,10 @@ public class AccountService {
         AccountService.getInstance()
                 .saveCurrentUser();
     }
+
+    @Subscribe
+    public void userConversationAdded(UserConversationAdded userConversationAdded) {
+        ConversationService.getInstance()
+                .listenConversationMessages(userConversationAdded.getConversation().getUid());
+    }
 }

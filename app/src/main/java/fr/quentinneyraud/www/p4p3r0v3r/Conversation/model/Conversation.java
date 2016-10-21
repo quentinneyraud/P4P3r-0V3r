@@ -54,6 +54,10 @@ public class Conversation {
         this.users = users;
     }
 
+    public void pushMessage(Message message) {
+        this.messages.add(message);
+    }
+
     @Exclude
     public String getContactPseudo() {
         String contactPseudo = "";

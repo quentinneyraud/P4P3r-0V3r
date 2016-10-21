@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.MessageAdapter;
@@ -48,8 +49,8 @@ public class ConversationFragment extends Fragment {
         ButterKnife.bind(this, view);
         BusProvider.getInstance().register(this);
 
-        messageAdapter = new MessageAdapter(new ArrayList<Message>());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
+        messageAdapter = new MessageAdapter(ConversationList.getInstance().getMessageByConversationUid(conversationUid));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         messageListRecyclerView.setLayoutManager(linearLayoutManager);
         messageListRecyclerView.setAdapter(messageAdapter);
@@ -64,22 +65,14 @@ public class ConversationFragment extends Fragment {
         Bundle args = getArguments();
         if (args  != null && args.containsKey("conversation_uid"))
             conversationUid = args.getString("conversation_uid");
-
-        ConversationService.getInstance()
-                .listenConversationMessages(conversationUid);
     }
 
     @Subscribe
     public void messageAdded(MessageAdded messageAdded) {
-        Log.d("conv frag", "message added");
-        //Log.d("MAinActivity", String.valueOf(conversationFragment.));
-        //if (messageAdded.getConversationUid().equals(currentConversationId)) {
-            // pass to fragment
+        // Check message added conversation uid & show if it is in current conversation
+        if (messageAdded.getConversationUid().equals(conversationUid)) {
             messageAdapter.addMessage(messageAdded.getMessage());
-        Log.d("conv frag", "notify inserted : " + String.valueOf(messageAdapter.getItemCount() - 1));
-        messageAdapter.notifyDataSetChanged();
-        //} else {
-            // show notification on conversation list
-        //}
+            messageAdapter.notifyItemInserted(messageAdapter.getItemCount() - 1);
+        }
     }
 }

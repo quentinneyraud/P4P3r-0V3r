@@ -20,7 +20,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonListItemAdapter;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
     @Subscribe
     public void userConversationAdded(UserConversationAdded userConversationAdded) {
+        Log.d(TAG, "user conversation added : " + userConversationAdded.toString());
         loader.hide();
         Conversation conversation = userConversationAdded.getConversation();
 
@@ -89,6 +92,13 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
         conversatonListItemAdapter.addConversation(conversation);
         conversatonListItemAdapter.notifyItemInserted(conversatonListItemAdapter.getItemCount() - 1);
+    }
+
+    @Subscribe
+    public void messageAdded(MessageAdded messageAdded) {
+        Log.d(TAG, "message added : " + messageAdded.toString());
+
+
     }
 
     @Override
@@ -107,12 +117,19 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
     }
 
     @Override
-    public void onClick(View v, String uid) {
-        showConversation(uid);
+    public void onClick(View v, String conversationUid) {
+        showConversation(conversationUid);
     }
 
     public void showConversation(String conversationUid) {
-        Log.d("TAGG", "show conversation");
+
+        Conversation conversation = ConversationList.getInstance()
+                .getConversationByUid(conversationUid);
+
+        if (conversationUid.equals(currentConversationId)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
 
         // save current conversationUid
         currentConversationId = conversationUid;
@@ -126,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
                 .beginTransaction()
                 .replace(R.id.conversation_container, conversationFragment);
         ft.commit();
+
+        // update title
+        actionBar.setTitle(conversation.getContactPseudo());
 
         // close nav
         drawerLayout.closeDrawer(GravityCompat.START);

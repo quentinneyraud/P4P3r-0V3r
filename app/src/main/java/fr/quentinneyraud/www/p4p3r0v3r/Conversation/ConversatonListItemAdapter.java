@@ -1,15 +1,21 @@
 package fr.quentinneyraud.www.p4p3r0v3r.Conversation;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 import java.util.List;
 
@@ -39,7 +45,7 @@ public class ConversatonListItemAdapter extends RecyclerView.Adapter<Conversaton
         Conversation conversation = conversationList.get(position);
 
         holder.setUid(conversation.getUid());
-        holder.getContactTextView().setText(conversation.getContactPseudo());
+        holder.getTitleTextView().setText(conversation.getContactPseudo());
     }
 
     public void addConversation(Conversation conversation) {
@@ -53,8 +59,8 @@ public class ConversatonListItemAdapter extends RecyclerView.Adapter<Conversaton
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.fragment_conversation_item_contact)
-        TextView contactTextView;
+        @BindView(R.id.fragment_conversation_item_title)
+        TextView titleTextView;
 
         private String uid;
 
@@ -66,15 +72,22 @@ public class ConversatonListItemAdapter extends RecyclerView.Adapter<Conversaton
             this.uid = uid;
         }
 
-        public TextView getContactTextView() {
-            return contactTextView;
+        public TextView getTitleTextView() {
+            return titleTextView;
         }
 
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            BusProvider.getInstance().register(this);
 
             view.setOnClickListener(this);
+        }
+
+        @Subscribe
+        public void messageAdded(MessageAdded messageAdded) {
+            Log.d("ADAPTER", "set bold");
+            //this.getTitleTextView().setTypeface(null, Typeface.BOLD);
         }
 
         @Override
@@ -88,6 +101,6 @@ public class ConversatonListItemAdapter extends RecyclerView.Adapter<Conversaton
     }
 
     public interface ConversationItemListener {
-        void onClick(View v, String uid);
+        void onClick(View v, String conversationUid);
     }
 }
