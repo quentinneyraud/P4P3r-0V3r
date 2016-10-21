@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.MessageAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
@@ -49,7 +50,11 @@ public class ConversationFragment extends Fragment {
         ButterKnife.bind(this, view);
         BusProvider.getInstance().register(this);
 
-        messageAdapter = new MessageAdapter(ConversationList.getInstance().getMessageByConversationUid(conversationUid));
+        Conversation conversation = ConversationList.getInstance().getConversationByUid(conversationUid);
+
+        messageAdapter = new MessageAdapter(conversation.getMessages());
+        messageAdapter.setUsers(conversation.getUsers());
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setStackFromEnd(true);
         messageListRecyclerView.setLayoutManager(linearLayoutManager);

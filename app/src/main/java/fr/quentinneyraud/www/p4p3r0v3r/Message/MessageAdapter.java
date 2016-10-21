@@ -16,20 +16,24 @@ import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
     private static final String TAG = "MessageAdapter";
     private List<Message> messageList;
-    private MessageListener messageListener;
-
-    public void setMessageListener(MessageListener messageListener) {
-        this.messageListener = messageListener;
-    }
+    private HashMap<String, String> userList = new HashMap<>();
 
     public MessageAdapter(List<Message> messages) {
         messageList = messages;
+    }
+
+    public void setUsers(List<User> users) {
+        for(User user : users) {
+            userList.put(user.getUid(), user.getPseudo());
+        }
     }
 
     @Override
@@ -42,8 +46,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Message message = messageList.get(position);
+
         holder.getTimeTextView().setText(message.getFormattedDate("HH:mm"));
-        holder.getAuthorTextView().setText(message.getUserUid());
+        holder.getAuthorTextView().setText(userList.get(message.getUserUid()));
         holder.getTextTextView().setText(message.getMessage());
     }
 
@@ -81,9 +86,5 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             super(view);
             ButterKnife.bind(this, view);
         }
-    }
-
-    public interface MessageListener {
-
     }
 }

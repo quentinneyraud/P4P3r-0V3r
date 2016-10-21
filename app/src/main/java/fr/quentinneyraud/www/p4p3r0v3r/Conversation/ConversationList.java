@@ -17,7 +17,7 @@ public class ConversationList {
 
     private static final String TAG = "ConversationList";
 
-    private static Map<String, Conversation> list = new HashMap<>();
+    private static HashMap<String, Conversation> list = new HashMap<>();
     private static ConversationList instance;
 
     private ConversationList() {
