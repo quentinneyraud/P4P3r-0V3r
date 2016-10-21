@@ -7,6 +7,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
@@ -34,8 +35,8 @@ public class ListenUserConversationsChildListener implements ChildEventListener 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Conversation conversation = dataSnapshot.getValue(Conversation.class);
-                        conversation.setUid(dataSnapshot.getKey());
-                        conversation.setMessages(new ArrayList<Message>());
+                        // we listen to messages after
+                        conversation.setMessages(new HashMap<String, Message>());
 
                         ConversationList.getInstance()
                                 .addConversation(conversation);

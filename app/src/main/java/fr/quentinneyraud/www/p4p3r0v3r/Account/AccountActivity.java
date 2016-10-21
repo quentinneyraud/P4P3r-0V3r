@@ -40,7 +40,7 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
             changeFragment(signInFragment);
         }
 
-        User test = new User();
+        /*User test = new User();
         test.setUid("W2hqtWs8XGgk84f9djJJVNKUwba2");
         test.setPseudo("quentin2");
 
@@ -49,7 +49,7 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
         testz.setPseudo("quentin1");
 
         ConversationService.getInstance()
-                .addConversation(test, testz);
+                .addConversation(test, testz);*/
     }
 
     public void changeFragment(Fragment fragment) {

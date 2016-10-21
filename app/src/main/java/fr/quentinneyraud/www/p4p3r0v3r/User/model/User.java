@@ -1,5 +1,6 @@
 package fr.quentinneyraud.www.p4p3r0v3r.User.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,8 +12,7 @@ public class User {
     private String uid;
     private String pseudo;
     private String publicKey;
-    private String avatarB64;
-    private List<String> conversationsUid;
+    private HashMap<String, String> conversations;
 
     public User() {
     }
@@ -50,20 +50,12 @@ public class User {
         this.publicKey = publicKey;
     }
 
-    public String getAvatarB64() {
-        return avatarB64;
+    public HashMap<String, String> getConversations() {
+        return conversations;
     }
 
-    public void setAvatarB64(String avatarB64) {
-        this.avatarB64 = avatarB64;
-    }
-
-    public List<String> getConversationsUid() {
-        return conversationsUid;
-    }
-
-    public void setConversationsUid(List<String> conversationsUid) {
-        this.conversationsUid = conversationsUid;
+    public void setConversations(HashMap<String, String> conversations) {
+        this.conversations = conversations;
     }
 
     @Override

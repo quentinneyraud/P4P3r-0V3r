@@ -38,7 +38,7 @@ public class ConversationList {
         list.get(conversationUid).pushMessage(message);
     }
 
-    public List<Message> getMessageByConversationUid(String conversationUid) {
+    public HashMap<String, Message> getMessageByConversationUid(String conversationUid) {
         return list.get(conversationUid).getMessages();
     }
 

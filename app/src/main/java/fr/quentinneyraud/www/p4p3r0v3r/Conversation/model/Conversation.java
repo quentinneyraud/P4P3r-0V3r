@@ -16,7 +16,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 public class Conversation {
 
     private String uid;
-    private List<Message> messages;
+    private HashMap<String, Message> messages;
     private HashMap<String, User> users;
 
     public Conversation() {
@@ -26,7 +26,7 @@ public class Conversation {
         this.uid = uid;
     }
 
-    public Conversation(String uid, List<Message> messages) {
+    public Conversation(String uid, HashMap<String, Message> messages) {
         this.uid = uid;
         this.messages = messages;
     }
@@ -39,11 +39,11 @@ public class Conversation {
         this.uid = uid;
     }
 
-    public List<Message> getMessages() {
+    public HashMap<String, Message> getMessages() {
         return messages;
     }
 
-    public void setMessages(List<Message> messages) {
+    public void setMessages(HashMap<String, Message> messages) {
         this.messages = messages;
     }
 
@@ -56,7 +56,7 @@ public class Conversation {
     }
 
     public void pushMessage(Message message) {
-        this.messages.add(message);
+        this.messages.put(message.getUid(), message);
     }
 
     @Exclude

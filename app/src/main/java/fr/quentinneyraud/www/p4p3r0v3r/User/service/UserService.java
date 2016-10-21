@@ -49,7 +49,7 @@ public class UserService {
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(uid)
-                .child("conversationsUid")
+                .child("conversations")
                 .addChildEventListener(new ListenUserConversationsChildListener());
     }
 }
