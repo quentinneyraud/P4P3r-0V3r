@@ -4,11 +4,13 @@ package fr.quentinneyraud.www.p4p3r0v3r.User.fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -42,6 +44,11 @@ public class PatternFragment extends Fragment {
     RelativeLayout eighth;
     @BindView(R.id.ninth)
     RelativeLayout ninth;
+
+    @BindView(R.id.pattern_fragment_title)
+    TextView patternTitle;
+    @BindView(R.id.pattern_fragment_subtitle)
+    TextView patternSubtitle;
 
 
     static final String TAG = "PatternFragment";
@@ -110,7 +117,6 @@ public class PatternFragment extends Fragment {
         ninth.setBackgroundColor(Color.parseColor(colorArrayString[8]));
         ninth.setTag(colorArrayString[8]);
 
-
     }
 
 
@@ -124,6 +130,11 @@ public class PatternFragment extends Fragment {
             ar[index] = ar[i];
             ar[i] = a;
         }
+    }
+
+    public void changeText() {
+        patternTitle.setText(R.string.set_your_pattern);
+        patternSubtitle.setText("");
     }
 
     @OnClick({R.id.first, R.id.second, R.id.third, R.id.fourth, R.id.fifth, R.id.sixth, R.id.seventh, R.id.eighth, R.id.ninth})

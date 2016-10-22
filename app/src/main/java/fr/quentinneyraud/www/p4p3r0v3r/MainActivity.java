@@ -34,7 +34,6 @@ import fr.quentinneyraud.www.p4p3r0v3r.Search.SearchActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.User.fragments.PatternFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
-import fr.quentinneyraud.www.p4p3r0v3r.utils.DeviceInfo;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.SharedPreferencesManager;
 
 public class MainActivity extends AppCompatActivity implements ConversatonListItemAdapter.ConversationItemListener,
@@ -209,10 +208,15 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
 
     public void showPattern() {
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.conversation_container, patternFragment)
                 .commit();
+
+        if(!personalCode.isEmpty()) {
+            patternFragment.changeText();
+        }
     }
 
     public void checkPattern() {
@@ -224,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
                     .remove(patternFragment)
                     .commit();
 
-            if(showConversation) {
+            if (showConversation) {
                 showConversation(currentConversationId);
             }
         } else {
