@@ -34,9 +34,6 @@
             <include layout="@layout/loader_overlay"/>
         </FrameLayout>
 
-        <include layout="@layout/loader_overlay" />
-
-
     </android.support.design.widget.CoordinatorLayout>
 
 
