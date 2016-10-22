@@ -16,6 +16,8 @@ import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.Crypto;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.MyApplication;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.SharedPreferencesManager;
 
 /**
  * Created by quentin on 12/10/2016.
@@ -89,9 +91,12 @@ public class ConversationService {
                 .push()
                 .getKey();
 
+        // get passphrase from shared preferences
+        String passphrase = SharedPreferencesManager.getInstance(MyApplication.getMyApplicationContext()).getConversationPassphrase(conversationUid);
+
         Message message = new Message(messageUid, text, user.getUid(), timestamp);
         message.generateSalt();
-        message.encryptMessage();
+        message.encryptMessage(passphrase);
 
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)

@@ -98,12 +98,12 @@ public class Message {
         return new SimpleDateFormat(format, Locale.FRANCE).format(d);
     }
 
-    public void encryptMessage() {
+    public void encryptMessage(String passphrase) {
         if (this.getSalt().equals("")) {
             Log.d("Message", "Cannot get salt");
         }
 
-        AesCbcWithIntegrity.SecretKeys keys = Crypto.getInstance().getSecretKeys("very long passphrase", this.salt);
+        AesCbcWithIntegrity.SecretKeys keys = Crypto.getInstance().getSecretKeys(passphrase, this.salt);
         AesCbcWithIntegrity.CipherTextIvMac encrypted = null;
         try {
             encrypted = AesCbcWithIntegrity.encrypt(this.getMessage(), keys);
@@ -116,9 +116,9 @@ public class Message {
         this.setMessage(encrypted.toString());
     }
 
-    public void decryptMessage () {
+    public void decryptMessage (String passphrase) {
         AesCbcWithIntegrity.SecretKeys keysDecrypt;
-        keysDecrypt = Crypto.getInstance().getSecretKeys("very long passphrase", this.salt);
+        keysDecrypt = Crypto.getInstance().getSecretKeys(passphrase, this.salt);
 
         AesCbcWithIntegrity.CipherTextIvMac dataToDecrypt = new AesCbcWithIntegrity.CipherTextIvMac(this.getMessage());
 

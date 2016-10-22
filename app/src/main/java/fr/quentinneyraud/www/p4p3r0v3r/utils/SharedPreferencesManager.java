@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesManager {
 
+    private static SharedPreferencesManager instance;
     private SharedPreferences.Editor editor;
     private SharedPreferences preferences;
 
@@ -13,10 +14,28 @@ public class SharedPreferencesManager {
     private static final String PREF_NAME = "p4p3r0v3rPreferences";
 
     // Structure config
-    private String UID_KEY = "UID_KEY";
 
-    public SharedPreferencesManager(Context context){
-        preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        editor = preferences.edit();
+
+    private SharedPreferencesManager(Context context) {
+        this.preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        this.editor = preferences.edit();
     }
+
+    public static SharedPreferencesManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new SharedPreferencesManager(context);
+        }
+
+        return instance;
+    }
+
+    public void setConversationPassphrase(String conversationUid, String passphrase) {
+        this.editor.putString(conversationUid, passphrase);
+        this.editor.commit();
+    }
+
+    public String getConversationPassphrase(String conversationUid) {
+        return this.preferences.getString(conversationUid, null);
+    }
+
 }

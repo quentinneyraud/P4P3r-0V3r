@@ -20,37 +20,39 @@ import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.SharedPreferencesManager;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
     private static final String TAG = "MessageAdapter";
     private List<Message> messageList; // we need position
     private HashMap<String, User> userList = new HashMap<>();
-    private String lastUserUid = "";
+    private String passphrase;
+    private String conversationUid;
 
     public MessageAdapter(Conversation conversation) {
-        messageList = new ArrayList<>(conversation.getMessages().values());
-
+        messageList = new ArrayList<>();
         userList = conversation.getUsers();
+        conversationUid = conversation.getUid();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_message, parent, false);
+
+        passphrase = SharedPreferencesManager.getInstance(parent.getContext()).getConversationPassphrase(conversationUid);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Message message = messageList.get(position);
-        message.decryptMessage();
+        message.decryptMessage(passphrase);
 
         holder.getTimeTextView().setText(message.getFormattedDate("HH:mm"));
         holder.getAuthorTextView().setText(userList.get(message.getUserUid()).getPseudo());
         holder.getTextTextView().setText(message.getMessage());
-
-        lastUserUid = message.getUserUid();
     }
 
     public void addMessage(Message message) {

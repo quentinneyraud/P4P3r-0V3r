@@ -57,7 +57,7 @@ public class ConversationFragment extends Fragment {
         // Get conversation & pass informations to adapter
         Conversation conversation = ConversationList.getInstance().getConversationByUid(conversationUid);
 
-        // pass all conversation (passed by reference)
+        // pass all conversation
         messageAdapter = new MessageAdapter(conversation);
 
         // Link adapter & Layout
