@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
     private ConversationFragment conversationFragment;
     private boolean showConversation = false;
 
-    private DeviceInfo deviceInfo = DeviceInfo.getInstance();
     private ArrayList<String> personalCode = new ArrayList<String>();
 
     private PatternFragment patternFragment = new PatternFragment();
@@ -88,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         conversationListRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         /***************** PATTERN ***************/
-        //Line to test (REMOVE LATER)
-        SharedPreferencesManager.getInstance(getBaseContext()).setPersonalCode("personalCode", null);
+        // Uncomment to delete personalCode from SharedPreferences
+        //SharedPreferencesManager.getInstance(getBaseContext()).setPersonalCode("personalCode", null);
 
         String personalCodeString = SharedPreferencesManager.getInstance(getBaseContext()).getPersonalCode("personalCode");
 
@@ -104,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         }
 
         /***************** END PATTERN ***************/
-
 
         loader.show();
     }
@@ -229,15 +227,10 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
             if(showConversation) {
                 showConversation(currentConversationId);
             }
-
-
-
-            //Toast + hide fragment + show conv if needed
         } else {
             Log.d(TAG, "code KO");
             Log.d(TAG, currentArray + " vs " + personalCode);
             Toast.makeText(this, "Wrong pattern. Try again.", Toast.LENGTH_SHORT).show();
-            //Toast
         }
     }
 

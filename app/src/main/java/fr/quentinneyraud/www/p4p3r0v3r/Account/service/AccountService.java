@@ -56,8 +56,7 @@ public class AccountService {
     }
 
     public void listenCurrentUserConversations() {
-//        UserService.getInstance()
-  //              .listenUserConversations(this.getCurrentUser().getUid());
+        UserService.getInstance().listenUserConversations(this.getCurrentUser().getUid());
     }
 
     public void signIn(String email, String password) {
