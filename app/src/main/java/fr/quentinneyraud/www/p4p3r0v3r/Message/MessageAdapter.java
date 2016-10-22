@@ -2,6 +2,7 @@ package fr.quentinneyraud.www.p4p3r0v3r.Message;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     public MessageAdapter(Conversation conversation) {
         messageList = new ArrayList<>(conversation.getMessages().values());
+
         userList = conversation.getUsers();
     }
 
@@ -42,18 +44,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Message message = messageList.get(position);
-
-        // hide pseudo & time if same user speak multiple times
-        if (lastUserUid.equals(message.getUserUid())) {
-            FrameLayout.LayoutParams linearLayoutParams = new FrameLayout.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
-            linearLayoutParams.setMargins(0, 0, 0, 0);
-            holder.getInfosLinearLayout().setVisibility(View.GONE);
-            holder.getTextTextView().setLayoutParams(linearLayoutParams);
-        } else {
-            holder.getTimeTextView().setText(message.getFormattedDate("HH:mm"));
-            holder.getAuthorTextView().setText(userList.get(message.getUserUid()).getPseudo());
-        }
-
+        holder.getTimeTextView().setText(message.getFormattedDate("HH:mm"));
+        holder.getAuthorTextView().setText(userList.get(message.getUserUid()).getPseudo());
         holder.getTextTextView().setText(message.getMessage());
 
         lastUserUid = message.getUserUid();
