@@ -97,6 +97,7 @@ public class ConversationFragment extends Fragment {
     public void onClick() {
         if (conversationFragmentListener != null && !messageEditText.getText().toString().isEmpty()) {
             conversationFragmentListener.onMessageSubmit(messageEditText.getText().toString());
+            messageEditText.setText("");
         }
     }
 
