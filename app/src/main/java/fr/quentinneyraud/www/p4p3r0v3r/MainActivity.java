@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
             actionBar.setHomeAsUpIndicator(R.drawable.ic_conversation);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        drawerLayout.openDrawer(GravityCompat.START);
     }
 
     @Subscribe
