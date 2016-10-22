@@ -13,8 +13,20 @@ public class DeviceInfo {
 
     private static DeviceInfo instance;
 
+    private ArrayList<String> personalCode = null;
+
+
     private DeviceInfo() {
 
+    }
+
+
+    public ArrayList<String> getPersonalCode() {
+        return personalCode;
+    }
+
+    public void setPersonalCode(ArrayList<String> pc) {
+        this.personalCode = pc;
     }
 
     public static DeviceInfo getInstance() {

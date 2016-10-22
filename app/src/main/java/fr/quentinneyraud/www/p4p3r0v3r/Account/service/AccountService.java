@@ -56,8 +56,8 @@ public class AccountService {
     }
 
     public void listenCurrentUserConversations() {
-        UserService.getInstance()
-                .listenUserConversations(this.getCurrentUser().getUid());
+//        UserService.getInstance()
+  //              .listenUserConversations(this.getCurrentUser().getUid());
     }
 
     public void signIn(String email, String password) {
@@ -92,7 +92,7 @@ public class AccountService {
     }
 
     @Subscribe
-    public void signUpSuccessEvent(SignUpSuccessEvent signUpSuccessEvent) {
+    public void signUpSuccessEvent( SignUpSuccessEvent signUpSuccessEvent) {
         User user = new User(signUpSuccessEvent.getUid());
         user.setPseudo(signUpSuccessEvent.getPseudo());
 

@@ -3,6 +3,8 @@ package fr.quentinneyraud.www.p4p3r0v3r.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+
 public class SharedPreferencesManager {
 
     private static SharedPreferencesManager instance;
@@ -36,6 +38,15 @@ public class SharedPreferencesManager {
 
     public String getConversationPassphrase(String conversationUid) {
         return this.preferences.getString(conversationUid, null);
+    }
+
+    public void setPersonalCode(String personalCode, String pattern) {
+        this.editor.putString(personalCode, pattern);
+        this.editor.commit();
+    }
+
+    public String getPersonalCode(String personalCode) {
+        return this.preferences.getString(personalCode, null);
     }
 
 }

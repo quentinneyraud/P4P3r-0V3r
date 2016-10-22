@@ -13,26 +13,32 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonListItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
-import butterknife.OnClick;
 import fr.quentinneyraud.www.p4p3r0v3r.Search.SearchActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
+import fr.quentinneyraud.www.p4p3r0v3r.User.fragments.PatternFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.DeviceInfo;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.SharedPreferencesManager;
 
-public class MainActivity extends AppCompatActivity implements ConversatonListItemAdapter.ConversationItemListener, ConversationFragment.ConversationFragmentListener {
+public class MainActivity extends AppCompatActivity implements ConversatonListItemAdapter.ConversationItemListener,
+        ConversationFragment.ConversationFragmentListener, PatternFragment.PatternFragmentListener {
 
     private static final String TAG = "MainActivity";
 
@@ -52,6 +58,14 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
     private ActionBar actionBar;
     private String currentConversationId = null;
     private ConversationFragment conversationFragment;
+    private boolean showConversation = false;
+
+    private DeviceInfo deviceInfo = DeviceInfo.getInstance();
+    private ArrayList<String> personalCode = new ArrayList<String>();
+
+    private PatternFragment patternFragment = new PatternFragment();
+    ArrayList<String> currentArray = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +87,25 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         // remove bounce effect
         conversationListRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
+        /***************** PATTERN ***************/
+        //Line to test (REMOVE LATER)
+        SharedPreferencesManager.getInstance(getBaseContext()).setPersonalCode("personalCode", null);
+
+        String personalCodeString = SharedPreferencesManager.getInstance(getBaseContext()).getPersonalCode("personalCode");
+
+        if (personalCodeString != null) {
+            personalCode = new ArrayList<String>(Arrays.asList(personalCodeString.split(", ")));
+        }
+
+        if (personalCode.isEmpty()) {
+            showPattern();
+        } else {
+            Log.d(TAG, String.valueOf(personalCode));
+        }
+
+        /***************** END PATTERN ***************/
+
+
         loader.show();
     }
 
@@ -80,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         setSupportActionBar(toolbar);
 
         actionBar = getSupportActionBar();
+        actionBar.setTitle("");
 
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_conversation);
@@ -128,32 +162,38 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
     public void showConversation(String conversationUid) {
 
-        Conversation conversation = ConversationList.getInstance()
-                .getConversationByUid(conversationUid);
-
-        if (conversationUid.equals(currentConversationId)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-            return;
-        }
-
         // save current conversationUid
         currentConversationId = conversationUid;
 
-        // replace Fragment
-        conversationFragment = new ConversationFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("conversation_uid", conversationUid);
-        conversationFragment.setArguments(bundle);
-        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.conversation_container, conversationFragment);
-        ft.commit();
+        if (!showConversation) {
+            showConversation = true;
+            showPattern();
+        } else {
+            Conversation conversation = ConversationList.getInstance()
+                    .getConversationByUid(conversationUid);
 
-        // update title
-        actionBar.setTitle(conversation.getContactPseudo());
+            if (conversationUid != null && conversationUid.equals(currentConversationId)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return;
+            }
 
-        // close nav
-        drawerLayout.closeDrawer(GravityCompat.START);
+            // replace Fragment
+            conversationFragment = new ConversationFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("conversation_uid", conversationUid);
+            conversationFragment.setArguments(bundle);
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.conversation_container, conversationFragment);
+            ft.commit();
+
+            // update title
+            actionBar.setTitle(conversation.getContactPseudo());
+
+            // close nav
+            drawerLayout.closeDrawer(GravityCompat.START);
+            showConversation = false;
+        }
     }
 
     @Override
@@ -169,4 +209,72 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         startActivity(i);
     }
 
+
+    public void showPattern() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.conversation_container, patternFragment)
+                .commit();
+    }
+
+    public void checkPattern() {
+
+        if (personalCode.equals(currentArray)) {
+            Log.d(TAG, "code OK");
+            getSupportFragmentManager().
+                    beginTransaction()
+                    .remove(patternFragment)
+                    .commit();
+
+            if(showConversation) {
+                showConversation(currentConversationId);
+            }
+
+
+
+            //Toast + hide fragment + show conv if needed
+        } else {
+            Log.d(TAG, "code KO");
+            Log.d(TAG, currentArray + " vs " + personalCode);
+            Toast.makeText(this, "Wrong pattern. Try again.", Toast.LENGTH_SHORT).show();
+            //Toast
+        }
+    }
+
+
+    @Override
+    public void onPatternClick(View v) {
+        Log.d(TAG, "clicked " + v.getTag());
+
+        currentArray.add(String.valueOf(v.getTag()));
+
+        if (currentArray.size() == 4) {
+            if (personalCode.isEmpty()) {
+
+                SharedPreferencesManager.getInstance(getBaseContext()).setPersonalCode("personalCode", String.valueOf(currentArray));
+
+                String personalCodeString = SharedPreferencesManager.getInstance(getBaseContext()).getPersonalCode("personalCode");
+
+                personalCodeString = personalCodeString.replace("[", "");
+                personalCodeString = personalCodeString.replace("]", "");
+                personalCode = new ArrayList<String>(Arrays.asList(personalCodeString.split(", ")));
+
+                Log.d(TAG, "set personal code : " + personalCode);
+
+                currentArray.clear();
+
+                getSupportFragmentManager().
+                        beginTransaction()
+                        .remove(patternFragment)
+                        .commit();
+
+                Toast.makeText(this, "Your pattern has successfully been set.", Toast.LENGTH_SHORT).show();
+
+            } else {
+                Log.d(TAG, "check pattern / currently : " + personalCode);
+                checkPattern();
+                currentArray.clear();
+            }
+        }
+    }
 }

@@ -28,6 +28,7 @@ public class SearchActivity extends ListActivity  implements SearchAdapter.Resul
         setContentView(R.layout.activity_search);
         onSearchRequested();
 
+
         ButterKnife.bind(this);
         BusProvider.getInstance().register(this);
 
@@ -43,6 +44,7 @@ public class SearchActivity extends ListActivity  implements SearchAdapter.Resul
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
+
 
         return true;
 

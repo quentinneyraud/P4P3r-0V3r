@@ -1,0 +1,168 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fr.quentinneyraud.www.p4p3r0v3r.User.fragments.PatternFragment"
+    android:background="@color/grey">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeTextLayout">
+
+
+        <TextView
+            android:text="@string/define_your_pattern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pattern_fragment_title"
+            android:textStyle="normal|bold"
+            android:textSize="18sp"
+            android:paddingBottom="5dp"
+            android:paddingTop="20dp"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp" />
+
+        <TextView
+            android:text="@string/pattern_explanation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pattern_fragment_subtitle"
+            android:textSize="14sp"
+            android:paddingTop="5dp"
+            android:layout_below="@+id/pattern_fragment_title"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeTextLayout"
+        android:padding="20dp"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="40dp">
+
+        <RelativeLayout
+            android:id="@+id/first"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/holo_blue_bright"
+            android:clickable="true"
+            android:layout_centerHorizontal="false"
+            android:layout_alignParentRight="false"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="false"
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/second"
+            android:layout_toEndOf="@+id/first"
+            android:layout_toRightOf="@+id/first"
+            android:background="@android:color/holo_green_dark"
+            android:clickable="true"
+            android:layout_centerHorizontal="false"
+            android:layout_alignParentRight="false"
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/third"
+            android:background="@android:color/holo_blue_bright"
+            android:clickable="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/second"
+            android:layout_toEndOf="@+id/second"
+            android:layout_centerHorizontal="false"
+            android:layout_alignParentRight="false"
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fourth"
+            android:layout_below="@+id/third"
+            android:background="@android:color/holo_green_dark"
+            android:clickable="true"
+            android:layout_centerHorizontal="false"
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/seventh"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/fourth"
+            android:background="@android:color/holo_blue_bright"
+            android:clickable="true"
+            android:layout_centerHorizontal="false"
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fifth"
+            android:background="@android:color/holo_blue_bright"
+            android:clickable="true"
+            android:layout_below="@+id/second"
+            android:layout_toRightOf="@+id/first"
+            android:layout_toEndOf="@+id/first"
+            android:layout_centerHorizontal="false"
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sixth"
+            android:background="@android:color/holo_green_dark"
+            android:clickable="true"
+            android:layout_below="@+id/second"
+            android:layout_toRightOf="@+id/second"
+            android:layout_toEndOf="@+id/second"
+            android:layout_centerHorizontal="false"
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ninth"
+            android:background="@android:color/holo_green_dark"
+            android:clickable="true"
+            android:layout_below="@+id/fourth"
+            android:layout_toRightOf="@+id/seventh"
+            android:layout_toEndOf="@+id/seventh"
+            android:layout_centerHorizontal="false"
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/eighth"
+            android:background="@android:color/holo_blue_bright"
+            android:clickable="true"
+            android:layout_below="@+id/sixth"
+            android:layout_toRightOf="@+id/ninth"
+            android:layout_toEndOf="@+id/ninth"
+            android:layout_centerHorizontal="false"
+            android:layout_width="90dp"
+            android:layout_height="90dp">
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
