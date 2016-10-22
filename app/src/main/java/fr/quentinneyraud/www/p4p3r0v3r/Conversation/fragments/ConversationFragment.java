@@ -54,11 +54,9 @@ public class ConversationFragment extends Fragment {
         ButterKnife.bind(this, view);
         BusProvider.getInstance().register(this);
 
-        Log.d("conv frag", conversationUid);
         // Get conversation & pass informations to adapter
         Conversation conversation = ConversationList.getInstance().getConversationByUid(conversationUid);
 
-        Log.d("conv frag", conversation.toString());
         // pass all conversation (passed by reference)
         messageAdapter = new MessageAdapter(conversation);
 
