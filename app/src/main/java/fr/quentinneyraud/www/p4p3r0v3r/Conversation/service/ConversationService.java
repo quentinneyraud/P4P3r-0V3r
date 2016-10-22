@@ -15,6 +15,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.Crypto;
 
 /**
  * Created by quentin on 12/10/2016.
@@ -78,14 +79,25 @@ public class ConversationService {
 
         // get timestamp
         Calendar calendar = Calendar.getInstance();
+        String timestamp = String.valueOf(calendar.getTimeInMillis());
 
-        Message message = new Message(text, user.getUid(), String.valueOf(calendar.getTimeInMillis()));
+        // get uid
+        String messageUid = FirebaseDatabase.getInstance()
+                .getReference(REFERENCE)
+                .child(conversationUid)
+                .child("messages")
+                .push()
+                .getKey();
+
+        Message message = new Message(messageUid, text, user.getUid(), timestamp);
+        message.generateSalt();
+        message.encryptMessage();
 
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .child(conversationUid)
                 .child("messages")
-                .push()
+                .child(message.getUid())
                 .setValue(message);
     }
 }
