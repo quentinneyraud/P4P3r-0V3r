@@ -1,5 +1,6 @@
 package fr.quentinneyraud.www.p4p3r0v3r;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -25,7 +27,8 @@ import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.fragments.ConversationFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
-import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
+import butterknife.OnClick;
+import fr.quentinneyraud.www.p4p3r0v3r.Search.SearchActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
     Toolbar toolbar;
     @BindView(R.id.loader)
     AVLoadingIndicatorView loader;
+    @BindView(R.id.search_bar_menu)
+    TextView search_bar_menu;
+
 
     private ConversatonListItemAdapter conversatonListItemAdapter;
     private ActionBar actionBar;
@@ -107,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch (id) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
@@ -119,9 +124,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v, String conversationUid) {
-        showConversation(conversationUid);
+    public void onClick(View v, String uid) {
+        showConversation(uid);
     }
 
     public void showConversation(String conversationUid) {
@@ -159,4 +163,12 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         ConversationService.getInstance()
                 .pushMessage(currentConversationId, message);
     }
+
+    @OnClick(R.id.search_bar_menu)
+    public void onSearchMenuClick() {
+        Log.d(TAG, "click on search bar");
+        Intent i = new Intent(this, SearchActivity.class);
+        startActivity(i);
+    }
+
 }

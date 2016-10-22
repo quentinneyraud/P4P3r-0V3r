@@ -80,13 +80,13 @@ public class AccountService {
     @Subscribe
     public void userAuthenticatedEvent(UserAuthenticatedEvent userAuthenticatedEvent) {
         AccountService.getInstance()
-            .getCurrentUserData(userAuthenticatedEvent.getUid());
+                .getCurrentUserData(userAuthenticatedEvent.getUid());
     }
 
     @Subscribe
     public void getUserSuccessEvent(GetUserSuccessEvent getUserSuccessEvent) {
         AccountService.getInstance()
-            .setCurrentUser(getUserSuccessEvent.getUser());
+                .setCurrentUser(getUserSuccessEvent.getUser());
         AccountService.getInstance()
                 .listenCurrentUserConversations();
     }
