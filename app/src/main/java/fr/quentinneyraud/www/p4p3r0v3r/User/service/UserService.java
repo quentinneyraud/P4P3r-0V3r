@@ -52,4 +52,8 @@ public class UserService {
                 .child("conversations")
                 .addChildEventListener(new ListenUserConversationsChildListener());
     }
+
+    public void addConversationUid(String userUid, String conversationUid) {
+
+    }
 }

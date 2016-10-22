@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.eventDispatchers.ConversationCreationListener;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.eventDispatchers.ListenConversationsMessages;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
 import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
@@ -48,26 +49,25 @@ public class ConversationService {
     }
 
     public void addConversation(User user, User otherUser) {
-        HashMap<String, User> users = new HashMap<>();
 
+        HashMap<String, User> users = new HashMap<>();
         users.put(user.getUid(), user);
         users.put(otherUser.getUid(), otherUser);
 
-        Log.d(TAG, String.valueOf(users));
-
-        String newUid = FirebaseDatabase.getInstance()
+        String newConversationUid = FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
                 .push()
                 .getKey();
 
         Conversation conversation = new Conversation();
-        conversation.setUid(newUid);
+        conversation.setUid(newConversationUid);
         conversation.setUsers(users);
 
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)
-                .child(newUid)
-                .setValue(conversation);
+                .child(newConversationUid)
+                .setValue(conversation)
+                .addOnCompleteListener(new ConversationCreationListener(conversation));
     }
 
     public void pushMessage(String conversationUid, String text) {
@@ -80,7 +80,6 @@ public class ConversationService {
         Calendar calendar = Calendar.getInstance();
 
         Message message = new Message(text, user.getUid(), String.valueOf(calendar.getTimeInMillis()));
-        Log.d(TAG, "push message : " + message.toString());
 
         FirebaseDatabase.getInstance()
                 .getReference(REFERENCE)

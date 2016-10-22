@@ -22,6 +22,7 @@ public class Conversation {
     private HashMap<String, User> users;
 
     public Conversation() {
+        this.setMessages(new HashMap<String, Message>());
     }
 
     public Conversation(String uid) {
@@ -70,11 +71,11 @@ public class Conversation {
         String currentUserId = AccountService.getInstance()
                 .getCurrentUser().getUid();
 
-        /*for (User user : this.getUsers()) {
+        for (User user : this.getUsers().values()) {
             if (!user.getUid().equals(currentUserId)) {
                 contactPseudo += " " + user.getPseudo();
             }
-        }*/
+        }
 
         return contactPseudo;
     }

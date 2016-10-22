@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +54,11 @@ public class ConversationFragment extends Fragment {
         ButterKnife.bind(this, view);
         BusProvider.getInstance().register(this);
 
+        Log.d("conv frag", conversationUid);
         // Get conversation & pass informations to adapter
         Conversation conversation = ConversationList.getInstance().getConversationByUid(conversationUid);
 
+        Log.d("conv frag", conversation.toString());
         // pass all conversation (passed by reference)
         messageAdapter = new MessageAdapter(conversation);
 
@@ -87,7 +90,7 @@ public class ConversationFragment extends Fragment {
     public void messageAdded(MessageAdded messageAdded) {
         // Check message added conversation uid & show if it is in current conversation
         if (messageAdded.getConversationUid().equals(conversationUid)) {
-            messageAdapter.addMessage(messageAdded.getMessage()); // pas sûr
+            messageAdapter.addMessage(messageAdded.getMessage());
             messageAdapter.notifyItemInserted(messageAdapter.getItemCount() - 1);
         }
     }

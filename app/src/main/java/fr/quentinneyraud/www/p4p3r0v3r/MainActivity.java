@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         this.initializeLayout();
 
         // Set conversation list adapter
-        conversatonListItemAdapter = new ConversatonListItemAdapter(new ArrayList<Conversation>());
+        conversatonListItemAdapter = new ConversatonListItemAdapter(new ArrayList<Conversation>()); // Do not pass the whole conversationList.list object
         conversatonListItemAdapter.setConversationItemListener(this);
 
         // set conversation list layout
