@@ -92,7 +92,8 @@ public class ConversationService {
                 .getKey();
 
         // get passphrase from shared preferences
-        String passphrase = SharedPreferencesManager.getInstance(MyApplication.getMyApplicationContext()).getConversationPassphrase(conversationUid);
+        String passphrase = SharedPreferencesManager.getInstance(null)
+                .getConversationPassphrase(conversationUid);
 
         Message message = new Message(messageUid, text, user.getUid(), timestamp);
         message.generateSalt();

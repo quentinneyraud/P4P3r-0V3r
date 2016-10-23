@@ -8,12 +8,15 @@ import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.SignInListener;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.eventDispatchers.SignUpListener;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.SignUpSuccessEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.UserAuthenticatedEvent;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.eventDispatchers.ConversationCreationListener;
+import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.ConversationCreationSuccess;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.GetUserSuccessEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.User.service.UserService;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.SharedPreferencesManager;
 
 /**
  * Created by quentin on 12/10/2016.
@@ -107,5 +110,12 @@ public class AccountService {
     public void userConversationAdded(UserConversationAdded userConversationAdded) {
         ConversationService.getInstance()
                 .listenConversationMessages(userConversationAdded.getConversation().getUid());
+    }
+
+    @Subscribe
+    public void conversationCreationSuccess(ConversationCreationSuccess conversationCreationSuccess) {
+        String conversationUid = conversationCreationSuccess.getConversationUid();
+
+        SharedPreferencesManager.getInstance(null).setConversationPassphrase(conversationUid, "test");
     }
 }

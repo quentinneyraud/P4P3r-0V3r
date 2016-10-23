@@ -41,7 +41,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_message, parent, false);
 
-        passphrase = SharedPreferencesManager.getInstance(parent.getContext()).getConversationPassphrase(conversationUid);
+        passphrase = SharedPreferencesManager.getInstance(null).getConversationPassphrase(conversationUid);
         return new ViewHolder(view);
     }
 

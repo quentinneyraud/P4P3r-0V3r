@@ -1,5 +1,7 @@
 package fr.quentinneyraud.www.p4p3r0v3r.User.eventDispatchers;
 
+import android.util.Log;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +37,7 @@ public class ListenUserConversationsChildListener implements ChildEventListener 
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Conversation conversation = dataSnapshot.getValue(Conversation.class);
+                        Log.d("TAAAG", conversation.toString());
                         // get messages with child listener, they are not ordered here =(
                         conversation.setMessages(new HashMap<String, Message>());
 

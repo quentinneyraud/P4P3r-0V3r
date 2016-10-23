@@ -2,10 +2,12 @@ package fr.quentinneyraud.www.p4p3r0v3r.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 public class SharedPreferencesManager {
 
-    private static SharedPreferencesManager instance;
+    private static SharedPreferencesManager instance = null;
     private SharedPreferences.Editor editor;
     private SharedPreferences preferences;
 
@@ -21,7 +23,7 @@ public class SharedPreferencesManager {
         this.editor = preferences.edit();
     }
 
-    public static SharedPreferencesManager getInstance(Context context) {
+    public static SharedPreferencesManager getInstance(@Nullable Context context) {
         if (instance == null) {
             instance = new SharedPreferencesManager(context);
         }

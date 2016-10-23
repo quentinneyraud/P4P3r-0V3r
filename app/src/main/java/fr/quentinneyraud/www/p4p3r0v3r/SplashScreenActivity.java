@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.squareup.otto.Subscribe;
 
@@ -11,6 +12,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.Account.AccountActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.UserAuthenticatedEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.SharedPreferencesManager;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -26,6 +28,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         BusProvider.getInstance().register(this);
 
         AccountService.getInstance().listenAuthState();
+
+        SharedPreferencesManager.getInstance(this.getApplicationContext());
 
         handler = new android.os.Handler();
         runnable = new Runnable() {

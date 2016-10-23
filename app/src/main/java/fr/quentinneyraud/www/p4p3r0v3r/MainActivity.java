@@ -31,6 +31,7 @@ import butterknife.OnClick;
 import fr.quentinneyraud.www.p4p3r0v3r.Search.SearchActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
+import fr.quentinneyraud.www.p4p3r0v3r.utils.SharedPreferencesManager;
 
 public class MainActivity extends AppCompatActivity implements ConversatonListItemAdapter.ConversationItemListener, ConversationFragment.ConversationFragmentListener {
 
@@ -90,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
     @Subscribe
     public void userConversationAdded(UserConversationAdded userConversationAdded) {
         Log.d(TAG, "user conversation added : " + userConversationAdded.toString());
+        SharedPreferencesManager.getInstance(null)
+                .setConversationPassphrase(userConversationAdded.getConversation().getUid(), "test");
         loader.hide();
         Conversation conversation = userConversationAdded.getConversation();
 

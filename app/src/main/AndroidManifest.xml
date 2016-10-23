@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.App.PaperOver">
-        android:name=".utils.MyApplication">
+        android:name="fr.quentinneyraud.www.p4p3r0v3r.utils.MyApplication">
         <activity
             android:name=".SplashScreenActivity"
             android:theme="@style/SplashTheme">

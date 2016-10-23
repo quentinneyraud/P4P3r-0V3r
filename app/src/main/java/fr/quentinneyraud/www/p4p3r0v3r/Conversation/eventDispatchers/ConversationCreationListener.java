@@ -52,7 +52,7 @@ public class ConversationCreationListener implements OnCompleteListener<Void> {
             }
 
             BusProvider.getInstance()
-                    .post(new ConversationCreationSuccess());
+                    .post(new ConversationCreationSuccess(this.conversation.getUid()));
         }
     }
 }
