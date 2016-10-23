@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class SharedPreferencesManager {
 
     private static SharedPreferencesManager instance = null;
@@ -38,6 +40,15 @@ public class SharedPreferencesManager {
 
     public String getConversationPassphrase(String conversationUid) {
         return this.preferences.getString(conversationUid, null);
+    }
+
+    public void setPersonalCode(String personalCode, String pattern) {
+        this.editor.putString(personalCode, pattern);
+        this.editor.commit();
+    }
+
+    public String getPersonalCode(String personalCode) {
+        return this.preferences.getString(personalCode, null);
     }
 
 }

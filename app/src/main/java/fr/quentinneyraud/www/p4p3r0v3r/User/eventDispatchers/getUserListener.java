@@ -13,7 +13,7 @@ import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
  * Created by quentin on 13/10/2016.
  */
 
-public class getUserListener implements ValueEventListener {
+public class GetUserListener implements ValueEventListener {
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         BusProvider.getInstance()

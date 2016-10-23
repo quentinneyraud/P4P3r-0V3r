@@ -59,8 +59,7 @@ public class AccountService {
     }
 
     public void listenCurrentUserConversations() {
-        UserService.getInstance()
-                .listenUserConversations(this.getCurrentUser().getUid());
+        UserService.getInstance().listenUserConversations(this.getCurrentUser().getUid());
     }
 
     public void signIn(String email, String password) {
@@ -73,6 +72,10 @@ public class AccountService {
         FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new SignUpListener(pseudo));
+    }
+
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
     }
 
     public void listenAuthState() {

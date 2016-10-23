@@ -8,7 +8,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
@@ -28,11 +27,10 @@ public class ListenUserConversationsChildListener implements ChildEventListener 
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        final String conversationUid = dataSnapshot.getValue().toString();
 
         FirebaseDatabase.getInstance()
                 .getReference("conversations")
-                .child(conversationUid)
+                .child(dataSnapshot.getValue().toString())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -44,7 +42,7 @@ public class ListenUserConversationsChildListener implements ChildEventListener 
                         ConversationList.getInstance()
                                 .addConversation(conversation);
                         BusProvider.getInstance()
-                                .post(new UserConversationAdded(conversation));
+                                .post(new UserConversationAdded(dataSnapshot.getValue(Conversation.class)));
                     }
 
                     @Override

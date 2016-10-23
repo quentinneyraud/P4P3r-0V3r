@@ -47,7 +47,11 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        BusProvider.getInstance().unregister(this);
+        try {
+            BusProvider.getInstance().unregister(this);
+        } catch (Exception e) {
+
+        }
     }
 
     @Subscribe

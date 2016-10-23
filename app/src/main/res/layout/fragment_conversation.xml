@@ -29,7 +29,7 @@
             android:lines="5"
             android:textColorHint="#888888"
             android:background="@android:color/transparent"
-            android:hint="Votre message"/>
+            android:hint="Your message"/>
 
         <ImageButton
             android:id="@+id/fragment_conversation_message_submit"
