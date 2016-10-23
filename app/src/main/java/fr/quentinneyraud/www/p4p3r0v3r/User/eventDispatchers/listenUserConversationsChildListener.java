@@ -8,11 +8,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+<<<<<<< HEAD
 import java.util.HashMap;
 
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
+=======
+>>>>>>> master
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
-import fr.quentinneyraud.www.p4p3r0v3r.Message.model.Message;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
@@ -34,6 +36,7 @@ public class ListenUserConversationsChildListener implements ChildEventListener 
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+<<<<<<< HEAD
                         Conversation conversation = dataSnapshot.getValue(Conversation.class);
                         Log.d("TAAAG", conversation.toString());
                         // get messages with child listener, they are not ordered here =(
@@ -41,6 +44,8 @@ public class ListenUserConversationsChildListener implements ChildEventListener 
 
                         ConversationList.getInstance()
                                 .addConversation(conversation);
+=======
+>>>>>>> master
                         BusProvider.getInstance()
                                 .post(new UserConversationAdded(dataSnapshot.getValue(Conversation.class)));
                     }
