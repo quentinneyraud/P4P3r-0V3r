@@ -71,6 +71,10 @@ public class AccountService {
                 .addOnCompleteListener(new SignUpListener(pseudo));
     }
 
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
+    }
+
     public void listenAuthState() {
         FirebaseAuth.getInstance()
                 .addAuthStateListener(new AuthStateListener());
@@ -91,7 +95,7 @@ public class AccountService {
     }
 
     @Subscribe
-    public void signUpSuccessEvent( SignUpSuccessEvent signUpSuccessEvent) {
+    public void signUpSuccessEvent(SignUpSuccessEvent signUpSuccessEvent) {
         User user = new User(signUpSuccessEvent.getUid());
         user.setPseudo(signUpSuccessEvent.getPseudo());
 
@@ -107,4 +111,6 @@ public class AccountService {
         ConversationService.getInstance()
                 .listenConversationMessages(userConversationAdded.getConversation().getUid());
     }
+
+
 }

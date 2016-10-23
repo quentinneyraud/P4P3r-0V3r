@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +26,8 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.AccountActivity;
+import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversationList;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.ConversatonListItemAdapter;
 import fr.quentinneyraud.www.p4p3r0v3r.Conversation.events.MessageAdded;
@@ -63,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
     private PatternFragment patternFragment = new PatternFragment();
     ArrayList<String> currentArray = new ArrayList<String>();
+
+    private static AccountService instance = AccountService.getInstance();
 
 
     @Override
@@ -106,6 +112,13 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         loader.show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
     private void initializeLayout() {
         setSupportActionBar(toolbar);
 
@@ -146,6 +159,18 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.profile_button:
+                //Go To profile();
+                return true;
+            case R.id.logout_button:
+                //Get logged out
+                Log.d("MainActivity", "logout");
+                AccountService.getInstance().logout();
+                Intent intent = new Intent(getBaseContext(), AccountActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
             default:
                 break;
         }

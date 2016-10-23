@@ -9,17 +9,15 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
+import fr.quentinneyraud.www.p4p3r0v3r.Account.events.LogoutSuccessEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.SignInErrorEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.SignUpErrorEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.events.UserAuthenticatedEvent;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.fragments.SignInFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.fragments.SignUpFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.Account.service.AccountService;
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.model.Conversation;
-import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
 import fr.quentinneyraud.www.p4p3r0v3r.MainActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.R;
-import fr.quentinneyraud.www.p4p3r0v3r.User.model.User;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 
 public class AccountActivity extends AppCompatActivity implements SignInFragment.SignInFragmentListener, SignUpFragment.SignUpFragmentListener {
@@ -100,4 +98,10 @@ public class AccountActivity extends AppCompatActivity implements SignInFragment
         startActivity(intent);
         finish();
     }
+
+    @Subscribe
+    public void logoutSuccessEvent(LogoutSuccessEvent logoutSuccessEvent) {
+        changeFragment(signInFragment);
+    }
+
 }
