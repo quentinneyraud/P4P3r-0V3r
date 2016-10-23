@@ -2,6 +2,8 @@ package fr.quentinneyraud.www.p4p3r0v3r;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,6 +19,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.otto.Subscribe;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -37,11 +45,12 @@ import fr.quentinneyraud.www.p4p3r0v3r.Conversation.service.ConversationService;
 import fr.quentinneyraud.www.p4p3r0v3r.Search.SearchActivity;
 import fr.quentinneyraud.www.p4p3r0v3r.User.events.UserConversationAdded;
 import fr.quentinneyraud.www.p4p3r0v3r.User.fragments.PatternFragment;
+import fr.quentinneyraud.www.p4p3r0v3r.User.fragments.ProfileFragment;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.BusProvider;
 import fr.quentinneyraud.www.p4p3r0v3r.utils.SharedPreferencesManager;
 
 public class MainActivity extends AppCompatActivity implements ConversatonListItemAdapter.ConversationItemListener,
-        ConversationFragment.ConversationFragmentListener, PatternFragment.PatternFragmentListener {
+        ConversationFragment.ConversationFragmentListener, PatternFragment.PatternFragmentListener, ProfileFragment.ProfileFragmentListener {
 
     private static final String TAG = "MainActivity";
 
@@ -68,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
     private PatternFragment patternFragment = new PatternFragment();
     ArrayList<String> currentArray = new ArrayList<String>();
 
-    private static AccountService instance = AccountService.getInstance();
+    private ProfileFragment profileFragment = new ProfileFragment();
 
 
     @Override
@@ -102,9 +111,10 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
         }
 
         if (personalCode.isEmpty()) {
+            Log.d(TAG, "personalCode is Empty");
             showPattern();
         } else {
-            Log.d(TAG, String.valueOf(personalCode));
+            Log.d(TAG, "personal code is not empty" + String.valueOf(personalCode));
         }
 
         /***************** END PATTERN ***************/
@@ -160,7 +170,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.profile_button:
-                //Go To profile();
+                changeFragment(profileFragment);
+
                 return true;
             case R.id.logout_button:
                 //Get logged out
@@ -234,12 +245,9 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
     public void showPattern() {
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.conversation_container, patternFragment)
-                .commit();
+        changeFragment(patternFragment);
 
-        if(!personalCode.isEmpty()) {
+        if (!personalCode.isEmpty()) {
             patternFragment.changeText();
         }
     }
@@ -248,10 +256,8 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
         if (personalCode.equals(currentArray)) {
             Log.d(TAG, "code OK");
-            getSupportFragmentManager().
-                    beginTransaction()
-                    .remove(patternFragment)
-                    .commit();
+
+            removeFragment(patternFragment);
 
             if (showConversation) {
                 showConversation(currentConversationId);
@@ -285,10 +291,7 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
                 currentArray.clear();
 
-                getSupportFragmentManager().
-                        beginTransaction()
-                        .remove(patternFragment)
-                        .commit();
+                removeFragment(patternFragment);
 
                 Toast.makeText(this, "Your pattern has successfully been set.", Toast.LENGTH_SHORT).show();
 
@@ -297,6 +300,56 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
                 checkPattern();
                 currentArray.clear();
             }
+        }
+    }
+
+    public void removeFragment(Fragment fragment) {
+        getSupportFragmentManager().
+                beginTransaction()
+                .remove(fragment)
+                .commit();
+
+    }
+
+    public void changeFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(fragment.getTag())
+                .replace(R.id.conversation_container, fragment)
+                .commit();
+    }
+
+    @Override
+    public void onClickProfileButton(String oldPassword, final String newPassword) {
+
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+
+            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), oldPassword);
+
+            user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(MainActivity.this, "Wrong password or new password is too short. Try again" + task.getException(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(MainActivity.this, "An error occurred while updating password" + task.getException(), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Your password has been updated", Toast.LENGTH_SHORT).show();
+                                    removeFragment(profileFragment);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+
+
         }
     }
 }
