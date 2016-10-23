@@ -50,8 +50,13 @@ public class saveUserListener implements DatabaseReference.CompletionListener {
                         }
                     });
         } else {
-            BusProvider.getInstance()
-                    .post(new SaveUserErrorEvent(databaseError.getMessage()));
+            try {
+
+                BusProvider.getInstance()
+                        .post(new SaveUserErrorEvent(databaseError.getMessage()));
+            } catch (Exception e) {
+
+            }
         }
     }
 }

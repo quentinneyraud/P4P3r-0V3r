@@ -352,4 +352,9 @@ public class MainActivity extends AppCompatActivity implements ConversatonListIt
 
         }
     }
+
+    @Override
+    public void goBack() {
+        removeFragment(profileFragment);
+    }
 }

@@ -89,12 +89,15 @@ public class ProfileFragment extends Fragment {
     public void onClickProfileButton() {
         if (!newPassword.getText().toString().equals("")) {
             profileFragmentListener.onClickProfileButton(oldPassword.getText().toString(), newPassword.getText().toString());
+        } else {
+            profileFragmentListener.goBack();
         }
     }
 
 
     public interface ProfileFragmentListener {
         void onClickProfileButton(String oldPassword, String newPassword);
+        void goBack();
     }
 
 }
